@@ -13,7 +13,7 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(lunar_client_qt src/main.cpp)
+add_executable(lunar_client_qt src/main.cpp src/gui/mainwindow.cpp src/gui/mainwindow.h)
 target_link_libraries(lunar_client_qt
         Qt::Core
         Qt::Gui
