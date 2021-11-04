@@ -11,10 +11,16 @@
 #include <QPushButton>
 #include <QComboBox>
 
+#include "launch/launcher.h"
+
 class MainWindow : public QMainWindow {
 Q_OBJECT
 public:
     explicit MainWindow(QWidget* parent = nullptr);
+
+private slots:
+    void resetLaunchButtons();
+    void launch(bool offline);
 
 private:
     QListWidget* pageList;
@@ -22,6 +28,8 @@ private:
     QPushButton* launchButton;
     QPushButton* launchOfflineButton;
     QComboBox* versionSelect;
+
+    Launcher launcher;
 };
 
 

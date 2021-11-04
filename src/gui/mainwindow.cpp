@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) {
     pageList->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
     pageList->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
     QFont font;
-    font.setPointSize(13);
+    font.setPointSize(14);
     pageList->setFont(font);
 
     versionSelect = new QComboBox(centralWidget);
@@ -37,11 +37,17 @@ MainWindow::MainWindow(QWidget *parent) {
     versionSelect->addItem("1.17");
     versionSelect->setCurrentIndex(1);
 
-    launchButton = new QPushButton("Launch", centralWidget);
+    launchButton = new QPushButton(centralWidget);
     launchButton->setMinimumHeight(35);
+    connect(launchButton, &QPushButton::pressed, [this](){ launch(false);});
 
-    launchOfflineButton = new QPushButton("Launch Offline", centralWidget);
+    launchOfflineButton = new QPushButton(centralWidget);
     launchOfflineButton->setMinimumHeight(35);
+    connect(launchOfflineButton, &QPushButton::pressed, [this](){ launch(true);});
+
+    connect(&launcher, &Launcher::finished, this, &MainWindow::resetLaunchButtons);
+
+    resetLaunchButtons();
 
     mainLayout->addWidget(pageList);
     mainLayout->addWidget(versionSelect, 1, 0);
@@ -52,4 +58,22 @@ MainWindow::MainWindow(QWidget *parent) {
     centralWidget->setLayout(mainLayout);
 
     setCentralWidget(centralWidget);
+}
+
+void MainWindow::resetLaunchButtons() {
+    launchButton->setEnabled(true);
+    launchButton->setText("Launch");
+
+    launchOfflineButton->setEnabled(true);
+    launchOfflineButton->setText("Launch Offline");
+}
+
+void MainWindow::launch(bool offline) {
+    launchButton->setEnabled(false);
+    launchButton->setText("Launching...");
+
+    launchOfflineButton->setEnabled(false);
+    launchOfflineButton->setText("Launching...");
+
+    launcher.launch(offline);
 }
