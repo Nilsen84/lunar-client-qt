@@ -17,11 +17,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 
     QGridLayout* mainLayout = new QGridLayout();
 
-    pageList = new QListWidget(centralWidget);
-    pageStack = new QStackedWidget(centralWidget);
+    pageList = new QListWidget();
+    pageStack = new QStackedWidget();
 
     ConfigurationPage* pages[] = {
-            new GeneralPage()
+            new GeneralPage(),
     };
 
     for(ConfigurationPage* page : pages){
@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     font.setPointSize(14);
     pageList->setFont(font);
 
-    versionSelect = new QComboBox(centralWidget);
+    versionSelect = new QComboBox();
     versionSelect->addItem("1.7");
     versionSelect->addItem("1.8");
     versionSelect->addItem("1.12");
@@ -47,11 +47,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     versionSelect->addItem("1.17");
     versionSelect->setCurrentIndex(1);
 
-    launchButton = new QPushButton(centralWidget);
+    launchButton = new QPushButton();
     launchButton->setMinimumHeight(35);
     connect(launchButton, &QPushButton::pressed, [this](){ launch(false);});
 
-    launchOfflineButton = new QPushButton(centralWidget);
+    launchOfflineButton = new QPushButton();
     launchOfflineButton->setMinimumHeight(35);
     connect(launchOfflineButton, &QPushButton::pressed, [this](){ launch(true);});
 
