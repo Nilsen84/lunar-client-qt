@@ -8,16 +8,19 @@
 #include <QListWidgetItem>
 #include <QComboBox>
 
+#include "pages/generalpage.h"
+
 MainWindow::MainWindow(QWidget *parent) {
     QWidget* centralWidget = new QWidget();
 
     QGridLayout* mainLayout = new QGridLayout();
 
     pageList = new QListWidget(centralWidget);
-    new QListWidgetItem("General", pageList);
-
     pages = new QStackedWidget(centralWidget);
-    new QWidget(pages);
+
+    GeneralPage* page = new GeneralPage();
+    new QListWidgetItem(page->title(), pageList);
+    pages->addWidget(page);
 
     connect(pageList, &QListWidget::currentRowChanged, pages, &QStackedWidget::setCurrentIndex);
 
