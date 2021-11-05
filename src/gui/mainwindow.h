@@ -12,6 +12,7 @@
 #include <QComboBox>
 
 #include "launch/launcher.h"
+#include "pages/configurationpage.h"
 
 class MainWindow : public QMainWindow {
 Q_OBJECT
@@ -24,7 +25,7 @@ private slots:
 
 private:
     QListWidget* pageList;
-    QStackedWidget* pages;
+    QStackedWidget* pageStack;
     QPushButton* launchButton;
     QPushButton* launchOfflineButton;
     QComboBox* versionSelect;

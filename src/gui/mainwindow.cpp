@@ -8,21 +8,28 @@
 #include <QListWidgetItem>
 #include <QComboBox>
 
+#include "pages/configurationpage.h"
 #include "pages/generalpage.h"
 
-MainWindow::MainWindow(QWidget *parent) {
+
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     QWidget* centralWidget = new QWidget();
 
     QGridLayout* mainLayout = new QGridLayout();
 
     pageList = new QListWidget(centralWidget);
-    pages = new QStackedWidget(centralWidget);
+    pageStack = new QStackedWidget(centralWidget);
 
-    GeneralPage* page = new GeneralPage();
-    new QListWidgetItem(page->title(), pageList);
-    pages->addWidget(page);
+    ConfigurationPage* pages[] = {
+            new GeneralPage()
+    };
 
-    connect(pageList, &QListWidget::currentRowChanged, pages, &QStackedWidget::setCurrentIndex);
+    for(ConfigurationPage* page : pages){
+        new QListWidgetItem(page->title(), pageList);
+        pageStack->addWidget(page);
+    }
+
+    connect(pageList, &QListWidget::currentRowChanged, pageStack, &QStackedWidget::setCurrentIndex);
 
     pageList->setCurrentRow(0);
     pageList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -56,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent) {
     mainLayout->addWidget(versionSelect, 1, 0);
     mainLayout->addWidget(launchOfflineButton, 2, 0);
     mainLayout->addWidget(launchButton, 3, 0);
-    mainLayout->addWidget(pages, 0, 3, -1, 1);
+    mainLayout->addWidget(pageStack, 0, 3, -1, 1);
 
     centralWidget->setLayout(mainLayout);
 
