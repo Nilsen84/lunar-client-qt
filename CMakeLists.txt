@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(lunar_client_qt)
+project(lunar-client-qt)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
@@ -13,12 +13,12 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(lunar_client_qt src/main.cpp src/gui/mainwindow.cpp src/gui/mainwindow.h src/launch/launcher.cpp src/launch/launcher.h src/gui/pages/generalpage.cpp src/gui/pages/generalpage.h src/gui/pages/configurationpage.h src/gui/pages/configurationpage.cpp)
-target_link_libraries(lunar_client_qt
+add_executable(lunar-client-qt src/main.cpp src/gui/mainwindow.cpp src/gui/mainwindow.h src/launch/launcher.cpp src/launch/launcher.h src/gui/pages/generalpage.cpp src/gui/pages/generalpage.h src/gui/pages/configurationpage.h src/gui/pages/configurationpage.cpp)
+target_link_libraries(lunar-client-qt
         Qt::Core
         Qt::Gui
         Qt::Widgets
         )
 
-target_include_directories(lunar_client_qt PRIVATE src)
+target_include_directories(lunar-client-qt PRIVATE src)
 
