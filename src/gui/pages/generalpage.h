@@ -11,6 +11,7 @@
 #include "configurationpage.h"
 
 class GeneralPage : public ConfigurationPage{
+Q_OBJECT
 public:
     explicit GeneralPage(QWidget* parent = nullptr);
 
