@@ -15,7 +15,7 @@ public:
     explicit GeneralPage(QWidget* parent = nullptr);
 
     QString title() override;
-public slots:
+private slots:
     void keepMinMaxSameChanged(bool checked);
 private:
     QSlider* initialMemory;
