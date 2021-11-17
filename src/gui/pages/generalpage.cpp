@@ -62,11 +62,12 @@ QString GeneralPage::title() {
 
 void GeneralPage::keepMinMaxSameChanged(bool checked) {
     if(checked){
-        maxMemory->setValue(initialMemory->value());
+        initialMemory->setValue(maxMemory->value());
+        maxMemory->setDisabled(true);
         connect(initialMemory, &QSlider::valueChanged, maxMemory, &QSlider::setValue, Qt::UniqueConnection);
-        connect(maxMemory, &QSlider::valueChanged, initialMemory, &QSlider::setValue, Qt::UniqueConnection);
     }else{
+        maxMemory->setEnabled(true);
         disconnect(initialMemory, &QSlider::valueChanged, maxMemory, &QSlider::setValue);
-        disconnect(maxMemory, &QSlider::valueChanged, initialMemory, &QSlider::setValue);
+        //disconnect(maxMemory, &QSlider::valueChanged, initialMemory, &QSlider::setValue);
     }
 }
