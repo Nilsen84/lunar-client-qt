@@ -10,6 +10,7 @@
 Launcher::Launcher(QObject *parent) : QObject(parent) {
 }
 
+
 void Launcher::launch(bool offline) {
     QProcess process;
     process.setProgram("/home/nils/.lunarclient/jre/zulu16.30.15-ca-fx-jdk16.0.1-linux_x64/bin/java");

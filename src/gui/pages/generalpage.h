@@ -5,7 +5,8 @@
 #ifndef LUNAR_CLIENT_QT_GENERALPAGE_H
 #define LUNAR_CLIENT_QT_GENERALPAGE_H
 
-#include <QPushButton>
+#include <QSlider>
+#include <QCheckBox>
 
 #include "configurationpage.h"
 
@@ -14,8 +15,11 @@ public:
     explicit GeneralPage(QWidget* parent = nullptr);
 
     QString title() override;
+public slots:
+    void keepMinMaxSameChanged(bool checked);
 private:
-    QPushButton* btn;
+    QSlider* initialMemory;
+    QSlider* maxMemory;
 };
 
 
