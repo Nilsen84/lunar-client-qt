@@ -29,8 +29,8 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     connect(initialMemory, &QSlider::valueChanged, [initialMemoryLabel](int val){initialMemoryLabel->setText("Initial Memory:  " + QString::number(val) + " MiB");});
     connect(maxMemory, &QSlider::valueChanged, [maxMemoryLabel](int val){maxMemoryLabel->setText("Maximum Memory:  " + QString::number(val) + " MiB");});
 
-    initialMemory->setValue(16384/2);
-    maxMemory->setValue(16384/2);
+    initialMemory->setValue(16384/4);
+    maxMemory->setValue(16384/4);
 
     connect(keepMinMaxSame, &QCheckBox::toggled, this, &GeneralPage::keepMinMaxSameChanged);
     keepMinMaxSame->setChecked(true);
@@ -38,15 +38,20 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     mainLayout->addWidget(keepMinMaxSame);
     mainLayout->setAlignment(keepMinMaxSame, Qt::AlignHCenter);
 
+    mainLayout->addSpacing(40);
+
     mainLayout->addWidget(initialMemoryLabel);
     mainLayout->setAlignment(initialMemoryLabel, Qt::AlignHCenter);
     mainLayout->addWidget(initialMemory);
+
+    mainLayout->addSpacing(30);
+
 
     mainLayout->addWidget(maxMemoryLabel);
     mainLayout->setAlignment(maxMemoryLabel, Qt::AlignHCenter);
     mainLayout->addWidget(maxMemory);
 
-    mainLayout->addSpacing(800);
+    mainLayout->addStretch(1);
 
     setLayout(mainLayout);
 }
