@@ -38,5 +38,4 @@ void Launcher::launch(bool offline, const LaunchData& launchData) {
         process.setWorkingDirectory("/home/nils/.lunarclient/offline/"+launchData.version);
         process.startDetached();
     }
-    emit finished();
 }

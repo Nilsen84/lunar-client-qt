@@ -77,13 +77,14 @@ void MainWindow::resetLaunchButtons() {
 }
 
 void MainWindow::launch(bool offline) {
-    QString launchingText = QStringLiteral("Launching...");
-    launchButton->setEnabled(false);
-    launchButton->setText(launchingText);
+    if(!offline){
+        QString launchingText = QStringLiteral("Launching...");
+        launchButton->setEnabled(false);
+        launchButton->setText(launchingText);
 
-    launchOfflineButton->setEnabled(false);
-    launchOfflineButton->setText(launchingText);
-
+        launchOfflineButton->setEnabled(false);
+        launchOfflineButton->setText(launchingText);
+    }
     launcher.launch(offline, {
         .version = this->versionSelect->currentText(),
         .initialMem = generalPage->getInitialMemory(),
