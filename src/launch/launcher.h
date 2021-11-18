@@ -18,8 +18,14 @@ public:
     explicit Launcher(QObject* parent = nullptr);
 
     void launch(bool offline, const LaunchData& launchData);
+
 signals:
     void finished();
+private:
+    static QString findJavaExecutable();
+private:
+    const static QString lunarDir;
+    const static QString minecraftDir;
 };
 
 

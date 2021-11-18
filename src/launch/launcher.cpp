@@ -5,7 +5,11 @@
 #include "launcher.h"
 
 #include <QProcess>
-#include <QDebug>
+#include <QDir>
+#include <QDirIterator>
+
+const QString Launcher::lunarDir = QDir::homePath() + "/.lunarclient";
+const QString Launcher::minecraftDir = QDir::homePath() + "/.minecraft";
 
 Launcher::Launcher(QObject *parent) : QObject(parent) {
 }
@@ -14,7 +18,7 @@ Launcher::Launcher(QObject *parent) : QObject(parent) {
 void Launcher::launch(bool offline, const LaunchData& launchData) {
     if(offline){
         QProcess process;
-        process.setProgram("/home/nils/.lunarclient/jre/zulu16.30.15-ca-fx-jdk16.0.1-linux_x64/bin/java");
+        process.setProgram(findJavaExecutable());
         process.setArguments({
             "--add-modules", "jdk.naming.dns",
             "--add-exports", "jdk.naming.dns/com.sun.jndi.dns=java.naming",
@@ -24,18 +28,46 @@ void Launcher::launch(bool offline, const LaunchData& launchData) {
             QString("-Xms%1m").arg(launchData.maxMem),
             "-Djava.library.path=natives",
             "-XX:-DisableAttachMechanism",
-            "-cp", "vpatcher-prod.jar:lunar-prod-optifine.jar:lunar-libs.jar:lunar-assets-prod-1-optifine.jar:lunar-assets-prod-2-optifine.jar:lunar-assets-prod-3-optifine.jar:OptiFine.jar",
+
+            "-cp", QStringList({
+                        "vpatcher-prod.jar",
+                        "lunar-prod-optifine.jar",
+                        "lunar-libs.jar",
+                        "lunar-assets-prod-1-optifine.jar",
+                        "lunar-assets-prod-2-optifine.jar",
+                        "lunar-assets-prod-3-optifine.jar",
+                        "OptiFine.jar"
+            }).join(QDir::listSeparator()),
+
             "com.moonsworth.lunar.patcher.LunarMain",
             "--version", launchData.version,
             "--accessToken", "0",
             "--assetIndex", launchData.version,
             "--userProperties", "{}",
-            "--gameDir", "/home/nils/.minecraft",
-            "--texturesDir", "/home/nils/.lunarclient/textures",
+            "--gameDir", minecraftDir,
+            "--texturesDir", lunarDir+"/textures",
             "--launcherVersion", "2.7.4",
             "--width", "854",
             "--height", "480"});
-        process.setWorkingDirectory("/home/nils/.lunarclient/offline/"+launchData.version);
+        process.setWorkingDirectory(lunarDir+"/offline/"+launchData.version);
         process.startDetached();
     }
+}
+
+QString Launcher::findJavaExecutable() {
+    QDirIterator it(lunarDir+"/jre", QDir::Dirs | QDir::NoDotAndDotDot);
+
+    while(it.hasNext()){
+        QString potentialExecutable = it.next() +
+#ifdef Q_OS_WIN
+        "/bin/javaw.exe";
+#else
+        "/bin/java";
+#endif
+
+        if(QFileInfo(potentialExecutable).isExecutable())
+            return potentialExecutable;
+    }
+
+    return "";
 }
