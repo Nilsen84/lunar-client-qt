@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     pageList = new QListWidget();
     pageStack = new QStackedWidget();
 
+    pageList->setIconSize(QSize(32, 32));
+
     generalPage = new GeneralPage();
 
     new QListWidgetItem(generalPage->icon(), generalPage->title(), pageList);
