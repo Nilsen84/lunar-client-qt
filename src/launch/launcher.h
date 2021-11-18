@@ -10,9 +10,14 @@
 class Launcher : public QObject{
 Q_OBJECT
 public:
+    struct LaunchData{
+        QString version;
+        int initialMem = 4096;
+        int maxMem = 4096;
+    };
     explicit Launcher(QObject* parent = nullptr);
 
-    void launch(bool offline);
+    void launch(bool offline, const LaunchData& launchData);
 signals:
     void finished();
 };

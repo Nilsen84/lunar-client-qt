@@ -21,14 +21,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     pageList = new QListWidget();
     pageStack = new QStackedWidget();
 
-    ConfigurationPage* pages[] = {
-            new GeneralPage(),
-    };
+    generalPage = new GeneralPage();
 
-    for(ConfigurationPage* page : pages){
-        new QListWidgetItem(page->title(), pageList);
-        pageStack->addWidget(page);
-    }
+    new QListWidgetItem(generalPage->title(), pageList);
+    pageStack->addWidget(generalPage);
+
 
     connect(pageList, &QListWidget::currentRowChanged, pageStack, &QStackedWidget::setCurrentIndex);
 
@@ -85,5 +82,9 @@ void MainWindow::launch(bool offline) {
     launchOfflineButton->setEnabled(false);
     launchOfflineButton->setText(launchingText);
 
-    launcher.launch(offline);
+    launcher.launch(offline, {
+        .version = this->versionSelect->currentText(),
+        .initialMem = generalPage->getInitialMemory(),
+        .maxMem = generalPage->getMaxMemory()
+    });
 }

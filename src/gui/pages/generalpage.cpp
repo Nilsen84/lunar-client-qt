@@ -71,3 +71,11 @@ void GeneralPage::keepMinMaxSameChanged(bool checked) {
         //disconnect(maxMemory, &QSlider::valueChanged, initialMemory, &QSlider::setValue);
     }
 }
+
+int GeneralPage::getInitialMemory() {
+    return initialMemory->value();
+}
+
+int GeneralPage::getMaxMemory() {
+    return maxMemory->value();
+}

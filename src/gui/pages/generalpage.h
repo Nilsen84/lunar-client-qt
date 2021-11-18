@@ -16,6 +16,9 @@ public:
     explicit GeneralPage(QWidget* parent = nullptr);
 
     QString title() override;
+
+    int getInitialMemory();
+    int getMaxMemory();
 private slots:
     void keepMinMaxSameChanged(bool checked);
 private:

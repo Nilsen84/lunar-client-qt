@@ -13,6 +13,7 @@
 
 #include "launch/launcher.h"
 #include "pages/configurationpage.h"
+#include "pages/generalpage.h"
 
 class MainWindow : public QMainWindow {
 Q_OBJECT
@@ -29,6 +30,8 @@ private:
     QPushButton* launchButton;
     QPushButton* launchOfflineButton;
     QComboBox* versionSelect;
+
+    GeneralPage* generalPage;
 
     Launcher launcher;
 };
