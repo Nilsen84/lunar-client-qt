@@ -11,7 +11,7 @@
 GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
 
-    QCheckBox* keepMinMaxSame = new QCheckBox("Keep initial and maximum memory allocations the same");
+    QCheckBox* keepMinMaxSame = new QCheckBox(QStringLiteral("Keep initial and maximum memory allocations the same"));
 
     QLabel* initialMemoryLabel = new QLabel();
     QLabel* maxMemoryLabel = new QLabel();
@@ -57,7 +57,7 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
 }
 
 QString GeneralPage::title() {
-    return "General";
+    return QStringLiteral("General");
 }
 
 void GeneralPage::keepMinMaxSameChanged(bool checked) {

@@ -41,11 +41,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     pageList->setFont(font);
 
     versionSelect = new QComboBox();
-    versionSelect->addItem("1.7");
-    versionSelect->addItem("1.8");
-    versionSelect->addItem("1.12");
-    versionSelect->addItem("1.16");
-    versionSelect->addItem("1.17");
+    versionSelect->addItems({"1.7", "1.8", "1.12", "1.16", "1.17"});
     versionSelect->setCurrentIndex(1);
 
     launchButton = new QPushButton();
@@ -70,23 +66,24 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 
     setCentralWidget(centralWidget);
     resize(800, 600);
-    statusBar()->showMessage("Ready!");
+    statusBar()->showMessage(QStringLiteral("Ready!"));
 }
 
 void MainWindow::resetLaunchButtons() {
     launchButton->setEnabled(true);
-    launchButton->setText("Launch");
+    launchButton->setText(QStringLiteral("Launch"));
 
     launchOfflineButton->setEnabled(true);
-    launchOfflineButton->setText("Launch Offline");
+    launchOfflineButton->setText(QStringLiteral("Launch Offline"));
 }
 
 void MainWindow::launch(bool offline) {
+    QString launchingText = QStringLiteral("Launching...");
     launchButton->setEnabled(false);
-    launchButton->setText("Launching...");
+    launchButton->setText(launchingText);
 
     launchOfflineButton->setEnabled(false);
-    launchOfflineButton->setText("Launching...");
+    launchOfflineButton->setText(launchingText);
 
     launcher.launch(offline);
 }
