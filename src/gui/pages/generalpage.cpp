@@ -68,7 +68,6 @@ void GeneralPage::keepMinMaxSameChanged(bool checked) {
     }else{
         maxMemory->setEnabled(true);
         disconnect(initialMemory, &QSlider::valueChanged, maxMemory, &QSlider::setValue);
-        //disconnect(maxMemory, &QSlider::valueChanged, initialMemory, &QSlider::setValue);
     }
 }
 
