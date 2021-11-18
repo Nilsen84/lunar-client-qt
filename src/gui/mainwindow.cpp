@@ -7,6 +7,7 @@
 #include <QGridLayout>
 #include <QListWidgetItem>
 #include <QComboBox>
+#include <QStatusBar>
 
 #include "pages/configurationpage.h"
 #include "pages/generalpage.h"
@@ -69,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 
     setCentralWidget(centralWidget);
     resize(800, 600);
+    statusBar()->showMessage("Ready!");
 }
 
 void MainWindow::resetLaunchButtons() {
