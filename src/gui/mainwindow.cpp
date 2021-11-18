@@ -68,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     centralWidget->setLayout(mainLayout);
 
     setCentralWidget(centralWidget);
+    resize(800, 600);
 }
 
 void MainWindow::resetLaunchButtons() {
