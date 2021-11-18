@@ -19,6 +19,11 @@ void Launcher::launch(bool offline, const LaunchData& launchData) {
     if(offline){
         QProcess process;
         process.setProgram(findJavaExecutable());
+
+        process.setStandardInputFile(QProcess::nullDevice());
+        process.setStandardOutputFile(QProcess::nullDevice());
+        process.setStandardErrorFile(QProcess::nullDevice());
+
         process.setArguments({
             "--add-modules", "jdk.naming.dns",
             "--add-exports", "jdk.naming.dns/com.sun.jndi.dns=java.naming",
@@ -50,6 +55,7 @@ void Launcher::launch(bool offline, const LaunchData& launchData) {
             "--width", "854",
             "--height", "480"});
         process.setWorkingDirectory(lunarDir+"/offline/"+launchData.version);
+
         process.startDetached();
     }
 }
@@ -69,5 +75,5 @@ QString Launcher::findJavaExecutable() {
             return potentialExecutable;
     }
 
-    return "";
+    return {};
 }
