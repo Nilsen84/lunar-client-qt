@@ -17,6 +17,8 @@ public:
 
     QString title() override;
 
+    QIcon icon() override;
+
     int getInitialMemory();
     int getMaxMemory();
 private slots:

@@ -57,6 +57,10 @@ QString GeneralPage::title() {
     return QStringLiteral("General");
 }
 
+QIcon GeneralPage::icon() {
+    return QIcon(":res/icons/cog.svg");
+}
+
 void GeneralPage::keepMinMaxSameChanged(bool checked) {
     if(checked){
         initialMemory->setValue(maxMemory->value());

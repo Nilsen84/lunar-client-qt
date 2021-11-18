@@ -6,11 +6,15 @@
 #define LUNAR_CLIENT_QT_CONFIGURATIONPAGE_H
 
 #include <QWidget>
+#include <QString>
+#include <QIcon>
 
 class ConfigurationPage : public QWidget{
 Q_OBJECT
 public:
     virtual QString title() = 0;
+
+    virtual QIcon icon() = 0;
 protected:
     explicit ConfigurationPage(QWidget* parent);
 };

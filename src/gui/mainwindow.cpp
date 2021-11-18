@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 
     generalPage = new GeneralPage();
 
-    new QListWidgetItem(generalPage->title(), pageList);
+    new QListWidgetItem(generalPage->icon(), generalPage->title(), pageList);
     pageStack->addWidget(generalPage);
 
 
