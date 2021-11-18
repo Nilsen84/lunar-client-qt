@@ -35,20 +35,17 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     connect(keepMinMaxSame, &QCheckBox::toggled, this, &GeneralPage::keepMinMaxSameChanged);
     keepMinMaxSame->setChecked(true);
 
-    mainLayout->addWidget(keepMinMaxSame);
-    mainLayout->setAlignment(keepMinMaxSame, Qt::AlignHCenter);
+    mainLayout->addWidget(keepMinMaxSame, 0, Qt::AlignHCenter);
 
     mainLayout->addSpacing(40);
 
-    mainLayout->addWidget(initialMemoryLabel);
-    mainLayout->setAlignment(initialMemoryLabel, Qt::AlignHCenter);
+    mainLayout->addWidget(initialMemoryLabel, 0, Qt::AlignHCenter);
     mainLayout->addWidget(initialMemory);
 
     mainLayout->addSpacing(30);
 
 
-    mainLayout->addWidget(maxMemoryLabel);
-    mainLayout->setAlignment(maxMemoryLabel, Qt::AlignHCenter);
+    mainLayout->addWidget(maxMemoryLabel, 0, Qt::AlignHCenter);
     mainLayout->addWidget(maxMemory);
 
     mainLayout->addStretch(1);
