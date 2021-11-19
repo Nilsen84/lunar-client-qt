@@ -7,6 +7,8 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QCheckBox>
+#include <QPushButton>
+#include <QFileDialog>
 
 GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
@@ -48,6 +50,32 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     mainLayout->addWidget(maxMemoryLabel, 0, Qt::AlignHCenter);
     mainLayout->addWidget(maxMemory);
 
+    mainLayout->addSpacing(40);
+
+    QHBoxLayout* hLayout = new QHBoxLayout();
+    QCheckBox* useCustomJre = new QCheckBox(QStringLiteral("Use custom jre"));
+    jreLine = new QLineEdit();
+    QPushButton* openFile = new QPushButton();
+    openFile->setIcon(QIcon(":/res/icons/openfolder.svg"));
+
+    hLayout->addWidget(jreLine);
+    hLayout->addWidget(openFile);
+    jreLine->setDisabled(true);
+    openFile->setDisabled(true);
+
+
+    connect(useCustomJre, &QCheckBox::toggled, jreLine, &QLineEdit::setEnabled);
+    connect(useCustomJre, &QCheckBox::toggled, openFile, &QPushButton::setEnabled);
+    connect(jreLine, &QLineEdit::returnPressed, [this](){jreLine->clearFocus();});
+
+    connect(openFile, &QPushButton::clicked, [this](){
+       jreLine->setText(QFileDialog ::getOpenFileName());
+    });
+
+    mainLayout->addWidget(useCustomJre, 0, Qt::AlignHCenter);
+    mainLayout->addLayout(hLayout);
+
+
     mainLayout->addStretch(1);
 
     setLayout(mainLayout);
@@ -58,7 +86,7 @@ QString GeneralPage::title() {
 }
 
 QIcon GeneralPage::icon() {
-    return QIcon(":res/icons/cog.svg");
+    return QIcon(":/res/icons/cog.svg");
 }
 
 void GeneralPage::keepMinMaxSameChanged(bool checked) {

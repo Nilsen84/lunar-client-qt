@@ -1,5 +1,6 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
         <file>res/icons/cog.svg</file>
+        <file>res/icons/openfolder.svg</file>
     </qresource>
 </RCC>

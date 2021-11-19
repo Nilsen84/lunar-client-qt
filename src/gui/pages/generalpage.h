@@ -7,6 +7,7 @@
 
 #include <QSlider>
 #include <QCheckBox>
+#include <QLineEdit>
 
 #include "configurationpage.h"
 
@@ -26,6 +27,8 @@ private slots:
 private:
     QSlider* initialMemory;
     QSlider* maxMemory;
+
+    QLineEdit* jreLine;
 };
 
 
