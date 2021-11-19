@@ -22,12 +22,15 @@ public:
 
     int getInitialMemory();
     int getMaxMemory();
+    QString getJrePath();
+    bool isUsingCustomJre();
 private slots:
     void keepMinMaxSameChanged(bool checked);
 private:
     QSlider* initialMemory;
     QSlider* maxMemory;
 
+    QCheckBox* useCustomJre;
     QLineEdit* jreLine;
 };
 

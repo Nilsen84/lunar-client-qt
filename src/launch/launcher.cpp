@@ -18,7 +18,7 @@ Launcher::Launcher(QObject *parent) : QObject(parent) {
 void Launcher::launch(bool offline, const LaunchData& launchData) {
     if(offline){
         QProcess process;
-        process.setProgram(findJavaExecutable());
+        process.setProgram(launchData.findLunarJre ? findJavaExecutable() : launchData.customJre);
 
         process.setStandardInputFile(QProcess::nullDevice());
         process.setStandardOutputFile(QProcess::nullDevice());

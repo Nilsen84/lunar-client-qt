@@ -88,7 +88,9 @@ void MainWindow::launch(bool offline) {
         launchOfflineButton->setText(launchingText);
     }
     launcher.launch(offline, {
-        .version = this->versionSelect->currentText(),
+        .version = versionSelect->currentText(),
+        .findLunarJre = !generalPage->isUsingCustomJre(),
+        .customJre = generalPage->isUsingCustomJre() ? generalPage->getJrePath() : QString(),
         .initialMem = generalPage->getInitialMemory(),
         .maxMem = generalPage->getMaxMemory()
     });

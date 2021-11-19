@@ -12,6 +12,8 @@ Q_OBJECT
 public:
     struct LaunchData{
         QString version;
+        bool findLunarJre;
+        QString customJre;
         int initialMem = 4096;
         int maxMem = 4096;
     };

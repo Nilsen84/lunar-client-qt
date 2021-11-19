@@ -53,7 +53,7 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     mainLayout->addSpacing(40);
 
     QHBoxLayout* hLayout = new QHBoxLayout();
-    QCheckBox* useCustomJre = new QCheckBox(QStringLiteral("Use custom jre"));
+    useCustomJre = new QCheckBox(QStringLiteral("Use custom jre"));
     jreLine = new QLineEdit();
     QPushButton* openFile = new QPushButton();
     openFile->setIcon(QIcon(":/res/icons/openfolder.svg"));
@@ -106,4 +106,12 @@ int GeneralPage::getInitialMemory() {
 
 int GeneralPage::getMaxMemory() {
     return maxMemory->value();
+}
+
+QString GeneralPage::getJrePath() {
+    return jreLine->text();
+}
+
+bool GeneralPage::isUsingCustomJre() {
+    return useCustomJre->isChecked();
 }
