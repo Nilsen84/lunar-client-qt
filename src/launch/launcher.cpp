@@ -47,7 +47,7 @@ void Launcher::launch(bool offline, const LaunchData& launchData) {
             "com.moonsworth.lunar.patcher.LunarMain",
             "--version", launchData.version,
             "--accessToken", "0",
-            "--assetIndex", launchData.version,
+            "--assetIndex", launchData.version == QStringLiteral("1.7") ? "1.7.10" : launchData.version,
             "--userProperties", "{}",
             "--gameDir", minecraftDir,
             "--texturesDir", lunarDir+"/textures",
