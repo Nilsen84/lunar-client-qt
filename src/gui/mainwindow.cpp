@@ -8,6 +8,7 @@
 #include <QListWidgetItem>
 #include <QComboBox>
 #include <QStatusBar>
+#include <QScrollArea>
 
 #include "pages/configurationpage.h"
 #include "pages/generalpage.h"
@@ -57,11 +58,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 
     resetLaunchButtons();
 
+    QScrollArea* scrollArea = new QScrollArea();
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollArea->setWidget(pageStack);
+
+
     mainLayout->addWidget(pageList);
     mainLayout->addWidget(versionSelect, 1, 0);
     mainLayout->addWidget(launchOfflineButton, 2, 0);
     mainLayout->addWidget(launchButton, 3, 0);
-    mainLayout->addWidget(pageStack, 0, 3, -1, 1);
+    mainLayout->addWidget(scrollArea, 0, 3, -1, 1);
 
     centralWidget->setLayout(mainLayout);
 
