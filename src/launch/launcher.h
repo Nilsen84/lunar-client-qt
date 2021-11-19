@@ -16,6 +16,8 @@ public:
         QString customJre;
         int initialMem = 4096;
         int maxMem = 4096;
+        int windowWidth = 640;
+        int windowHeight = 480;
     };
     explicit Launcher(QObject* parent = nullptr);
 

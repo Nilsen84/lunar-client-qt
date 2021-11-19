@@ -30,7 +30,7 @@ void Launcher::launch(bool offline, const LaunchData& launchData) {
             "-Djna.boot.library.path=natives",
             "--add-opens", "java.base/java.io=ALL-UNNAMED",
             QString("-Xms%1m").arg(launchData.initialMem),
-            QString("-Xms%1m").arg(launchData.maxMem),
+            QString("-Xmx%1m").arg(launchData.maxMem),
             "-Djava.library.path=natives",
             "-XX:-DisableAttachMechanism",
 
@@ -52,8 +52,9 @@ void Launcher::launch(bool offline, const LaunchData& launchData) {
             "--gameDir", minecraftDir,
             "--texturesDir", lunarDir+"/textures",
             "--launcherVersion", "2.7.4",
-            "--width", "854",
-            "--height", "480"});
+            "--width", QString::number(launchData.windowWidth),
+            "--height", QString::number(launchData.windowHeight)
+        });
         process.setWorkingDirectory(lunarDir+"/offline/"+launchData.version);
 
         process.startDetached();

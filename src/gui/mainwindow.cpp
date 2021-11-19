@@ -99,6 +99,8 @@ void MainWindow::launch(bool offline) {
         .findLunarJre = !generalPage->isUsingCustomJre(),
         .customJre = generalPage->isUsingCustomJre() ? generalPage->getJrePath() : QString(),
         .initialMem = generalPage->getInitialMemory(),
-        .maxMem = generalPage->getMaxMemory()
+        .maxMem = generalPage->getMaxMemory(),
+        .windowWidth = generalPage->getWindowWidth(),
+        .windowHeight = generalPage->getWindowHeight()
     });
 }

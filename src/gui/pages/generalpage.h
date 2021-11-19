@@ -8,6 +8,7 @@
 #include <QSlider>
 #include <QCheckBox>
 #include <QLineEdit>
+#include <QSpinBox>
 
 #include "configurationpage.h"
 
@@ -22,8 +23,13 @@ public:
 
     int getInitialMemory();
     int getMaxMemory();
+
+    int getWindowWidth();
+    int getWindowHeight();
+
     QString getJrePath();
     bool isUsingCustomJre();
+
 private slots:
     void keepMinMaxSameChanged(bool checked);
 private:
@@ -32,6 +38,9 @@ private:
 
     QCheckBox* useCustomJre;
     QLineEdit* jreLine;
+
+    QSpinBox* windowWidth;
+    QSpinBox* windowHeight;
 };
 
 

@@ -52,17 +52,16 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
 
     mainLayout->addSpacing(40);
 
-    QHBoxLayout* hLayout = new QHBoxLayout();
+    QHBoxLayout* jreLineLayout = new QHBoxLayout();
     useCustomJre = new QCheckBox(QStringLiteral("Use custom jre"));
     jreLine = new QLineEdit();
     QPushButton* openFile = new QPushButton();
     openFile->setIcon(QIcon(":/res/icons/openfolder.svg"));
 
-    hLayout->addWidget(jreLine);
-    hLayout->addWidget(openFile);
+    jreLineLayout->addWidget(jreLine);
+    jreLineLayout->addWidget(openFile);
     jreLine->setDisabled(true);
     openFile->setDisabled(true);
-
 
     connect(useCustomJre, &QCheckBox::toggled, jreLine, &QLineEdit::setEnabled);
     connect(useCustomJre, &QCheckBox::toggled, openFile, &QPushButton::setEnabled);
@@ -75,7 +74,29 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     });
 
     mainLayout->addWidget(useCustomJre, 0, Qt::AlignHCenter);
-    mainLayout->addLayout(hLayout);
+    mainLayout->addLayout(jreLineLayout);
+
+    windowWidth = new QSpinBox();
+    windowHeight = new QSpinBox();
+
+    windowWidth->setMinimum(0);
+    windowWidth->setMaximum(99999);
+    windowWidth->setValue(640);
+
+    windowHeight->setMinimum(0);
+    windowHeight->setMaximum(99999);
+    windowHeight->setValue(480);
+
+
+    QHBoxLayout* windowResLayout = new QHBoxLayout();
+    windowResLayout->setSpacing(30);
+    windowResLayout->addWidget(new QLabel("Window width"));
+    windowResLayout->addWidget(windowWidth, 1);
+    windowResLayout->addWidget(new QLabel("Window height"));
+    windowResLayout->addWidget(windowHeight, 1);
+
+    mainLayout->addSpacing(40);
+    mainLayout->addLayout(windowResLayout);
 
 
     mainLayout->addStretch(1);
@@ -116,4 +137,12 @@ QString GeneralPage::getJrePath() {
 
 bool GeneralPage::isUsingCustomJre() {
     return useCustomJre->isChecked();
+}
+
+int GeneralPage::getWindowWidth() {
+    return windowWidth->value();
+}
+
+int GeneralPage::getWindowHeight() {
+    return windowHeight->value();
 }
