@@ -11,8 +11,8 @@ class Launcher : public QObject{
 Q_OBJECT
 public:
     struct LaunchData{
-        QString version;
-        bool findLunarJre;
+        QString version = QStringLiteral("1.8");
+        bool findLunarJre = true;
         QString customJre;
         int initialMem = 4096;
         int maxMem = 4096;

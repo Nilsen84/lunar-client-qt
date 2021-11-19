@@ -69,7 +69,9 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     connect(jreLine, &QLineEdit::returnPressed, [this](){jreLine->clearFocus();});
 
     connect(openFile, &QPushButton::clicked, [this](){
-       jreLine->setText(QFileDialog ::getOpenFileName());
+        QString fileName = QFileDialog::getOpenFileName();
+        if(!fileName.isNull())
+            jreLine->setText(fileName);
     });
 
     mainLayout->addWidget(useCustomJre, 0, Qt::AlignHCenter);
