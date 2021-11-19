@@ -51,7 +51,7 @@ void Launcher::launch(bool offline, const LaunchData& launchData) {
             "--userProperties", "{}",
             "--gameDir", minecraftDir,
             "--texturesDir", lunarDir+"/textures",
-            "--launcherVersion", "2.7.4",
+            "--launcherVersion", "2.8.8",
             "--width", QString::number(launchData.windowWidth),
             "--height", QString::number(launchData.windowHeight)
         });
