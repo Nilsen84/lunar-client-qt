@@ -100,6 +100,7 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     jvmArgsGroup->setSpacing(6);
 
     jvmArgs = new QPlainTextEdit();
+    jvmArgs->setFixedHeight(70);
 
     jvmArgsGroup->addWidget(new QLabel(QStringLiteral("JVM Arguments")), 0, Qt::AlignHCenter);
     jvmArgsGroup->addWidget(jvmArgs);
