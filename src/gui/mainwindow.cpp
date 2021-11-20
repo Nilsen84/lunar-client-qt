@@ -124,13 +124,13 @@ void MainWindow::save() {
 
     saveObj["version"] = versionSelect->currentIndex();
 
-    QString configDir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+    QString path = QFileInfo(configLocation).absolutePath();
     QDir dir;
-    if(!dir.exists(configDir)){
-        dir.mkdir(configDir);
+    if(!dir.exists(path)){
+        dir.mkdir(path);
     }
 
-    QFile configFile(configDir + "/config.json");
+    QFile configFile(configLocation);
 
     configFile.open(QIODevice::WriteOnly);
 
@@ -140,9 +140,8 @@ void MainWindow::save() {
 }
 
 
-void MainWindow::load() {
-    QString configPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/config.json";
-    QFile configFile(configPath);
+void MainWindow::load() {;
+    QFile configFile(configLocation);
     configFile.open(QIODevice::ReadOnly | QIODevice::Text);
 
     QJsonObject jsonObj = QJsonDocument::fromJson(configFile.readAll()).object();

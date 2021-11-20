@@ -10,6 +10,7 @@
 #include <QStackedWidget>
 #include <QPushButton>
 #include <QComboBox>
+#include <QStandardPaths>
 
 #include "launch/launcher.h"
 #include "pages/configurationpage.h"
@@ -38,6 +39,8 @@ private:
     GeneralPage* generalPage;
 
     Launcher launcher;
+
+    static inline const QString configLocation = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/lunar-client-qt/config.json";
 };
 
 
