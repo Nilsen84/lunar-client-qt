@@ -20,7 +20,6 @@ public:
     void save(QJsonObject& jsonObject) override;
     void load(const QJsonObject& jsonObject) override;
 private:
-    QListWidget* classpath;
     QListWidget* agents;
 };
 

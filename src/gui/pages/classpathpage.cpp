@@ -15,16 +15,16 @@ ClasspathPage::ClasspathPage(QWidget *parent) : ConfigurationPage(parent) {
     mainLayout->setSpacing(20);
 
     {
-        classpath = new QListWidget();
+        agents = new QListWidget();
         QFont font;
         font.setPointSize(14);
-        classpath->setFont(font);
-        auto lunarClasses = new QListWidgetItem("<Lunar Classes>", classpath);
-        lunarClasses->setFlags(Qt::NoItemFlags);
+        agents->setFont(font);
+/*        auto lunarClasses = new QListWidgetItem("<Lunar Classes>", classpath);
+        lunarClasses->setFlags(Qt::NoItemFlags);*/
 
         QPalette palette;
         palette.setColor(QPalette::Disabled, QPalette::Text, Qt::blue);
-        classpath->setPalette(palette);
+        agents->setPalette(palette);
 
         QPushButton* add = new QPushButton("Add");
         QPushButton* remove = new QPushButton("Remove");
@@ -40,44 +40,44 @@ ClasspathPage::ClasspathPage(QWidget *parent) : ConfigurationPage(parent) {
                     );
             for(const QString &str : files){
                 if(!str.isEmpty()){
-                    auto item = new QListWidgetItem(QFileInfo(str).fileName(), classpath);
+                    auto item = new QListWidgetItem(QFileInfo(str).fileName(), agents);
                     item->setToolTip(str);
-                    classpath->setCurrentItem(item);
+                    agents->setCurrentItem(item);
                 }
             }
 
         });
 
         connect(remove, &QPushButton::clicked, [this](){
-            for(auto item : classpath->selectedItems()){
+            for(auto item : agents->selectedItems()){
                 delete item;
             }
         });
 
         connect(moveUp, &QPushButton::clicked, [this](){
-            int currentRow = classpath->currentRow();
+            int currentRow = agents->currentRow();
             if(currentRow > 0){
-                auto currentItem = classpath->takeItem(currentRow);
-                classpath->insertItem(currentRow - 1, currentItem);
-                classpath->setCurrentRow(currentRow - 1);
+                auto currentItem = agents->takeItem(currentRow);
+                agents->insertItem(currentRow - 1, currentItem);
+                agents->setCurrentRow(currentRow - 1);
             }
         });
 
         connect(moveDown, &QPushButton::clicked, [this](){
-            int currentRow = classpath->currentRow();
-            if(currentRow < classpath->count()-1){
-                auto currentItem = classpath->takeItem(currentRow);
-                classpath->insertItem(currentRow + 1, currentItem);
-                classpath->setCurrentRow(currentRow + 1);
+            int currentRow = agents->currentRow();
+            if(currentRow < agents->count()-1){
+                auto currentItem = agents->takeItem(currentRow);
+                agents->insertItem(currentRow + 1, currentItem);
+                agents->setCurrentRow(currentRow + 1);
             }
         });
 
         QGridLayout* classPathContainer = new QGridLayout();
         classPathContainer->setSpacing(6);
-        QLabel* label = new QLabel("Classpath");
+        QLabel* label = new QLabel("Agents");
         label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
         classPathContainer->addWidget(label, 0, 0, Qt::AlignHCenter);
-        classPathContainer->addWidget(classpath, 1, 0, 5, 1);
+        classPathContainer->addWidget(agents, 1, 0, 5, 1);
         classPathContainer->addWidget(add, 1, 1);
         classPathContainer->addWidget(remove, 2, 1);
         classPathContainer->addWidget(moveUp, 3, 1);
