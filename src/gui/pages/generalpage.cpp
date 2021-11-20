@@ -50,32 +50,6 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     mainLayout->addWidget(maxMemoryLabel, 0, Qt::AlignHCenter);
     mainLayout->addWidget(maxMemory);
 
-    mainLayout->addSpacing(40);
-
-    QHBoxLayout* jreLineLayout = new QHBoxLayout();
-    useCustomJre = new QCheckBox(QStringLiteral("Use custom jre"));
-    jreLine = new QLineEdit();
-    QPushButton* openFile = new QPushButton();
-    openFile->setIcon(QIcon(":/res/icons/openfolder.svg"));
-
-    jreLineLayout->addWidget(jreLine);
-    jreLineLayout->addWidget(openFile);
-    jreLine->setDisabled(true);
-    openFile->setDisabled(true);
-
-    connect(useCustomJre, &QCheckBox::toggled, jreLine, &QLineEdit::setEnabled);
-    connect(useCustomJre, &QCheckBox::toggled, openFile, &QPushButton::setEnabled);
-    connect(jreLine, &QLineEdit::returnPressed, [this](){jreLine->clearFocus();});
-
-    connect(openFile, &QPushButton::clicked, [this](){
-        QString fileName = QFileDialog::getOpenFileName();
-        if(!fileName.isNull())
-            jreLine->setText(fileName);
-    });
-
-    mainLayout->addWidget(useCustomJre, 0, Qt::AlignHCenter);
-    mainLayout->addLayout(jreLineLayout);
-
     windowWidth = new QSpinBox();
     windowHeight = new QSpinBox();
 
@@ -98,6 +72,36 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     mainLayout->addSpacing(40);
     mainLayout->addLayout(windowResLayout);
 
+    QHBoxLayout* jreLineLayout = new QHBoxLayout();
+    useCustomJre = new QCheckBox(QStringLiteral("Use custom jre"));
+    jreLine = new QLineEdit();
+    QPushButton* openFile = new QPushButton();
+    openFile->setIcon(QIcon(":/res/icons/openfolder.svg"));
+
+    jreLineLayout->addWidget(jreLine);
+    jreLineLayout->addWidget(openFile);
+    jreLine->setDisabled(true);
+    openFile->setDisabled(true);
+
+    connect(useCustomJre, &QCheckBox::toggled, jreLine, &QLineEdit::setEnabled);
+    connect(useCustomJre, &QCheckBox::toggled, openFile, &QPushButton::setEnabled);
+    connect(jreLine, &QLineEdit::returnPressed, [this](){jreLine->clearFocus();});
+
+    connect(openFile, &QPushButton::clicked, [this](){
+        QString fileName = QFileDialog::getOpenFileName();
+        if(!fileName.isNull())
+            jreLine->setText(fileName);
+    });
+
+    mainLayout->addSpacing(40);
+    mainLayout->addWidget(useCustomJre, 0, Qt::AlignHCenter);
+    mainLayout->addLayout(jreLineLayout);
+
+    jvmArgs = new QLineEdit();
+
+    mainLayout->addSpacing(40);
+    mainLayout->addWidget(new QLabel("JVM Arguments"), 0, Qt::AlignHCenter);
+    mainLayout->addWidget(jvmArgs);
 
     mainLayout->addStretch(1);
 
@@ -145,4 +149,8 @@ int GeneralPage::getWindowWidth() {
 
 int GeneralPage::getWindowHeight() {
     return windowHeight->value();
+}
+
+QString GeneralPage::getJvmArgs() {
+    return jvmArgs->text();
 }

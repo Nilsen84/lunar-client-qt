@@ -30,17 +30,20 @@ public:
     QString getJrePath();
     bool isUsingCustomJre();
 
+    QString getJvmArgs();
 private slots:
     void keepMinMaxSameChanged(bool checked);
 private:
     QSlider* initialMemory;
     QSlider* maxMemory;
 
+    QSpinBox* windowWidth;
+    QSpinBox* windowHeight;
+
     QCheckBox* useCustomJre;
     QLineEdit* jreLine;
 
-    QSpinBox* windowWidth;
-    QSpinBox* windowHeight;
+    QLineEdit* jvmArgs;
 };
 
 

@@ -14,6 +14,7 @@ public:
         QString version = QStringLiteral("1.8");
         bool findLunarJre = true;
         QString customJre;
+        QString jvmArgs;
         int initialMem = 4096;
         int maxMem = 4096;
         int windowWidth = 640;
