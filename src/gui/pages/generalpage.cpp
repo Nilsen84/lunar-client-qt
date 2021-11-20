@@ -12,22 +12,23 @@
 
 GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
+    mainLayout->setSpacing(40);
 
     QCheckBox* keepMinMaxSame = new QCheckBox(QStringLiteral("Keep initial and maximum memory allocations the same"));
 
     QLabel* initialMemoryLabel = new QLabel();
-    QLabel* maxMemoryLabel = new QLabel();
-
     initialMemory = new QSlider(Qt::Horizontal);
     initialMemory->setMinimum(1024);
     initialMemory->setMaximum(16384);
     initialMemory->setPageStep(1024);
 
+    QLabel* maxMemoryLabel = new QLabel();
     maxMemory = new QSlider(Qt::Horizontal);
     maxMemory->setMinimum(1024);
     maxMemory->setMaximum(16384);
     maxMemory->setPageStep(1024);
 
+    //Memory slider functionality
     connect(initialMemory, &QSlider::valueChanged, [initialMemoryLabel](int val){initialMemoryLabel->setText("Initial Memory:  " + QString::number(val) + " MiB");});
     connect(maxMemory, &QSlider::valueChanged, [maxMemoryLabel](int val){maxMemoryLabel->setText("Maximum Memory:  " + QString::number(val) + " MiB");});
 
@@ -37,19 +38,17 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     connect(keepMinMaxSame, &QCheckBox::toggled, this, &GeneralPage::keepMinMaxSameChanged);
     keepMinMaxSame->setChecked(true);
 
-    mainLayout->addWidget(keepMinMaxSame, 0, Qt::AlignHCenter);
+    //Memory slider group
+    QVBoxLayout* memorySliderContainer = new QVBoxLayout();
+    memorySliderContainer->setSpacing(6);
 
-    mainLayout->addSpacing(40);
+    memorySliderContainer->addWidget(initialMemoryLabel, 0, Qt::AlignHCenter);
+    memorySliderContainer->addWidget(initialMemory);
+    memorySliderContainer->addSpacing(30);
+    memorySliderContainer->addWidget(maxMemoryLabel, 0, Qt::AlignHCenter);
+    memorySliderContainer->addWidget(maxMemory);
 
-    mainLayout->addWidget(initialMemoryLabel, 0, Qt::AlignHCenter);
-    mainLayout->addWidget(initialMemory);
-
-    mainLayout->addSpacing(30);
-
-
-    mainLayout->addWidget(maxMemoryLabel, 0, Qt::AlignHCenter);
-    mainLayout->addWidget(maxMemory);
-
+    //Window resolution
     windowWidth = new QSpinBox();
     windowHeight = new QSpinBox();
 
@@ -61,25 +60,21 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     windowHeight->setMaximum(99999);
     windowHeight->setValue(480);
 
+    //Window resolution group
+    QHBoxLayout* windowResContainer = new QHBoxLayout();
+    windowResContainer->setSpacing(30);
+    windowResContainer->addWidget(new QLabel(QStringLiteral("Window width")));
+    windowResContainer->addWidget(windowWidth, 1);
+    windowResContainer->addWidget(new QLabel(QStringLiteral("Window height")));
+    windowResContainer->addWidget(windowHeight, 1);
 
-    QHBoxLayout* windowResLayout = new QHBoxLayout();
-    windowResLayout->setSpacing(30);
-    windowResLayout->addWidget(new QLabel(QStringLiteral("Window width")));
-    windowResLayout->addWidget(windowWidth, 1);
-    windowResLayout->addWidget(new QLabel(QStringLiteral("Window height")));
-    windowResLayout->addWidget(windowHeight, 1);
-
-    mainLayout->addSpacing(40);
-    mainLayout->addLayout(windowResLayout);
-
-    QHBoxLayout* jreLineLayout = new QHBoxLayout();
+    //Custom jre checkbox lineedit and button
     useCustomJre = new QCheckBox(QStringLiteral("Use custom jre"));
+
     jreLine = new QLineEdit();
     QPushButton* openFile = new QPushButton();
     openFile->setIcon(QIcon(":/res/icons/openfolder.svg"));
 
-    jreLineLayout->addWidget(jreLine);
-    jreLineLayout->addWidget(openFile);
     jreLine->setDisabled(true);
     openFile->setDisabled(true);
 
@@ -93,15 +88,33 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
             jreLine->setText(fileName);
     });
 
-    mainLayout->addSpacing(40);
-    mainLayout->addWidget(useCustomJre, 0, Qt::AlignHCenter);
-    mainLayout->addLayout(jreLineLayout);
+    //Custom jre groups
+    QHBoxLayout* jreLineLayout = new QHBoxLayout();
+    jreLineLayout->setSpacing(6);
+    jreLineLayout->addWidget(jreLine);
+    jreLineLayout->addWidget(openFile);
+
+    QVBoxLayout* customJreVGroup = new QVBoxLayout();
+    customJreVGroup->setSpacing(6);
+    customJreVGroup->addWidget(useCustomJre, 0, Qt::AlignHCenter);
+    customJreVGroup->addLayout(jreLineLayout);
+
+    //Jvm arguments
+    QVBoxLayout* jvmArgsGroup = new QVBoxLayout();
+    jvmArgsGroup->setSpacing(6);
 
     jvmArgs = new QPlainTextEdit();
 
-    mainLayout->addSpacing(40);
-    mainLayout->addWidget(new QLabel(QStringLiteral("JVM Arguments")), 0, Qt::AlignHCenter);
-    mainLayout->addWidget(jvmArgs);
+    jvmArgsGroup->addWidget(new QLabel(QStringLiteral("JVM Arguments")), 0, Qt::AlignHCenter);
+    jvmArgsGroup->addWidget(jvmArgs);
+
+
+    mainLayout->addWidget(keepMinMaxSame, 0, Qt::AlignHCenter);
+    mainLayout->addLayout(memorySliderContainer);
+    mainLayout->addLayout(windowResContainer);
+    mainLayout->addLayout(customJreVGroup);
+    mainLayout->addLayout(jvmArgsGroup);
+
 
     mainLayout->addStretch(1);
 
