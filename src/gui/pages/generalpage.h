@@ -9,6 +9,7 @@
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QSpinBox>
+#include <QPlainTextEdit>
 
 #include "configurationpage.h"
 
@@ -43,7 +44,7 @@ private:
     QCheckBox* useCustomJre;
     QLineEdit* jreLine;
 
-    QLineEdit* jvmArgs;
+    QPlainTextEdit* jvmArgs;
 };
 
 

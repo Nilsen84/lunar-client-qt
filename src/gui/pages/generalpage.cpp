@@ -97,7 +97,7 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     mainLayout->addWidget(useCustomJre, 0, Qt::AlignHCenter);
     mainLayout->addLayout(jreLineLayout);
 
-    jvmArgs = new QLineEdit();
+    jvmArgs = new QPlainTextEdit();
 
     mainLayout->addSpacing(40);
     mainLayout->addWidget(new QLabel("JVM Arguments"), 0, Qt::AlignHCenter);
@@ -152,5 +152,5 @@ int GeneralPage::getWindowHeight() {
 }
 
 QString GeneralPage::getJvmArgs() {
-    return jvmArgs->text();
+    return jvmArgs->toPlainText();
 }
