@@ -64,9 +64,9 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
 
     QHBoxLayout* windowResLayout = new QHBoxLayout();
     windowResLayout->setSpacing(30);
-    windowResLayout->addWidget(new QLabel("Window width"));
+    windowResLayout->addWidget(new QLabel(QStringLiteral("Window width")));
     windowResLayout->addWidget(windowWidth, 1);
-    windowResLayout->addWidget(new QLabel("Window height"));
+    windowResLayout->addWidget(new QLabel(QStringLiteral("Window height")));
     windowResLayout->addWidget(windowHeight, 1);
 
     mainLayout->addSpacing(40);
@@ -100,7 +100,7 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     jvmArgs = new QPlainTextEdit();
 
     mainLayout->addSpacing(40);
-    mainLayout->addWidget(new QLabel("JVM Arguments"), 0, Qt::AlignHCenter);
+    mainLayout->addWidget(new QLabel(QStringLiteral("JVM Arguments")), 0, Qt::AlignHCenter);
     mainLayout->addWidget(jvmArgs);
 
     mainLayout->addStretch(1);
