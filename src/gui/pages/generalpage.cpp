@@ -89,15 +89,11 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     });
 
     //Custom jre groups
-    QHBoxLayout* jreLineLayout = new QHBoxLayout();
-    jreLineLayout->setSpacing(6);
-    jreLineLayout->addWidget(jreLine);
-    jreLineLayout->addWidget(openFile);
-
-    QVBoxLayout* customJreVGroup = new QVBoxLayout();
-    customJreVGroup->setSpacing(6);
-    customJreVGroup->addWidget(useCustomJre, 0, Qt::AlignHCenter);
-    customJreVGroup->addLayout(jreLineLayout);
+    QGridLayout* customJreContainer = new QGridLayout();
+    customJreContainer->setSpacing(6);
+    customJreContainer->addWidget(useCustomJre, 0, 0, 1, -1, Qt::AlignHCenter);
+    customJreContainer->addWidget(jreLine, 1, 0);
+    customJreContainer->addWidget(openFile, 1, 1);
 
     //Jvm arguments
     QVBoxLayout* jvmArgsGroup = new QVBoxLayout();
@@ -112,7 +108,7 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     mainLayout->addWidget(keepMinMaxSame, 0, Qt::AlignHCenter);
     mainLayout->addLayout(memorySliderContainer);
     mainLayout->addLayout(windowResContainer);
-    mainLayout->addLayout(customJreVGroup);
+    mainLayout->addLayout(customJreContainer);
     mainLayout->addLayout(jvmArgsGroup);
 
 
