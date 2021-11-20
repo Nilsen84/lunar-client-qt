@@ -5,6 +5,8 @@
 #ifndef LUNAR_CLIENT_QT_CLASSPATHPAGE_H
 #define LUNAR_CLIENT_QT_CLASSPATHPAGE_H
 
+#include <QListWidget>
+
 #include "configurationpage.h"
 
 class ClasspathPage : public ConfigurationPage {
@@ -17,6 +19,9 @@ public:
 
     void save(QJsonObject& jsonObject) override;
     void load(const QJsonObject& jsonObject) override;
+private:
+    QListWidget* classpath;
+    QListWidget* agents;
 };
 
 
