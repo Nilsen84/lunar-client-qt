@@ -15,6 +15,7 @@
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
+    setWindowTitle("Lunar Client Qt");
     QWidget* centralWidget = new QWidget();
 
     QGridLayout* mainLayout = new QGridLayout();
