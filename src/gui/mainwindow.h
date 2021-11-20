@@ -20,10 +20,14 @@ Q_OBJECT
 public:
     explicit MainWindow(QWidget* parent = nullptr);
 
+private:
+    void load();
+    void save();
+
+    void closeEvent(QCloseEvent* closeEvent) override;
 private slots:
     void resetLaunchButtons();
     void launch(bool offline);
-
 private:
     QListWidget* pageList;
     QStackedWidget* pageStack;

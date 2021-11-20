@@ -22,6 +22,9 @@ public:
 
     QIcon icon() override;
 
+    void save(QJsonObject& jsonObject) override;
+    void load(const QJsonObject& jsonObject) override;
+
     int getInitialMemory();
     int getMaxMemory();
 
@@ -35,6 +38,7 @@ public:
 private slots:
     void keepMinMaxSameChanged(bool checked);
 private:
+    QCheckBox* keepMemorySame;
     QSlider* initialMemory;
     QSlider* maxMemory;
 

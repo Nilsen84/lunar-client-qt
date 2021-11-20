@@ -9,6 +9,11 @@
 #include <QComboBox>
 #include <QStatusBar>
 #include <QScrollArea>
+#include <QStandardPaths>
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QDir>
 
 #include "pages/configurationpage.h"
 #include "pages/generalpage.h"
@@ -76,6 +81,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     setCentralWidget(centralWidget);
     resize(800, 600);
     statusBar()->showMessage(QStringLiteral("Ready!"));
+
+    load();
 }
 
 void MainWindow::resetLaunchButtons() {
@@ -105,4 +112,48 @@ void MainWindow::launch(bool offline) {
         .windowWidth = generalPage->getWindowWidth(),
         .windowHeight = generalPage->getWindowHeight(),
     });
+}
+
+void MainWindow::save() {
+    QJsonObject saveObj;
+
+    QJsonObject generalPageObj;
+    generalPage->save(generalPageObj);
+
+    saveObj[generalPage->title()] = generalPageObj;
+
+    saveObj["version"] = versionSelect->currentIndex();
+
+    QString configDir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+    QDir dir;
+    if(!dir.exists(configDir)){
+        dir.mkdir(configDir);
+    }
+
+    QFile configFile(configDir + "/config.json");
+
+    configFile.open(QIODevice::WriteOnly);
+
+    configFile.write(QJsonDocument(saveObj).toJson());
+
+    configFile.close();
+}
+
+
+void MainWindow::load() {
+    QString configPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/config.json";
+    QFile configFile(configPath);
+    configFile.open(QIODevice::ReadOnly | QIODevice::Text);
+
+    QJsonObject jsonObj = QJsonDocument::fromJson(configFile.readAll()).object();
+
+    configFile.close();
+
+    generalPage->load(jsonObj[generalPage->title()].toObject());
+    versionSelect->setCurrentIndex(jsonObj["version"].toInt(1));
+}
+
+void MainWindow::closeEvent(QCloseEvent* event) {
+    save();
+    event->accept();
 }

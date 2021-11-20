@@ -15,6 +15,10 @@ public:
     virtual QString title() = 0;
 
     virtual QIcon icon() = 0;
+
+    virtual void save(QJsonObject& jsonObject) = 0;
+    virtual void load(const QJsonObject& jsonObject) = 0;
+
 protected:
     explicit ConfigurationPage(QWidget* parent);
 };

@@ -9,12 +9,13 @@
 #include <QCheckBox>
 #include <QPushButton>
 #include <QFileDialog>
+#include <QJsonObject>
 
 GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
     mainLayout->setSpacing(40);
 
-    QCheckBox* keepMinMaxSame = new QCheckBox(QStringLiteral("Keep initial and maximum memory allocations the same"));
+    keepMemorySame = new QCheckBox(QStringLiteral("Keep initial and maximum memory allocations the same"));
 
     QLabel* initialMemoryLabel = new QLabel();
     initialMemory = new QSlider(Qt::Horizontal);
@@ -35,8 +36,8 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     initialMemory->setValue(16384/4);
     maxMemory->setValue(16384/4);
 
-    connect(keepMinMaxSame, &QCheckBox::toggled, this, &GeneralPage::keepMinMaxSameChanged);
-    keepMinMaxSame->setChecked(true);
+    connect(keepMemorySame, &QCheckBox::toggled, this, &GeneralPage::keepMinMaxSameChanged);
+    keepMemorySame->setChecked(true);
 
     //Memory slider group
     QVBoxLayout* memorySliderContainer = new QVBoxLayout();
@@ -106,7 +107,7 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     jvmArgsGroup->addWidget(jvmArgs);
 
 
-    mainLayout->addWidget(keepMinMaxSame, 0, Qt::AlignHCenter);
+    mainLayout->addWidget(keepMemorySame, 0, Qt::AlignHCenter);
     mainLayout->addLayout(memorySliderContainer);
     mainLayout->addLayout(windowResContainer);
     mainLayout->addLayout(customJreContainer);
@@ -125,6 +126,35 @@ QString GeneralPage::title() {
 QIcon GeneralPage::icon() {
     return QIcon(":/res/icons/cog.svg");
 }
+
+void GeneralPage::save(QJsonObject &jsonObject) {
+    jsonObject["keepMemorySame"] = keepMemorySame->isChecked();
+    jsonObject["initialMemory"] = initialMemory->value();
+    jsonObject["maxMemory"] = maxMemory->value();
+
+    jsonObject["windowWidth"] = windowWidth->value();
+    jsonObject["windowHeight"] = windowHeight->value();
+
+    jsonObject["useCustomJre"] = useCustomJre->isChecked();
+    jsonObject["customJrePath"] = jreLine->text();
+
+    jsonObject["jvmArgs"] = jvmArgs->toPlainText();
+}
+
+void GeneralPage::load(const QJsonObject &jsonObject) {
+    keepMemorySame->setChecked(jsonObject["keepMemorySame"].toBool(true));
+    initialMemory->setValue(jsonObject["initialMemory"].toInt(4096));
+    maxMemory->setValue(jsonObject["maxMemory"].toInt(4096));
+
+    windowWidth->setValue(jsonObject["windowWidth"].toInt(640));
+    windowHeight->setValue(jsonObject["windowHeight"].toInt(480));
+
+    useCustomJre->setChecked(jsonObject["useCustomJre"].toBool(false));
+    jreLine->setText(jsonObject["customJrePath"].toString());
+
+    jvmArgs->setPlainText(jsonObject["jvmArgs"].toString());
+}
+
 
 void GeneralPage::keepMinMaxSameChanged(bool checked) {
     if(checked){
