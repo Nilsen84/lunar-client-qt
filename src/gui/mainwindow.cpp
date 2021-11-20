@@ -18,6 +18,9 @@
 #include "pages/configurationpage.h"
 #include "pages/generalpage.h"
 
+#define GET_PAGES(name) ConfigurationPage* name[] = \
+{generalPage, classpathPage}
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     setWindowTitle("Lunar Client Qt");
@@ -33,10 +36,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     pageList->setIconSize(QSize(32, 32));
 
     generalPage = new GeneralPage();
+    classpathPage = new ClasspathPage();
 
-    new QListWidgetItem(generalPage->icon(), generalPage->title(), pageList);
-    pageStack->addWidget(generalPage);
+    GET_PAGES(pages);
 
+    for(ConfigurationPage* page : pages){
+        new QListWidgetItem(page->icon(), page->title(), pageList);
+        pageStack->addWidget(page);
+    }
 
     connect(pageList, &QListWidget::currentRowChanged, pageStack, &QStackedWidget::setCurrentIndex);
 
@@ -45,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     pageList->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
     pageList->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
     QFont font;
-    font.setPointSize(14);
+    font.setPointSize(11);
     pageList->setFont(font);
 
     versionSelect = new QComboBox();
@@ -117,10 +124,13 @@ void MainWindow::launch(bool offline) {
 void MainWindow::save() {
     QJsonObject saveObj;
 
-    QJsonObject generalPageObj;
-    generalPage->save(generalPageObj);
+    GET_PAGES(pages);
 
-    saveObj[generalPage->title()] = generalPageObj;
+    for(auto page : pages){
+        QJsonObject pageObj;
+        page->save(pageObj);
+        saveObj[page->title()] = pageObj;
+    }
 
     saveObj["version"] = versionSelect->currentIndex();
 
@@ -148,7 +158,12 @@ void MainWindow::load() {;
 
     configFile.close();
 
-    generalPage->load(jsonObj[generalPage->title()].toObject());
+    GET_PAGES(pages);
+
+    for(auto page : pages){
+        page->load(jsonObj[page->title()].toObject());
+    }
+
     versionSelect->setCurrentIndex(jsonObj["version"].toInt(1));
 }
 
