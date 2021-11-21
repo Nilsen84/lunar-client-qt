@@ -18,10 +18,10 @@ AgentsPage::AgentsPage(QWidget *parent) : ConfigurationPage(parent) {
     {
         agents = new QListWidget();
         QFont font;
-        font.setPointSize(14);
+        font.setPointSize(11);
         agents->setFont(font);
-/*        auto lunarClasses = new QListWidgetItem("<Lunar Classes>", classpath);
-        lunarClasses->setFlags(Qt::NoItemFlags);*/
+        agents->setAlternatingRowColors(true);
+
 
         QPalette palette;
         palette.setColor(QPalette::Disabled, QPalette::Text, Qt::blue);
