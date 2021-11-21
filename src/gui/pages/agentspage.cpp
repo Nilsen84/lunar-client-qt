@@ -41,7 +41,7 @@ AgentsPage::AgentsPage(QWidget *parent) : ConfigurationPage(parent) {
                     );
             for(const QString &str : files){
                 if(!str.isEmpty()){
-                    addAgent(str);
+                    addAgent(str, true);
                 }
             }
 
@@ -110,10 +110,11 @@ void AgentsPage::load(const QJsonObject &jsonObject) {
     }
 }
 
-void AgentsPage::addAgent(const QString& path) {
+void AgentsPage::addAgent(const QString& path, bool select) {
     auto item = new QListWidgetItem(QFileInfo(path).fileName(), agents);
     item->setToolTip(path);
-    agents->setCurrentItem(item);
+    if(select)
+        agents->setCurrentItem(item);
 }
 
 QStringList AgentsPage::getAgents() {

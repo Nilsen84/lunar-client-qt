@@ -22,7 +22,7 @@ public:
 
     QStringList getAgents();
 private:
-    void addAgent(const QString& path);
+    void addAgent(const QString& path, bool select = false);
 private:
     QListWidget* agents;
 };
