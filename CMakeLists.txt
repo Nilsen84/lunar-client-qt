@@ -6,7 +6,6 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-
 find_package(Qt6 COMPONENTS
         Core
         Gui
@@ -34,4 +33,7 @@ target_link_libraries(lunar-client-qt
         )
 
 target_include_directories(lunar-client-qt PRIVATE src)
+
+#This line removes the console window when building on windows
+set_property(TARGET lunar-client-qt PROPERTY WIN32_EXECUTABLE true)
 
