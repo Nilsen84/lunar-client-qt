@@ -2,17 +2,17 @@
 // Created by nils on 11/20/21.
 //
 
-#ifndef LUNAR_CLIENT_QT_CLASSPATHPAGE_H
-#define LUNAR_CLIENT_QT_CLASSPATHPAGE_H
+#ifndef LUNAR_CLIENT_QT_AGENTSPAGE_H
+#define LUNAR_CLIENT_QT_AGENTSPAGE_H
 
 #include <QListWidget>
 
 #include "configurationpage.h"
 
-class ClasspathPage : public ConfigurationPage {
+class AgentsPage : public ConfigurationPage {
 Q_OBJECT
 public:
-    explicit ClasspathPage(QWidget* parent = nullptr);
+    explicit AgentsPage(QWidget* parent = nullptr);
 
     QString title() override;
     QIcon icon() override;
@@ -28,4 +28,4 @@ private:
 };
 
 
-#endif //LUNAR_CLIENT_QT_CLASSPATHPAGE_H
+#endif //LUNAR_CLIENT_QT_AGENTSPAGE_H

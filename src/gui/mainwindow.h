@@ -15,7 +15,7 @@
 #include "launch/launcher.h"
 #include "pages/configurationpage.h"
 #include "pages/generalpage.h"
-#include "pages/classpathpage.h"
+#include "pages/agentspage.h"
 
 class MainWindow : public QMainWindow {
 Q_OBJECT
@@ -38,7 +38,7 @@ private:
     QComboBox* versionSelect;
 
     GeneralPage* generalPage;
-    ClasspathPage* classpathPage;
+    AgentsPage* classpathPage;
 
     Launcher launcher;
 

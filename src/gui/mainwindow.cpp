@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     pageList->setIconSize(QSize(32, 32));
 
     generalPage = new GeneralPage();
-    classpathPage = new ClasspathPage();
+    classpathPage = new AgentsPage();
 
     GET_PAGES(pages);
 

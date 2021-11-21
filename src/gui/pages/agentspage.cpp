@@ -2,7 +2,7 @@
 // Created by nils on 11/20/21.
 //
 
-#include "classpathpage.h"
+#include "agentspage.h"
 
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -11,7 +11,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
-ClasspathPage::ClasspathPage(QWidget *parent) : ConfigurationPage(parent) {
+AgentsPage::AgentsPage(QWidget *parent) : ConfigurationPage(parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
     mainLayout->setSpacing(20);
 
@@ -73,14 +73,11 @@ ClasspathPage::ClasspathPage(QWidget *parent) : ConfigurationPage(parent) {
 
         QGridLayout* classPathContainer = new QGridLayout();
         classPathContainer->setSpacing(6);
-        QLabel* label = new QLabel("Agents");
-        label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        classPathContainer->addWidget(label, 0, 0, Qt::AlignHCenter);
-        classPathContainer->addWidget(agents, 1, 0, 5, 1);
-        classPathContainer->addWidget(add, 1, 1);
-        classPathContainer->addWidget(remove, 2, 1);
-        classPathContainer->addWidget(moveUp, 3, 1);
-        classPathContainer->addWidget(moveDown, 4, 1);
+        classPathContainer->addWidget(agents, 0, 0, 5, 1);
+        classPathContainer->addWidget(add, 0, 1);
+        classPathContainer->addWidget(remove, 1, 1);
+        classPathContainer->addWidget(moveUp, 2, 1);
+        classPathContainer->addWidget(moveDown, 3, 1);
 
         mainLayout->addLayout(classPathContainer);
     }
@@ -89,15 +86,15 @@ ClasspathPage::ClasspathPage(QWidget *parent) : ConfigurationPage(parent) {
 }
 
 
-QString ClasspathPage::title() {
-    return QStringLiteral("Classpath & Agents");
+QString AgentsPage::title() {
+    return QStringLiteral("Agents");
 }
 
-QIcon ClasspathPage::icon() {
+QIcon AgentsPage::icon() {
     return QIcon(":/res/icons/agent.svg");
 }
 
-void ClasspathPage::save(QJsonObject &jsonObject) {
+void AgentsPage::save(QJsonObject &jsonObject) {
     QJsonArray arr;
     for(const QString& str : getAgents())
         arr.append(str);
@@ -105,7 +102,7 @@ void ClasspathPage::save(QJsonObject &jsonObject) {
     jsonObject["agents"] = arr;
 }
 
-void ClasspathPage::load(const QJsonObject &jsonObject) {
+void AgentsPage::load(const QJsonObject &jsonObject) {
     QJsonArray arr = jsonObject["agents"].toArray();
 
     for(auto val : arr){
@@ -113,13 +110,13 @@ void ClasspathPage::load(const QJsonObject &jsonObject) {
     }
 }
 
-void ClasspathPage::addAgent(const QString& path) {
+void AgentsPage::addAgent(const QString& path) {
     auto item = new QListWidgetItem(QFileInfo(path).fileName(), agents);
     item->setToolTip(path);
     agents->setCurrentItem(item);
 }
 
-QStringList ClasspathPage::getAgents() {
+QStringList AgentsPage::getAgents() {
     QStringList list;
     for(int i = 0; i < agents->count(); ++i){
         list << agents->item(i)->toolTip();
