@@ -15,6 +15,7 @@ public:
         bool findLunarJre = true;
         QString customJre;
         QString jvmArgs;
+        QStringList agents;
         int initialMem = 4096;
         int maxMem = 4096;
         int windowWidth = 640;

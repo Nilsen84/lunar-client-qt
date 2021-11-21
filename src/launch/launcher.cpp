@@ -32,7 +32,6 @@ void Launcher::launch(bool offline, const LaunchData& launchData) {
              QString("-Xms%1m").arg(launchData.initialMem),
              QString("-Xmx%1m").arg(launchData.maxMem),
              "-Djava.library.path=natives",
-
              "-cp", QStringList({
                         "vpatcher-prod.jar",
                         "lunar-prod-optifine.jar",
@@ -43,6 +42,10 @@ void Launcher::launch(bool offline, const LaunchData& launchData) {
                         "OptiFine.jar"
             }).join(QDir::listSeparator())
         };
+
+        for(const QString& str : launchData.agents){
+            args << "-javaagent:" + str;
+        }
 
         args << QProcess::splitCommand(launchData.jvmArgs);
         args << "com.moonsworth.lunar.patcher.LunarMain";

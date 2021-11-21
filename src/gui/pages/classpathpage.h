@@ -19,6 +19,10 @@ public:
 
     void save(QJsonObject& jsonObject) override;
     void load(const QJsonObject& jsonObject) override;
+
+    QStringList getAgents();
+private:
+    void addAgent(const QString& path);
 private:
     QListWidget* agents;
 };

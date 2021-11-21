@@ -114,6 +114,7 @@ void MainWindow::launch(bool offline) {
         .findLunarJre = !generalPage->isUsingCustomJre(),
         .customJre = generalPage->isUsingCustomJre() ? generalPage->getJrePath() : QString(),
         .jvmArgs = generalPage->getJvmArgs(),
+        .agents = classpathPage->getAgents(),
         .initialMem = generalPage->getInitialMemory(),
         .maxMem = generalPage->getMaxMemory(),
         .windowWidth = generalPage->getWindowWidth(),

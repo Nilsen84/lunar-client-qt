@@ -8,7 +8,8 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QFileDialog>
-
+#include <QJsonArray>
+#include <QJsonObject>
 
 ClasspathPage::ClasspathPage(QWidget *parent) : ConfigurationPage(parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
@@ -40,9 +41,7 @@ ClasspathPage::ClasspathPage(QWidget *parent) : ConfigurationPage(parent) {
                     );
             for(const QString &str : files){
                 if(!str.isEmpty()){
-                    auto item = new QListWidgetItem(QFileInfo(str).fileName(), agents);
-                    item->setToolTip(str);
-                    agents->setCurrentItem(item);
+                    addAgent(str);
                 }
             }
 
@@ -99,9 +98,31 @@ QIcon ClasspathPage::icon() {
 }
 
 void ClasspathPage::save(QJsonObject &jsonObject) {
+    QJsonArray arr;
+    for(const QString& str : getAgents())
+        arr.append(str);
 
+    jsonObject["agents"] = arr;
 }
 
 void ClasspathPage::load(const QJsonObject &jsonObject) {
+    QJsonArray arr = jsonObject["agents"].toArray();
 
+    for(auto val : arr){
+        addAgent(val.toString());
+    }
+}
+
+void ClasspathPage::addAgent(const QString& path) {
+    auto item = new QListWidgetItem(QFileInfo(path).fileName(), agents);
+    item->setToolTip(path);
+    agents->setCurrentItem(item);
+}
+
+QStringList ClasspathPage::getAgents() {
+    QStringList list;
+    for(int i = 0; i < agents->count(); ++i){
+        list << agents->item(i)->toolTip();
+    }
+    return list;
 }
