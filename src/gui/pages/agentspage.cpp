@@ -106,7 +106,9 @@ void AgentsPage::load(const QJsonObject &jsonObject) {
     QJsonArray arr = jsonObject["agents"].toArray();
 
     for(auto val : arr){
-        addAgent(val.toString());
+        QString path = val.toString();
+        if(QFile::exists(path))
+            addAgent(path);
     }
 }
 
