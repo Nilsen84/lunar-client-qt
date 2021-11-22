@@ -35,9 +35,9 @@ AgentsPage::AgentsPage(QWidget *parent) : ConfigurationPage(parent) {
         connect(add, &QPushButton::clicked, [this](){
             QStringList files = QFileDialog::getOpenFileNames(
                     nullptr,
-                    "Open JAR",
+                    "Open Agent Jar",
                     {},
-                    "JAR Archives (*.jar)"
+                    "Java Agent (*.jar)"
                     );
             for(const QString &str : files){
                 if(!str.isEmpty()){
