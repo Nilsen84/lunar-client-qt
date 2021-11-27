@@ -101,7 +101,6 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     jvmArgsGroup->setSpacing(6);
 
     jvmArgs = new QPlainTextEdit();
-    jvmArgs->setFixedHeight(70);
 
     jvmArgsGroup->addWidget(new QLabel(QStringLiteral("JVM Arguments")), 0, Qt::AlignHCenter);
     jvmArgsGroup->addWidget(jvmArgs);
@@ -111,10 +110,7 @@ GeneralPage::GeneralPage(QWidget *parent) : ConfigurationPage(parent) {
     mainLayout->addLayout(memorySliderContainer);
     mainLayout->addLayout(windowResContainer);
     mainLayout->addLayout(customJreContainer);
-    mainLayout->addLayout(jvmArgsGroup);
-
-
-    mainLayout->addStretch(1);
+    mainLayout->addLayout(jvmArgsGroup, 1);
 
     setLayout(mainLayout);
 }
