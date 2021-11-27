@@ -67,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     launchOfflineButton->setMinimumHeight(35);
     connect(launchOfflineButton, &QPushButton::pressed, [this](){ launch(true);});
 
-    connect(&launcher, &Launcher::finished, this, &MainWindow::resetLaunchButtons);
+    connect(&launcher, &OfflineLauncher::finished, this, &MainWindow::resetLaunchButtons);
 
     resetLaunchButtons();
 
@@ -103,7 +103,7 @@ void MainWindow::launch(bool offline) {
         launchOfflineButton->setEnabled(false);
         launchOfflineButton->setText(launchingText);
     }
-    launcher.launch(offline, {
+    launcher.launch({
         .version = versionSelect->currentText(),
         .findLunarJre = !generalPage->isUsingCustomJre(),
         .customJre = generalPage->isUsingCustomJre() ? generalPage->getJrePath() : QString(),

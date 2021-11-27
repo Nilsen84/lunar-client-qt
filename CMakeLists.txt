@@ -17,12 +17,12 @@ set(SOURCE_FILES
         src/main.cpp
         src/gui/mainwindow.cpp
         src/gui/mainwindow.h
-        src/launch/launcher.cpp
-        src/launch/launcher.h
+        src/launch/offlinelauncher.cpp
+        src/launch/offlinelauncher.h
         src/gui/pages/generalpage.cpp
         src/gui/pages/generalpage.h
         src/gui/pages/configurationpage.h
-        src/gui/pages/configurationpage.cpp src/gui/pages/agentspage.cpp src/gui/pages/agentspage.h)
+        src/gui/pages/configurationpage.cpp src/gui/pages/agentspage.cpp src/gui/pages/agentspage.h src/launch/launcher.h src/launch/launcher.cpp)
 
 add_executable(lunar-client-qt ${SOURCE_FILES} ${LIB_SRC} res.qrc)
 target_link_libraries(lunar-client-qt

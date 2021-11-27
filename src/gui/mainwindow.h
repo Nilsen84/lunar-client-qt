@@ -12,7 +12,7 @@
 #include <QComboBox>
 #include <QStandardPaths>
 
-#include "launch/launcher.h"
+#include "launch/offlinelauncher.h"
 #include "pages/configurationpage.h"
 #include "pages/generalpage.h"
 #include "pages/agentspage.h"
@@ -40,7 +40,7 @@ private:
     GeneralPage* generalPage;
     AgentsPage* classpathPage;
 
-    Launcher launcher;
+    OfflineLauncher launcher;
 
     static inline const QString configLocation = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/lunar-client-qt/config.json";
 };

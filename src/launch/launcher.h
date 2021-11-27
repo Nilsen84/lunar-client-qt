@@ -1,5 +1,5 @@
 //
-// Created by nils on 11/4/21.
+// Created by nils on 11/27/21.
 //
 
 #ifndef LUNAR_CLIENT_QT_LAUNCHER_H
@@ -7,9 +7,11 @@
 
 #include <QObject>
 
-class Launcher : public QObject{
+class Launcher : public QObject {
 Q_OBJECT
 public:
+    explicit Launcher(QObject* parent);
+
     struct LaunchData{
         QString version = QStringLiteral("1.8");
         bool findLunarJre = true;
@@ -21,18 +23,8 @@ public:
         int windowWidth = 640;
         int windowHeight = 480;
     };
-    explicit Launcher(QObject* parent = nullptr);
 
-    void launch(bool offline, const LaunchData& launchData);
-
-signals:
-    void finished();
-private:
-    static QString findJavaExecutable();
-private:
-    const static QString lunarDir;
-    const static QString minecraftDir;
+    virtual void launch(const LaunchData& launchData) = 0;
 };
-
 
 #endif //LUNAR_CLIENT_QT_LAUNCHER_H
