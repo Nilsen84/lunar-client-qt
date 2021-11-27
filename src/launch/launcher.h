@@ -12,7 +12,7 @@ Q_OBJECT
 public:
     explicit Launcher(QObject* parent);
 
-    struct LaunchData{
+    struct LaunchOptions{
         QString version = QStringLiteral("1.8");
         bool findLunarJre = true;
         QString customJre;
@@ -24,7 +24,7 @@ public:
         int windowHeight = 480;
     };
 
-    virtual void launch(const LaunchData& launchData) = 0;
+    virtual void launch(const LaunchOptions& launchOptions) = 0;
 };
 
 #endif //LUNAR_CLIENT_QT_LAUNCHER_H

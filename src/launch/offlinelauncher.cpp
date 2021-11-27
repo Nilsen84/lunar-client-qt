@@ -15,9 +15,9 @@ OfflineLauncher::OfflineLauncher(QObject *parent) : Launcher(parent) {
 }
 
 
-void OfflineLauncher::launch(const LaunchData& launchData) {
+void OfflineLauncher::launch(const LaunchOptions& launchOptions) {
     QProcess process;
-    process.setProgram(launchData.findLunarJre ? findJavaExecutable() : launchData.customJre);
+    process.setProgram(launchOptions.findLunarJre ? findJavaExecutable() : launchOptions.customJre);
 
     process.setStandardInputFile(QProcess::nullDevice());
     process.setStandardOutputFile(QProcess::nullDevice());
@@ -28,8 +28,8 @@ void OfflineLauncher::launch(const LaunchData& launchData) {
          "--add-exports", "jdk.naming.dns/com.sun.jndi.dns=java.naming",
          "-Djna.boot.library.path=natives",
          "--add-opens", "java.base/java.io=ALL-UNNAMED",
-         QString("-Xms%1m").arg(launchData.initialMem),
-         QString("-Xmx%1m").arg(launchData.maxMem),
+         QString("-Xms%1m").arg(launchOptions.initialMem),
+         QString("-Xmx%1m").arg(launchOptions.maxMem),
          "-Djava.library.path=natives",
          "-cp", QStringList({
                     "vpatcher-prod.jar",
@@ -42,28 +42,28 @@ void OfflineLauncher::launch(const LaunchData& launchData) {
         }).join(QDir::listSeparator())
     };
 
-    for(const QString& str : launchData.agents){
+    for(const QString& str : launchOptions.agents){
         args << "-javaagent:" + str;
     }
 
-    args << QProcess::splitCommand(launchData.jvmArgs);
+    args << QProcess::splitCommand(launchOptions.jvmArgs);
     args << "com.moonsworth.lunar.patcher.LunarMain";
 
     args << QStringList{
             "com.moonsworth.lunar.patcher.LunarMain",
-            "--version", launchData.version,
+            "--version", launchOptions.version,
             "--accessToken", "0",
-            "--assetIndex", launchData.version == QStringLiteral("1.7") ? "1.7.10" : launchData.version,
+            "--assetIndex", launchOptions.version == QStringLiteral("1.7") ? "1.7.10" : launchOptions.version,
             "--userProperties", "{}",
             "--gameDir", minecraftDir,
             "--texturesDir", lunarDir + "/textures",
             "--launcherVersion", "2.8.8",
-            "--width", QString::number(launchData.windowWidth),
-            "--height", QString::number(launchData.windowHeight)
+            "--width", QString::number(launchOptions.windowWidth),
+            "--height", QString::number(launchOptions.windowHeight)
     };
 
     process.setArguments(args);
-    process.setWorkingDirectory(lunarDir+"/offline/"+launchData.version);
+    process.setWorkingDirectory(lunarDir + "/offline/" + launchOptions.version);
 
     process.startDetached();
 }

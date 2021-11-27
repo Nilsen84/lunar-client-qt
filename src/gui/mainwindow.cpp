@@ -61,13 +61,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 
     launchButton = new QPushButton();
     launchButton->setMinimumHeight(35);
-    connect(launchButton, &QPushButton::pressed, [this](){ launch(false);});
+    connect(launchButton, &QPushButton::pressed, this, &MainWindow::launchOnline);
 
     launchOfflineButton = new QPushButton();
     launchOfflineButton->setMinimumHeight(35);
-    connect(launchOfflineButton, &QPushButton::pressed, [this](){ launch(true);});
+    connect(launchOfflineButton, &QPushButton::pressed, this, &MainWindow::launchOffline);
 
-    connect(&launcher, &OfflineLauncher::finished, this, &MainWindow::resetLaunchButtons);
+    connect(&offlineLauncher, &OfflineLauncher::finished, this, &MainWindow::resetLaunchButtons);
 
     resetLaunchButtons();
 
@@ -94,25 +94,32 @@ void MainWindow::resetLaunchButtons() {
     launchOfflineButton->setText(QStringLiteral("Launch Offline"));
 }
 
-void MainWindow::launch(bool offline) {
-    if(!offline){
-        QString launchingText = QStringLiteral("Launching...");
-        launchButton->setEnabled(false);
-        launchButton->setText(launchingText);
+void MainWindow::launchOffline() {
+    launch(offlineLauncher);
+}
 
-        launchOfflineButton->setEnabled(false);
-        launchOfflineButton->setText(launchingText);
-    }
+void MainWindow::launchOnline() {
+    QString launchingText = QStringLiteral("Launching...");
+    launchButton->setEnabled(false);
+    launchButton->setText(launchingText);
+
+    launchOfflineButton->setEnabled(false);
+    launchOfflineButton->setText(launchingText);
+
+    launch(onlineLauncher);
+}
+
+void MainWindow::launch(Launcher& launcher){
     launcher.launch({
-        .version = versionSelect->currentText(),
-        .findLunarJre = !generalPage->isUsingCustomJre(),
-        .customJre = generalPage->isUsingCustomJre() ? generalPage->getJrePath() : QString(),
-        .jvmArgs = generalPage->getJvmArgs(),
-        .agents = classpathPage->getAgents(),
-        .initialMem = generalPage->getInitialMemory(),
-        .maxMem = generalPage->getMaxMemory(),
-        .windowWidth = generalPage->getWindowWidth(),
-        .windowHeight = generalPage->getWindowHeight(),
+       .version = versionSelect->currentText(),
+       .findLunarJre = !generalPage->isUsingCustomJre(),
+       .customJre = generalPage->isUsingCustomJre() ? generalPage->getJrePath() : QString(),
+       .jvmArgs = generalPage->getJvmArgs(),
+       .agents = classpathPage->getAgents(),
+       .initialMem = generalPage->getInitialMemory(),
+       .maxMem = generalPage->getMaxMemory(),
+       .windowWidth = generalPage->getWindowWidth(),
+       .windowHeight = generalPage->getWindowHeight(),
     });
 }
 

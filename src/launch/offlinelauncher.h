@@ -15,7 +15,7 @@ Q_OBJECT
 public:
     explicit OfflineLauncher(QObject* parent = nullptr);
 
-    void launch(const LaunchData& launchData) override;
+    void launch(const LaunchOptions& launchOptions) override;
 signals:
     void finished();
 private:
