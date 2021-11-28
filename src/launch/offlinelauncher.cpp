@@ -65,7 +65,9 @@ void OfflineLauncher::launch(const LaunchOptions& launchOptions) {
     process.setArguments(args);
     process.setWorkingDirectory(lunarDir + "/offline/" + launchOptions.version);
 
-    process.startDetached();
+    if(!process.startDetached()){
+        emit error("Failed to start process: " + process.errorString());
+    }
 }
 
 QString OfflineLauncher::findJavaExecutable() {

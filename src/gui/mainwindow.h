@@ -33,6 +33,7 @@ private:
 private slots:
     void resetLaunchButtons();
     void launchOffline();
+    void errorCallback(const QString& message);
 private:
     QListWidget* pageList;
     QStackedWidget* pageStack;

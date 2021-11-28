@@ -17,7 +17,7 @@ public:
 
     void launch(const LaunchOptions& launchOptions) override;
 signals:
-    void finished();
+    void error(const QString& message);
 private:
     static QString findJavaExecutable();
 private:

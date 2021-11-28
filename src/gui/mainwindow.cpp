@@ -14,6 +14,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QDir>
+#include <QMessageBox>
 
 #include "pages/configurationpage.h"
 #include "pages/generalpage.h"
@@ -63,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     launchOfflineButton->setMinimumHeight(45);
     connect(launchOfflineButton, &QPushButton::pressed, this, &MainWindow::launchOffline);
 
-    connect(&offlineLauncher, &OfflineLauncher::finished, this, &MainWindow::resetLaunchButtons);
+    connect(&offlineLauncher, &OfflineLauncher::error, this, &MainWindow::errorCallback);
 
     resetLaunchButtons();
 
@@ -152,4 +153,10 @@ void MainWindow::load() {
 void MainWindow::closeEvent(QCloseEvent* event) {
     save();
     event->accept();
+}
+
+void MainWindow::errorCallback(const QString &message) {
+    QMessageBox messageBox;
+    messageBox.setText(message);
+    messageBox.exec();
 }
