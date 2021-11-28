@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
 project(lunar-client-qt)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -23,7 +25,11 @@ set(SOURCE_FILES
         src/gui/pages/generalpage.cpp
         src/gui/pages/generalpage.h
         src/gui/pages/configurationpage.h
-        src/gui/pages/configurationpage.cpp src/gui/pages/agentspage.cpp src/gui/pages/agentspage.h src/launch/launcher.h src/launch/launcher.cpp)
+        src/gui/pages/configurationpage.cpp
+        src/gui/pages/agentspage.cpp
+        src/gui/pages/agentspage.h
+        src/launch/launcher.h
+        src/launch/launcher.cpp)
 
 add_executable(lunar-client-qt ${SOURCE_FILES} ${LIB_SRC} res.qrc)
 target_link_libraries(lunar-client-qt

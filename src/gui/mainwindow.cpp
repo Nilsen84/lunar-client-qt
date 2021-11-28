@@ -91,15 +91,15 @@ void MainWindow::launchOffline() {
 
 void MainWindow::launch(Launcher& launcher){
     launcher.launch({
-       .version = versionSelect->currentText(),
-       .findLunarJre = !generalPage->isUsingCustomJre(),
-       .customJre = generalPage->isUsingCustomJre() ? generalPage->getJrePath() : QString(),
-       .jvmArgs = generalPage->getJvmArgs(),
-       .agents = agentsPage->getAgents(),
-       .initialMem = generalPage->getInitialMemory(),
-       .maxMem = generalPage->getMaxMemory(),
-       .windowWidth = generalPage->getWindowWidth(),
-       .windowHeight = generalPage->getWindowHeight(),
+       versionSelect->currentText(),
+       !generalPage->isUsingCustomJre(),
+       generalPage->isUsingCustomJre() ? generalPage->getJrePath() : QString(),
+       generalPage->getJvmArgs(),
+       agentsPage->getAgents(),
+       generalPage->getInitialMemory(),
+       generalPage->getMaxMemory(),
+       generalPage->getWindowWidth(),
+       generalPage->getWindowHeight(),
     });
 }
 
