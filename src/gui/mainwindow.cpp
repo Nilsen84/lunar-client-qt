@@ -23,7 +23,7 @@
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
-    setWindowTitle("Lunar Client Qt");
+    setWindowTitle(QStringLiteral("Lunar Client Qt"));
     QWidget* centralWidget = new QWidget();
 
     QGridLayout* mainLayout = new QGridLayout();
@@ -132,7 +132,7 @@ void MainWindow::save() {
 }
 
 
-void MainWindow::load() {;
+void MainWindow::load() {
     QFile configFile(configLocation);
     configFile.open(QIODevice::ReadOnly | QIODevice::Text);
 

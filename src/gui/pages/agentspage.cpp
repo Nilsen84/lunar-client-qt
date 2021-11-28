@@ -26,17 +26,17 @@ AgentsPage::AgentsPage(QWidget *parent) : ConfigurationPage(parent) {
     palette.setColor(QPalette::Disabled, QPalette::Text, Qt::blue);
     agents->setPalette(palette);
 
-    QPushButton* add = new QPushButton("Add");
-    QPushButton* remove = new QPushButton("Remove");
-    QPushButton* moveUp = new QPushButton("Move Up");
-    QPushButton* moveDown = new QPushButton("Move Down");
+    QPushButton* add = new QPushButton(QStringLiteral("Add"));
+    QPushButton* remove = new QPushButton(QStringLiteral("Remove"));
+    QPushButton* moveUp = new QPushButton(QStringLiteral("Move Up"));
+    QPushButton* moveDown = new QPushButton(QStringLiteral("Move Down"));
 
     connect(add, &QPushButton::clicked, [this](){
         QStringList files = QFileDialog::getOpenFileNames(
                 nullptr,
-                "Open Agent Jar",
+                QStringLiteral("Open Agent Jar"),
                 {},
-                "Java Agent (*.jar)"
+                QStringLiteral("Java Agent (*.jar)")
                 );
         for(const QString &str : files){
             if(!str.isEmpty()){
