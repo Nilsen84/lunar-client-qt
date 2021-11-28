@@ -40,7 +40,7 @@ private:
     QComboBox* versionSelect;
 
     GeneralPage* generalPage;
-    AgentsPage* classpathPage;
+    AgentsPage* agentsPage;
 
     OfflineLauncher offlineLauncher;
 

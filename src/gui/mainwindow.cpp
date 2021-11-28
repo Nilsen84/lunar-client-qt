@@ -19,7 +19,7 @@
 #include "pages/generalpage.h"
 
 #define GET_PAGES(name) ConfigurationPage* name[] = \
-{generalPage, classpathPage}
+{generalPage, agentsPage}
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     pageList->setIconSize(QSize(32, 32));
 
     generalPage = new GeneralPage();
-    classpathPage = new AgentsPage();
+    agentsPage = new AgentsPage();
 
     GET_PAGES(pages);
 
@@ -95,7 +95,7 @@ void MainWindow::launch(Launcher& launcher){
        .findLunarJre = !generalPage->isUsingCustomJre(),
        .customJre = generalPage->isUsingCustomJre() ? generalPage->getJrePath() : QString(),
        .jvmArgs = generalPage->getJvmArgs(),
-       .agents = classpathPage->getAgents(),
+       .agents = agentsPage->getAgents(),
        .initialMem = generalPage->getInitialMemory(),
        .maxMem = generalPage->getMaxMemory(),
        .windowWidth = generalPage->getWindowWidth(),
