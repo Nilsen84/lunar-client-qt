@@ -13,7 +13,6 @@
 #include <QStandardPaths>
 
 #include "launch/offlinelauncher.h"
-#include "launch/onlinelauncher.h"
 #include "launch/launcher.h"
 #include "pages/configurationpage.h"
 #include "pages/generalpage.h"
@@ -34,11 +33,9 @@ private:
 private slots:
     void resetLaunchButtons();
     void launchOffline();
-    void launchOnline();
 private:
     QListWidget* pageList;
     QStackedWidget* pageStack;
-    QPushButton* launchButton;
     QPushButton* launchOfflineButton;
     QComboBox* versionSelect;
 
@@ -46,7 +43,6 @@ private:
     AgentsPage* classpathPage;
 
     OfflineLauncher offlineLauncher;
-    OnlineLauncher onlineLauncher;
 
     static inline const QString configLocation = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/lunar-client-qt/config.json";
 };

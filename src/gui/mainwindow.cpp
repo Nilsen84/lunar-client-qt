@@ -59,12 +59,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     versionSelect->addItems({"1.7", "1.8", "1.12", "1.16", "1.17"});
     versionSelect->setCurrentIndex(1);
 
-    launchButton = new QPushButton();
-    launchButton->setMinimumHeight(35);
-    connect(launchButton, &QPushButton::pressed, this, &MainWindow::launchOnline);
-
     launchOfflineButton = new QPushButton();
-    launchOfflineButton->setMinimumHeight(35);
+    launchOfflineButton->setMinimumHeight(45);
     connect(launchOfflineButton, &QPushButton::pressed, this, &MainWindow::launchOffline);
 
     connect(&offlineLauncher, &OfflineLauncher::finished, this, &MainWindow::resetLaunchButtons);
@@ -74,39 +70,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     mainLayout->addWidget(pageList);
     mainLayout->addWidget(versionSelect, 1, 0);
     mainLayout->addWidget(launchOfflineButton, 2, 0);
-    mainLayout->addWidget(launchButton, 3, 0);
     mainLayout->addWidget(pageStack, 0, 3, -1, 1);
 
     centralWidget->setLayout(mainLayout);
 
     setCentralWidget(centralWidget);
     resize(800, 600);
-    statusBar()->showMessage(QStringLiteral("Ready!"));
 
     load();
 }
 
 void MainWindow::resetLaunchButtons() {
-    launchButton->setEnabled(true);
-    launchButton->setText(QStringLiteral("Launch"));
-
     launchOfflineButton->setEnabled(true);
-    launchOfflineButton->setText(QStringLiteral("Launch Offline"));
+    launchOfflineButton->setText(QStringLiteral("Launch"));
 }
 
 void MainWindow::launchOffline() {
     launch(offlineLauncher);
-}
-
-void MainWindow::launchOnline() {
-    QString launchingText = QStringLiteral("Launching...");
-    launchButton->setEnabled(false);
-    launchButton->setText(launchingText);
-
-    launchOfflineButton->setEnabled(false);
-    launchOfflineButton->setText(launchingText);
-
-    launch(onlineLauncher);
 }
 
 void MainWindow::launch(Launcher& launcher){
