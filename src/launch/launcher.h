@@ -18,6 +18,7 @@ struct LaunchOptions{
         QString customJre;
         QString jvmArgs;
         QStringList agents;
+        bool cosmetics = true;
         int initialMem = 4096;
         int maxMem = 4096;
         int windowWidth = 640;

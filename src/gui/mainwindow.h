@@ -27,16 +27,18 @@ private:
     void load();
     void save();
 
-    void launch(Launcher& launcher);
+    void launch(Launcher& launcher, bool cosmetics = true);
 
     void closeEvent(QCloseEvent* closeEvent) override;
 private slots:
     void resetLaunchButtons();
     void launchOffline();
+    void launchNoCosmetics();
     void errorCallback(const QString& message);
 private:
     QListWidget* pageList;
     QStackedWidget* pageStack;
+    QPushButton* launchNoCosmeticsButton;
     QPushButton* launchOfflineButton;
     QComboBox* versionSelect;
 

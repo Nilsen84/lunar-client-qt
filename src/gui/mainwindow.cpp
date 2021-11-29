@@ -62,6 +62,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     versionSelect->addItems({"1.7", "1.8", "1.12", "1.16", "1.17"});
     versionSelect->setCurrentIndex(1);
 
+    launchNoCosmeticsButton = new QPushButton();
+    launchNoCosmeticsButton->setMinimumHeight(45);
+    connect(launchNoCosmeticsButton, &QPushButton::pressed, this, &MainWindow::launchNoCosmetics);
+
     launchOfflineButton = new QPushButton();
     launchOfflineButton->setMinimumHeight(45);
     connect(launchOfflineButton, &QPushButton::pressed, this, &MainWindow::launchOffline);
@@ -72,7 +76,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 
     mainLayout->addWidget(pageList);
     mainLayout->addWidget(versionSelect, 1, 0);
-    mainLayout->addWidget(launchOfflineButton, 2, 0);
+    mainLayout->addWidget(launchNoCosmeticsButton, 2, 0);
+    mainLayout->addWidget(launchOfflineButton, 3, 0);
     mainLayout->addWidget(pageStack, 0, 3, -1, 1);
 
     centralWidget->setLayout(mainLayout);
@@ -86,23 +91,28 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 void MainWindow::resetLaunchButtons() {
     launchOfflineButton->setEnabled(true);
     launchOfflineButton->setText(QStringLiteral("Launch"));
+
+    launchNoCosmeticsButton->setEnabled(true);
+    launchNoCosmeticsButton->setText(QStringLiteral("Launch without \ncosmetics"));
 }
+
+void MainWindow::launchNoCosmetics() {
+    launch(offlineLauncher, false);
+}
+
 
 void MainWindow::launchOffline() {
     launch(offlineLauncher);
 }
 
-struct amogus{
-    int x, y, z;
-};
-
-void MainWindow::launch(Launcher& launcher){
+void MainWindow::launch(Launcher& launcher, bool cosmetics){
     launcher.launch(Launcher::LaunchOptions{
        versionSelect->currentText(),
        !generalPage->isUsingCustomJre(),
        generalPage->isUsingCustomJre() ? generalPage->getJrePath() : QString(),
        generalPage->getJvmArgs(),
        agentsPage->getAgents(),
+       cosmetics,
        generalPage->getInitialMemory(),
        generalPage->getMaxMemory(),
        generalPage->getWindowWidth(),

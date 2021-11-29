@@ -64,11 +64,14 @@ void OfflineLauncher::launch(const LaunchOptions& launchOptions) {
             "--assetIndex", launchOptions.version == QStringLiteral("1.7") ? "1.7.10" : launchOptions.version,
             "--userProperties", "{}",
             "--gameDir", minecraftDir,
-            "--texturesDir", lunarDir + "/textures",
             "--launcherVersion", "2.8.8",
             "--width", QString::number(launchOptions.windowWidth),
             "--height", QString::number(launchOptions.windowHeight)
     };
+
+    if(launchOptions.cosmetics)
+        args << "--texturesDir" << lunarDir + "/textures";
+
 
     process.setArguments(args);
     process.setWorkingDirectory(lunarDir + "/offline/" + launchOptions.version);
