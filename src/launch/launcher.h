@@ -12,7 +12,7 @@ Q_OBJECT
 public:
     explicit Launcher(QObject* parent);
 
-    struct LaunchOptions{
+struct LaunchOptions{
         QString version = QStringLiteral("1.8");
         bool findLunarJre = true;
         QString customJre;

@@ -45,7 +45,7 @@ private:
 
     OfflineLauncher offlineLauncher;
 
-    static inline const QString configLocation = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/lunar-client-qt/config.json";
+    static const QString configLocation;
 };
 
 

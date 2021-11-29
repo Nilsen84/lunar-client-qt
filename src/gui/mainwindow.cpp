@@ -18,10 +18,12 @@
 
 #include "pages/configurationpage.h"
 #include "pages/generalpage.h"
+#include "launch/launcher.h"
 
 #define GET_PAGES(name) ConfigurationPage* name[] = \
 {generalPage, agentsPage}
 
+const QString MainWindow::configLocation = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/lunar-client-qt/config.json";
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     setWindowTitle(QStringLiteral("Lunar Client Qt"));
@@ -90,8 +92,12 @@ void MainWindow::launchOffline() {
     launch(offlineLauncher);
 }
 
+struct amogus{
+    int x, y, z;
+};
+
 void MainWindow::launch(Launcher& launcher){
-    launcher.launch({
+    launcher.launch(Launcher::LaunchOptions{
        versionSelect->currentText(),
        !generalPage->isUsingCustomJre(),
        generalPage->isUsingCustomJre() ? generalPage->getJrePath() : QString(),

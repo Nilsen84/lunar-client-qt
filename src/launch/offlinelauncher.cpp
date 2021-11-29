@@ -7,9 +7,17 @@
 #include <QProcess>
 #include <QDir>
 #include <QDirIterator>
+#include <QStandardPaths>
 
 const QString OfflineLauncher::lunarDir = QDir::homePath() + "/.lunarclient";
-const QString OfflineLauncher::minecraftDir = QDir::homePath() + "/.minecraft";
+const QString OfflineLauncher::minecraftDir =
+#if defined(Q_OS_WIN)
+        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/.minecraft";
+#elif defined(Q_OS_DARWIN)
+        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/minecraft";
+#else
+        QDir::homePath() + "/.minecraft";
+#endif
 
 OfflineLauncher::OfflineLauncher(QObject *parent) : Launcher(parent) {
 }
