@@ -20,3 +20,8 @@ cmake ..
 make
 ```
 
+**NOTE**  
+If you're on mac, you wanna start off by installing qt using brew: ```brew install qt@5```  
+You also want to replace the ```cmake ..``` command with ```cmake -DCMAKE_PREFIX_PATH=/usr/local/opt/qt5/ ..```  
+Besides that follow the same instructions above.
+
