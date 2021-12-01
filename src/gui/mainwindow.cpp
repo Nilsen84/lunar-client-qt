@@ -126,6 +126,7 @@ void MainWindow::save() {
     GET_PAGES(pages);
 
     for(auto page : pages){
+
         QJsonObject pageObj;
         page->save(pageObj);
         saveObj[page->title()] = pageObj;
