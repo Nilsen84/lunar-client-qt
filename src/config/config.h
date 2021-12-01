@@ -11,7 +11,7 @@
 
 class Config {
 public:
-    int gameVersion;
+    QString gameVersion;
 
 
     bool keepMemorySame;

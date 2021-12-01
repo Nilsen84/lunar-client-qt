@@ -8,6 +8,8 @@
 #include <QWidget>
 #include <QString>
 #include <QIcon>
+#include "config/config.h"
+
 
 class ConfigurationPage : public QWidget{
 Q_OBJECT
@@ -16,11 +18,13 @@ public:
 
     virtual QIcon icon() = 0;
 
-    virtual void save(QJsonObject& jsonObject) = 0;
-    virtual void load(const QJsonObject& jsonObject) = 0;
+    virtual void apply() = 0;
+    virtual void load() = 0;
 
 protected:
-    explicit ConfigurationPage(QWidget* parent);
+    explicit ConfigurationPage(Config& config, QWidget* parent);
+
+    Config& config;
 };
 
 

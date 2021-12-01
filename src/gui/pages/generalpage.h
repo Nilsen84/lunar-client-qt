@@ -16,25 +16,15 @@
 class GeneralPage : public ConfigurationPage{
 Q_OBJECT
 public:
-    explicit GeneralPage(QWidget* parent = nullptr);
+    explicit GeneralPage(Config& config, QWidget* parent = nullptr);
 
     QString title() override;
 
     QIcon icon() override;
 
-    void save(QJsonObject& jsonObject) override;
-    void load(const QJsonObject& jsonObject) override;
+    void apply() override;
+    void load() override;
 
-    int getInitialMemory();
-    int getMaxMemory();
-
-    int getWindowWidth();
-    int getWindowHeight();
-
-    QString getJrePath();
-    bool isUsingCustomJre();
-
-    QString getJvmArgs();
 private slots:
     void keepMinMaxSameChanged(bool checked);
 private:

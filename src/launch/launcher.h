@@ -6,26 +6,17 @@
 #define LUNAR_CLIENT_QT_LAUNCHER_H
 
 #include <QObject>
+#include "config/config.h"
 
 class Launcher : public QObject {
 Q_OBJECT
 public:
-    explicit Launcher(QObject* parent);
+    explicit Launcher(const Config& config, QObject* parent);
 
-struct LaunchOptions{
-        QString version = QStringLiteral("1.8");
-        bool findLunarJre = true;
-        QString customJre;
-        QString jvmArgs;
-        QStringList agents;
-        bool cosmetics = true;
-        int initialMem = 4096;
-        int maxMem = 4096;
-        int windowWidth = 640;
-        int windowHeight = 480;
-    };
+    virtual void launch(bool cosmetics) = 0;
 
-    virtual void launch(const LaunchOptions& launchOptions) = 0;
+protected:
+    const Config& config;
 };
 
 #endif //LUNAR_CLIENT_QT_LAUNCHER_H

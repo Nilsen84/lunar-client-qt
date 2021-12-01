@@ -4,5 +4,5 @@
 
 #include "launcher.h"
 
-Launcher::Launcher(QObject *parent) : QObject(parent) {
+Launcher::Launcher(const Config& config, QObject *parent) : config(config), QObject(parent) {
 }

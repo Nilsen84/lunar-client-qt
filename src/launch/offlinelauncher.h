@@ -13,9 +13,9 @@
 class OfflineLauncher : public Launcher{
 Q_OBJECT
 public:
-    explicit OfflineLauncher(QObject* parent = nullptr);
+    explicit OfflineLauncher(const Config& config, QObject* parent = nullptr);
 
-    void launch(const LaunchOptions& launchOptions) override;
+    void launch(bool cosmetics) override;
 signals:
     void error(const QString& message);
 private:

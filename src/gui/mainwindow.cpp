@@ -10,22 +10,14 @@
 #include <QStatusBar>
 #include <QScrollArea>
 #include <QStandardPaths>
-#include <QFile>
 #include <QJsonDocument>
-#include <QJsonObject>
-#include <QDir>
 #include <QMessageBox>
 
 #include "pages/configurationpage.h"
 #include "pages/generalpage.h"
 #include "launch/launcher.h"
 
-#define GET_PAGES(name) ConfigurationPage* name[] = \
-{generalPage, agentsPage}
-
-const QString MainWindow::configLocation = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/lunar-client-qt/config.json";
-
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::load()), offlineLauncher(config){
     setWindowTitle(QStringLiteral("Lunar Client Qt"));
     QWidget* centralWidget = new QWidget();
 
@@ -38,12 +30,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 
     pageList->setIconSize(QSize(32, 32));
 
-    generalPage = new GeneralPage();
-    agentsPage = new AgentsPage();
+    pages = {
+        new GeneralPage(config),
+        new AgentsPage(config)
+    };
 
-    GET_PAGES(pages);
-
-    for(ConfigurationPage* page : pages){
+    foreach(ConfigurationPage* page, pages){
         new QListWidgetItem(page->icon(), page->title(), pageList);
         pageStack->addWidget(page);
     }
@@ -58,9 +50,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     font.setPointSize(11);
     pageList->setFont(font);
 
+    versions = {"1.7", "1.8", "1.12", "1.16", "1.17"};
+
     versionSelect = new QComboBox();
-    versionSelect->addItems({"1.7", "1.8", "1.12", "1.16", "1.17"});
-    versionSelect->setCurrentIndex(1);
+
+    foreach(const QString& version, versions){
+        versionSelect->addItem(version);
+    }
 
     launchNoCosmeticsButton = new QPushButton();
     launchNoCosmeticsButton->setMinimumHeight(45);
@@ -102,75 +98,38 @@ void MainWindow::launchNoCosmetics() {
 
 
 void MainWindow::launchOffline() {
-    launch(offlineLauncher);
+    launch(offlineLauncher, true);
 }
 
 void MainWindow::launch(Launcher& launcher, bool cosmetics){
-    launcher.launch(Launcher::LaunchOptions{
-       versionSelect->currentText(),
-       !generalPage->isUsingCustomJre(),
-       generalPage->isUsingCustomJre() ? generalPage->getJrePath() : QString(),
-       generalPage->getJvmArgs(),
-       agentsPage->getAgents(),
-       cosmetics,
-       generalPage->getInitialMemory(),
-       generalPage->getMaxMemory(),
-       generalPage->getWindowWidth(),
-       generalPage->getWindowHeight(),
-    });
-}
-
-void MainWindow::save() {
-    QJsonObject saveObj;
-
-    GET_PAGES(pages);
-
-    for(auto page : pages){
-
-        QJsonObject pageObj;
-        page->save(pageObj);
-        saveObj[page->title()] = pageObj;
-    }
-
-    saveObj["version"] = versionSelect->currentIndex();
-
-    QString path = QFileInfo(configLocation).absolutePath();
-    QDir dir;
-    if(!dir.exists(path)){
-        dir.mkdir(path);
-    }
-
-    QFile configFile(configLocation);
-
-    configFile.open(QIODevice::WriteOnly);
-
-    configFile.write(QJsonDocument(saveObj).toJson());
-
-    configFile.close();
-}
-
-
-void MainWindow::load() {
-    QFile configFile(configLocation);
-    configFile.open(QIODevice::ReadOnly | QIODevice::Text);
-
-    QJsonObject jsonObj = QJsonDocument::fromJson(configFile.readAll()).object();
-
-    configFile.close();
-
-    GET_PAGES(pages);
-
-    for(auto page : pages){
-        page->load(jsonObj[page->title()].toObject());
-    }
-
-    versionSelect->setCurrentIndex(jsonObj["version"].toInt(1));
+    apply();
+    launcher.launch(cosmetics);
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
-    save();
+    apply();
+    config.save();
     event->accept();
 }
+
+void MainWindow::apply() {
+    foreach(ConfigurationPage* page, pages){
+        page->apply();
+    }
+    config.gameVersion = versionSelect->currentText();
+}
+
+void MainWindow::load() {
+    foreach(ConfigurationPage* page, pages){
+        page->load();
+    }
+    if(versions.contains(config.gameVersion)){
+        versionSelect->setCurrentText(config.gameVersion);
+    }else{
+        versionSelect->setCurrentIndex(1);
+    }
+}
+
 
 void MainWindow::errorCallback(const QString &message) {
     QMessageBox messageBox;

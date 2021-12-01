@@ -4,5 +4,5 @@
 
 #include "configurationpage.h"
 
-ConfigurationPage::ConfigurationPage(QWidget *parent) : QWidget(parent){
+ConfigurationPage::ConfigurationPage(Config& config, QWidget *parent) : config(config), QWidget(parent){
 }

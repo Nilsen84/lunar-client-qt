@@ -11,7 +11,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
-AgentsPage::AgentsPage(QWidget *parent) : ConfigurationPage(parent) {
+AgentsPage::AgentsPage(Config& config, QWidget *parent) : ConfigurationPage(config, parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
     mainLayout->setSpacing(20);
 
@@ -93,21 +93,15 @@ QIcon AgentsPage::icon() {
     return QIcon(":/res/icons/agent.svg");
 }
 
-void AgentsPage::save(QJsonObject &jsonObject) {
-    QJsonArray arr;
-    for(const QString& str : getAgents())
-        arr.append(str);
-
-    jsonObject["agents"] = arr;
+void AgentsPage::apply() {
+    config.agents = getAgents();
 }
 
-void AgentsPage::load(const QJsonObject &jsonObject) {
-    QJsonArray arr = jsonObject["agents"].toArray();
-
-    for(auto val : arr){
-        QString path = val.toString();
-        if(QFile::exists(path))
+void AgentsPage::load() {
+    foreach(const QString &path, config.agents) {
+        if (QFile::exists(path)) {
             addAgent(path);
+        }
     }
 }
 

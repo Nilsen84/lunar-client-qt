@@ -17,6 +17,7 @@
 #include "pages/configurationpage.h"
 #include "pages/generalpage.h"
 #include "pages/agentspage.h"
+#include "config/config.h"
 
 class MainWindow : public QMainWindow {
 Q_OBJECT
@@ -24,12 +25,10 @@ public:
     explicit MainWindow(QWidget* parent = nullptr);
 
 private:
-    void load();
-    void save();
-
-    void launch(Launcher& launcher, bool cosmetics = true);
-
+    void launch(Launcher& launcher, bool cosmetics);
     void closeEvent(QCloseEvent* closeEvent) override;
+    void apply();
+    void load();
 private slots:
     void resetLaunchButtons();
     void launchOffline();
@@ -42,12 +41,12 @@ private:
     QPushButton* launchOfflineButton;
     QComboBox* versionSelect;
 
-    GeneralPage* generalPage;
-    AgentsPage* agentsPage;
+    QList<ConfigurationPage*> pages;
+    QList<QString> versions;
 
     OfflineLauncher offlineLauncher;
 
-    static const QString configLocation;
+    Config config;
 };
 
 

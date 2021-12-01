@@ -12,17 +12,17 @@
 class AgentsPage : public ConfigurationPage {
 Q_OBJECT
 public:
-    explicit AgentsPage(QWidget* parent = nullptr);
+    explicit AgentsPage(Config& config, QWidget* parent = nullptr);
 
     QString title() override;
     QIcon icon() override;
 
-    void save(QJsonObject& jsonObject) override;
-    void load(const QJsonObject& jsonObject) override;
-
-    QStringList getAgents();
+    void apply() override;
+    void load() override;
 private:
     void addAgent(const QString& path, bool select = false);
+
+    QStringList getAgents();
 private:
     QListWidget* agents;
 };

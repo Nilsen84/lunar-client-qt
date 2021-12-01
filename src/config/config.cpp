@@ -56,7 +56,7 @@ Config Config::load() {
     }
 
     return {
-        jsonObj["version"].toInt(1),
+        jsonObj["version"].toString("1.8"),
         jsonObj["keepMemorySame"].toBool(true),
         jsonObj["initialMemory"].toInt(4096),
         jsonObj["maxMemory"].toInt(4096),
