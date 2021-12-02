@@ -15,6 +15,7 @@
 
 #include "pages/configurationpage.h"
 #include "pages/generalpage.h"
+#include "pages/minecraftpage.h"
 #include "launch/launcher.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::load()), offlineLauncher(config){
@@ -32,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
 
     pages = {
         new GeneralPage(config),
+        new MinecraftPage(config),
         new AgentsPage(config)
     };
 
