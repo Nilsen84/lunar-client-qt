@@ -8,7 +8,7 @@
 
 FileChooser::FileChooser(FileType type, QWidget *parent) : QWidget(parent){
     QHBoxLayout* layout = new QHBoxLayout(this);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     pathEdit = new QLineEdit();
     QPushButton* button = new QPushButton();
