@@ -12,6 +12,8 @@
 #include <QGroupBox>
 #include <QRadioButton>
 
+#include "gui/widgets/filechooser.h"
+
 GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(config, parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
     mainLayout->setSpacing(40);
@@ -49,29 +51,16 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
     //Custom jre checkbox lineedit and button
     useCustomJre = new QCheckBox(QStringLiteral("Use custom jre"));
 
-    jreLine = new QLineEdit();
-    QPushButton* openFile = new QPushButton();
-    openFile->setIcon(QIcon(":/res/icons/openfolder.svg"));
+    jrePath = new FileChooser();
+    jrePath->setDisabled(true);
 
-    jreLine->setDisabled(true);
-    openFile->setDisabled(true);
-
-    connect(useCustomJre, &QCheckBox::toggled, jreLine, &QLineEdit::setEnabled);
-    connect(useCustomJre, &QCheckBox::toggled, openFile, &QPushButton::setEnabled);
-    connect(jreLine, &QLineEdit::returnPressed, [this](){jreLine->clearFocus();});
-
-    connect(openFile, &QPushButton::clicked, [this](){
-        QString fileName = QFileDialog::getOpenFileName();
-        if(!fileName.isNull())
-            jreLine->setText(fileName);
-    });
+    connect(useCustomJre, &QCheckBox::toggled, jrePath, &QLineEdit::setEnabled);
 
     //Custom jre groups
-    QGridLayout* customJreContainer = new QGridLayout();
+    QVBoxLayout* customJreContainer = new QVBoxLayout();
     customJreContainer->setSpacing(6);
-    customJreContainer->addWidget(useCustomJre, 0, 0, 1, -1, Qt::AlignHCenter);
-    customJreContainer->addWidget(jreLine, 1, 0);
-    customJreContainer->addWidget(openFile, 1, 1);
+    customJreContainer->addWidget(useCustomJre, 0, Qt::AlignHCenter);
+    customJreContainer->addWidget(jrePath);
 
     //Jvm arguments
     QVBoxLayout* jvmArgsGroup = new QVBoxLayout();
@@ -120,7 +109,7 @@ void GeneralPage::apply() {
     config.maximumMemory = maxMemory->value();
 
     config.useCustomJre = useCustomJre->isChecked();
-    config.customJrePath = jreLine->text();
+    config.customJrePath = jrePath->getPath();
 
     config.jvmArgs = jvmArgs->toPlainText();
 }
@@ -132,7 +121,7 @@ void GeneralPage::load() {
     maxMemory->setValue(config.maximumMemory);
 
     useCustomJre->setChecked(config.useCustomJre);
-    jreLine->setText(config.customJrePath);
+    jrePath->setPath(config.customJrePath);
 
     jvmArgs->setPlainText(config.jvmArgs);
 }

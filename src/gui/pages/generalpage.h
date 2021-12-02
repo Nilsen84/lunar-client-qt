@@ -12,6 +12,7 @@
 #include <QPlainTextEdit>
 
 #include "configurationpage.h"
+#include "gui/widgets/filechooser.h"
 
 class GeneralPage : public ConfigurationPage{
 Q_OBJECT
@@ -33,7 +34,7 @@ private:
     QSlider* maxMemory;
 
     QCheckBox* useCustomJre;
-    QLineEdit* jreLine;
+    FileChooser* jrePath;
 
     QPlainTextEdit* jvmArgs;
 };
