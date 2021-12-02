@@ -9,6 +9,8 @@
 #include <QCheckBox>
 #include <QPushButton>
 #include <QFileDialog>
+#include <QGroupBox>
+#include <QRadioButton>
 
 GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(config, parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
@@ -98,12 +100,27 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
     jvmArgsGroup->addWidget(new QLabel(QStringLiteral("JVM Arguments")), 0, Qt::AlignHCenter);
     jvmArgsGroup->addWidget(jvmArgs);
 
+    //Checkboxes
+    QGroupBox* groupBox = new QGroupBox(QStringLiteral("After Launch"));
+
+    QRadioButton* stayOpen = new QRadioButton(QStringLiteral("Keep launcher open"));
+    QRadioButton* close = new QRadioButton(QStringLiteral("Close launcher"));
+    stayOpen->setChecked(true);
+
+    QVBoxLayout* radioLayout = new QVBoxLayout();
+    radioLayout->setSpacing(6);
+    radioLayout->addWidget(stayOpen);
+    radioLayout->addWidget(close);
+    groupBox->setLayout(radioLayout);
+
 
     mainLayout->addWidget(keepMemorySame, 0, Qt::AlignHCenter);
     mainLayout->addLayout(memorySliderContainer);
     mainLayout->addLayout(windowResContainer);
     mainLayout->addLayout(customJreContainer);
     mainLayout->addLayout(jvmArgsGroup, 1);
+    mainLayout->addWidget(groupBox);
+
 
     setLayout(mainLayout);
 }
