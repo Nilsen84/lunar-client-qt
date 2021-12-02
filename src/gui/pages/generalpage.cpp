@@ -75,13 +75,13 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
     QGroupBox* groupBox = new QGroupBox(QStringLiteral("After Launch"));
 
     QRadioButton* stayOpen = new QRadioButton(QStringLiteral("Keep launcher open"));
-    QRadioButton* close = new QRadioButton(QStringLiteral("Close launcher"));
+    closeOnLaunch = new QRadioButton(QStringLiteral("Close launcher"));
     stayOpen->setChecked(true);
 
     QVBoxLayout* radioLayout = new QVBoxLayout();
     radioLayout->setSpacing(6);
     radioLayout->addWidget(stayOpen);
-    radioLayout->addWidget(close);
+    radioLayout->addWidget(closeOnLaunch);
     groupBox->setLayout(radioLayout);
 
 
@@ -112,6 +112,8 @@ void GeneralPage::apply() {
     config.customJrePath = jrePath->getPath();
 
     config.jvmArgs = jvmArgs->toPlainText();
+
+    config.closeOnLaunch = closeOnLaunch->isChecked();
 }
 
 void GeneralPage::load() {
@@ -124,6 +126,8 @@ void GeneralPage::load() {
     jrePath->setPath(config.customJrePath);
 
     jvmArgs->setPlainText(config.jvmArgs);
+
+    closeOnLaunch->setChecked(config.closeOnLaunch);
 }
 
 

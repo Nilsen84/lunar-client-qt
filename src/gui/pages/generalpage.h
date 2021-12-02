@@ -10,6 +10,7 @@
 #include <QLineEdit>
 #include <QSpinBox>
 #include <QPlainTextEdit>
+#include <QRadioButton>
 
 #include "configurationpage.h"
 #include "gui/widgets/filechooser.h"
@@ -35,6 +36,8 @@ private:
 
     QCheckBox* useCustomJre;
     FileChooser* jrePath;
+
+    QRadioButton* closeOnLaunch;
 
     QPlainTextEdit* jvmArgs;
 };
