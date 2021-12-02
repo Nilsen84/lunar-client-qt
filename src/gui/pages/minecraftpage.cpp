@@ -14,13 +14,27 @@ MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPag
     minecraftPathChooser = new FileChooser(FileChooser::FileType::FOLDER);
     minecraftPathChooser->setDisabled(true);
 
-    connect(customMinecraftDir, &QCheckBox::toggled, minecraftPathChooser, &QLineEdit::setEnabled);
+    connect(customMinecraftDir, &QCheckBox::toggled, minecraftPathChooser, &FileChooser::setEnabled);
 
     //Custom jre groups
     QVBoxLayout* customMCPathContainer = new QVBoxLayout();
     customMCPathContainer->setSpacing(6);
     customMCPathContainer->addWidget(customMinecraftDir, 0, Qt::AlignHCenter);
     customMCPathContainer->addWidget(minecraftPathChooser);
+
+    serverToJoin = new QLineEdit();
+    serverToJoin->setDisabled(true);
+
+    connect(serverToJoin, &QLineEdit::returnPressed, [this](){serverToJoin->clearFocus();});
+
+    joinServerOnLaunch = new QCheckBox(QStringLiteral("Join Server on Launch"));
+
+    connect(joinServerOnLaunch, &QCheckBox::toggled, serverToJoin, &QLineEdit::setEnabled);
+
+    QVBoxLayout* serverContainer = new QVBoxLayout();
+    serverContainer->setSpacing(6);
+    serverContainer->addWidget(joinServerOnLaunch, 0, Qt::AlignHCenter);
+    serverContainer->addWidget(serverToJoin);
 
     windowWidth = new QSpinBox();
     windowHeight = new QSpinBox();
@@ -41,6 +55,7 @@ MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPag
     QVBoxLayout* mainLayout = new QVBoxLayout();
     mainLayout->setSpacing(40);
     mainLayout->addLayout(customMCPathContainer);
+    mainLayout->addLayout(serverContainer);
     mainLayout->addLayout(windowResContainer);
     mainLayout->addStretch(1);
 

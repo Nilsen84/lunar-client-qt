@@ -26,6 +26,9 @@ private:
     QCheckBox* customMinecraftDir;
     FileChooser* minecraftPathChooser;
 
+    QCheckBox* joinServerOnLaunch;
+    QLineEdit* serverToJoin;
+
     QSpinBox* windowWidth;
     QSpinBox* windowHeight;
 };
