@@ -10,7 +10,7 @@
 MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPage(config, parent) {
     customMinecraftDir = new QCheckBox(QStringLiteral("Custom .minecraft Directory"));
 
-    minecraftPathChooser = new FileChooser(FileChooser::FileType::FOLDER);
+    minecraftPathChooser = new FileChooser(QFileDialog::Directory);
     minecraftPathChooser->setDisabled(true);
 
     connect(customMinecraftDir, &QCheckBox::toggled, minecraftPathChooser, &FileChooser::setEnabled);

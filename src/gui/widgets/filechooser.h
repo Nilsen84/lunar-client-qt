@@ -8,15 +8,12 @@
 #include <QWidget>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QFileDialog>
 
 class FileChooser : public QWidget {
 Q_OBJECT
 public:
-    enum class FileType{
-        FOLDER,
-        FILE
-    };
-    explicit FileChooser(FileType type, QWidget* parent = nullptr);
+    explicit FileChooser(QFileDialog::FileMode mode, QWidget* parent = nullptr);
 
     QString getPath();
     void setPath(const QString& path);
