@@ -6,7 +6,6 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QGroupBox>
 
 MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPage(config, parent) {
     customMinecraftDir = new QCheckBox(QStringLiteral("Custom .minecraft directory"));
@@ -71,11 +70,23 @@ QIcon MinecraftPage::icon() {
 }
 
 void MinecraftPage::apply() {
+    config.useCustomMinecraftDir = customMinecraftDir->isChecked();
+    config.customMinecraftDir = minecraftPathChooser->getPath();
+
+    config.joinServerOnLaunch = joinServerOnLaunch->isChecked();
+    config.serverIp = serverToJoin->text();
+
     config.windowWidth = windowWidth->value();
     config.windowHeight = windowHeight->value();
 }
 
 void MinecraftPage::load() {
+    customMinecraftDir->setChecked(config.useCustomMinecraftDir);
+    minecraftPathChooser->setPath(config.customMinecraftDir);
+
+    joinServerOnLaunch->setChecked(config.joinServerOnLaunch);
+    serverToJoin->setText(config.serverIp);
+
     windowWidth->setValue(config.windowWidth);
     windowHeight->setValue(config.windowHeight);
 }
