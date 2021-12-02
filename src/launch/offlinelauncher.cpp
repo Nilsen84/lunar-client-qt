@@ -63,7 +63,7 @@ void OfflineLauncher::launch(bool cosmetics) {
             "--accessToken", "0",
             "--assetIndex", config.gameVersion == QStringLiteral("1.7") ? "1.7.10" : config.gameVersion,
             "--userProperties", "{}",
-            "--gameDir", minecraftDir,
+            "--gameDir", config.useCustomMinecraftDir ? config.customMinecraftDir : minecraftDir,
             "--launcherVersion", "2.8.8",
             "--width", QString::number(config.windowWidth),
             "--height", QString::number(config.windowHeight)
@@ -71,7 +71,8 @@ void OfflineLauncher::launch(bool cosmetics) {
 
     if(cosmetics)
         args << "--texturesDir" << lunarDir + "/textures";
-
+    if(config.joinServerOnLaunch)
+        args << "--server" << config.serverIp;
 
     process.setArguments(args);
     process.setWorkingDirectory(lunarDir + "/offline/" + config.gameVersion);

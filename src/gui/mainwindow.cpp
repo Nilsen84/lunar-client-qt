@@ -91,11 +91,15 @@ void MainWindow::resetLaunchButtons() {
 
 void MainWindow::launchNoCosmetics() {
     launch(offlineLauncher, false);
+    if(config.closeOnLaunch)
+        close();
 }
 
 
 void MainWindow::launchOffline() {
     launch(offlineLauncher, true);
+    if(config.closeOnLaunch)
+        close();
 }
 
 void MainWindow::launch(Launcher& launcher, bool cosmetics){
