@@ -49,7 +49,7 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
     memorySliderContainer->addWidget(maxMemory);
 
     //Custom jre checkbox lineedit and button
-    useCustomJre = new QCheckBox(QStringLiteral("Use custom jre"));
+    useCustomJre = new QCheckBox(QStringLiteral("Use Custom JRE"));
 
     jrePath = new FileChooser(FileChooser::FileType::FILE);
     jrePath->setDisabled(true);
@@ -74,8 +74,8 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
     //Checkboxes
     QGroupBox* groupBox = new QGroupBox(QStringLiteral("After Launch"));
 
-    QRadioButton* stayOpen = new QRadioButton(QStringLiteral("Keep launcher open"));
-    closeOnLaunch = new QRadioButton(QStringLiteral("Close launcher"));
+    QRadioButton* stayOpen = new QRadioButton(QStringLiteral("Keep Launcher Open"));
+    closeOnLaunch = new QRadioButton(QStringLiteral("Close Launcher"));
     stayOpen->setChecked(true);
 
     QVBoxLayout* radioLayout = new QVBoxLayout();

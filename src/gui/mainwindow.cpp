@@ -86,7 +86,7 @@ void MainWindow::resetLaunchButtons() {
     launchOfflineButton->setText(QStringLiteral("Launch"));
 
     launchNoCosmeticsButton->setEnabled(true);
-    launchNoCosmeticsButton->setText(QStringLiteral("Launch without\ncosmetics"));
+    launchNoCosmeticsButton->setText(QStringLiteral("Launch Without\nCosmetics"));
 }
 
 void MainWindow::launchNoCosmetics() {

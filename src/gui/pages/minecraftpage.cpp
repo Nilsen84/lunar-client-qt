@@ -8,7 +8,7 @@
 #include <QLabel>
 
 MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPage(config, parent) {
-    customMinecraftDir = new QCheckBox(QStringLiteral("Custom .minecraft directory"));
+    customMinecraftDir = new QCheckBox(QStringLiteral("Custom .minecraft Directory"));
 
     minecraftPathChooser = new FileChooser(FileChooser::FileType::FOLDER);
     minecraftPathChooser->setDisabled(true);
@@ -26,7 +26,7 @@ MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPag
 
     connect(serverToJoin, &QLineEdit::returnPressed, [this](){serverToJoin->clearFocus();});
 
-    joinServerOnLaunch = new QCheckBox(QStringLiteral("Join Server on Launch"));
+    joinServerOnLaunch = new QCheckBox(QStringLiteral("Join Server On Launch"));
 
     connect(joinServerOnLaunch, &QCheckBox::toggled, serverToJoin, &QLineEdit::setEnabled);
 
@@ -46,9 +46,9 @@ MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPag
 
     QHBoxLayout* windowResContainer = new QHBoxLayout();
     windowResContainer->setSpacing(30);
-    windowResContainer->addWidget(new QLabel(QStringLiteral("Window width")));
+    windowResContainer->addWidget(new QLabel(QStringLiteral("Window Width")));
     windowResContainer->addWidget(windowWidth, 1);
-    windowResContainer->addWidget(new QLabel(QStringLiteral("Window height")));
+    windowResContainer->addWidget(new QLabel(QStringLiteral("Window Height")));
     windowResContainer->addWidget(windowHeight, 1);
 
     QVBoxLayout* mainLayout = new QVBoxLayout();
