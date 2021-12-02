@@ -33,8 +33,9 @@ void Config::save() {
 
 
     QJsonArray arr;
-    for(const QString& str : agents)
+    foreach(const QString& str, agents){
         arr.append(str);
+    }
 
     saveObj["agents"] = arr;
 
@@ -48,7 +49,7 @@ Config Config::load() {
 
     QStringList agents;
 
-    for(auto val : arr){
+    foreach(const QJsonValue& val, arr){
         QString path = val.toString();
         if(QFile::exists(path)){
             agents.append(path);

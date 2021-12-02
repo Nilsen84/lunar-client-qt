@@ -42,7 +42,6 @@ private:
     QComboBox* versionSelect;
 
     QList<ConfigurationPage*> pages;
-    QList<QString> versions;
 
     OfflineLauncher offlineLauncher;
 

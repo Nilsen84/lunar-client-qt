@@ -50,13 +50,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
     font.setPointSize(11);
     pageList->setFont(font);
 
-    versions = {"1.7", "1.8", "1.12", "1.16", "1.17"};
-
     versionSelect = new QComboBox();
-
-    foreach(const QString& version, versions){
-        versionSelect->addItem(version);
-    }
+    versionSelect->addItems({"1.7", "1.8", "1.12", "1.16", "1.17", "1.18"});
 
     launchNoCosmeticsButton = new QPushButton();
     launchNoCosmeticsButton->setMinimumHeight(45);
@@ -89,7 +84,7 @@ void MainWindow::resetLaunchButtons() {
     launchOfflineButton->setText(QStringLiteral("Launch"));
 
     launchNoCosmeticsButton->setEnabled(true);
-    launchNoCosmeticsButton->setText(QStringLiteral("Launch without \ncosmetics"));
+    launchNoCosmeticsButton->setText(QStringLiteral("Launch without\ncosmetics"));
 }
 
 void MainWindow::launchNoCosmetics() {
@@ -123,11 +118,7 @@ void MainWindow::load() {
     foreach(ConfigurationPage* page, pages){
         page->load();
     }
-    if(versions.contains(config.gameVersion)){
-        versionSelect->setCurrentText(config.gameVersion);
-    }else{
-        versionSelect->setCurrentIndex(1);
-    }
+    versionSelect->setCurrentText(config.gameVersion);
 }
 
 

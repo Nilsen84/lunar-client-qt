@@ -21,7 +21,6 @@ AgentsPage::AgentsPage(Config& config, QWidget *parent) : ConfigurationPage(conf
     agents->setFont(font);
     agents->setAlternatingRowColors(true);
 
-
     QPalette palette;
     palette.setColor(QPalette::Disabled, QPalette::Text, Qt::blue);
     agents->setPalette(palette);
@@ -38,16 +37,15 @@ AgentsPage::AgentsPage(Config& config, QWidget *parent) : ConfigurationPage(conf
                 {},
                 QStringLiteral("Java Agent (*.jar)")
                 );
-        for(const QString &str : files){
+        foreach(const QString& str, files){
             if(!str.isEmpty()){
                 addAgent(str, true);
             }
         }
-
     });
 
     connect(remove, &QPushButton::clicked, [this](){
-        for(auto item : agents->selectedItems()){
+        foreach(QListWidgetItem* item, agents->selectedItems()){
             delete item;
         }
     });

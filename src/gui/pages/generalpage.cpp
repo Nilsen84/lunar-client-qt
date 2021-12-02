@@ -32,11 +32,7 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
     connect(initialMemory, &QSlider::valueChanged, [initialMemoryLabel](int val){initialMemoryLabel->setText("Initial Memory:  " + QString::number(val) + " MiB");});
     connect(maxMemory, &QSlider::valueChanged, [maxMemoryLabel](int val){maxMemoryLabel->setText("Maximum Memory:  " + QString::number(val) + " MiB");});
 
-    initialMemory->setValue(16384/4);
-    maxMemory->setValue(16384/4);
-
     connect(keepMemorySame, &QCheckBox::toggled, this, &GeneralPage::keepMinMaxSameChanged);
-    keepMemorySame->setChecked(true);
 
     //Memory slider group
     QVBoxLayout* memorySliderContainer = new QVBoxLayout();
@@ -54,11 +50,9 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
 
     windowWidth->setMinimum(0);
     windowWidth->setMaximum(99999);
-    windowWidth->setValue(640);
 
     windowHeight->setMinimum(0);
     windowHeight->setMaximum(99999);
-    windowHeight->setValue(480);
 
     //Window resolution group
     QHBoxLayout* windowResContainer = new QHBoxLayout();
