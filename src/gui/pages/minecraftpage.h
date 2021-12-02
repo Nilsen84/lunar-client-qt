@@ -6,6 +6,7 @@
 #define LUNAR_CLIENT_QT_MINECRAFTPAGE_H
 
 #include "configurationpage.h"
+#include <QSpinBox>
 
 class MinecraftPage : public ConfigurationPage {
 Q_OBJECT
@@ -18,7 +19,8 @@ public:
     void apply() override;
     void load() override;
 private:
-
+    QSpinBox* windowWidth;
+    QSpinBox* windowHeight;
 };
 
 

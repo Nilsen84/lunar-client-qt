@@ -32,9 +32,6 @@ private:
     QSlider* initialMemory;
     QSlider* maxMemory;
 
-    QSpinBox* windowWidth;
-    QSpinBox* windowHeight;
-
     QCheckBox* useCustomJre;
     QLineEdit* jreLine;
 

@@ -46,24 +46,6 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
     memorySliderContainer->addWidget(maxMemoryLabel, 0, Qt::AlignHCenter);
     memorySliderContainer->addWidget(maxMemory);
 
-    //Window resolution
-    windowWidth = new QSpinBox();
-    windowHeight = new QSpinBox();
-
-    windowWidth->setMinimum(0);
-    windowWidth->setMaximum(99999);
-
-    windowHeight->setMinimum(0);
-    windowHeight->setMaximum(99999);
-
-    //Window resolution group
-    QHBoxLayout* windowResContainer = new QHBoxLayout();
-    windowResContainer->setSpacing(30);
-    windowResContainer->addWidget(new QLabel(QStringLiteral("Window width")));
-    windowResContainer->addWidget(windowWidth, 1);
-    windowResContainer->addWidget(new QLabel(QStringLiteral("Window height")));
-    windowResContainer->addWidget(windowHeight, 1);
-
     //Custom jre checkbox lineedit and button
     useCustomJre = new QCheckBox(QStringLiteral("Use custom jre"));
 
@@ -116,7 +98,6 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
 
     mainLayout->addWidget(keepMemorySame, 0, Qt::AlignHCenter);
     mainLayout->addLayout(memorySliderContainer);
-    mainLayout->addLayout(windowResContainer);
     mainLayout->addLayout(customJreContainer);
     mainLayout->addLayout(jvmArgsGroup, 1);
     mainLayout->addWidget(groupBox);
@@ -138,9 +119,6 @@ void GeneralPage::apply() {
     config.initialMemory = initialMemory->value();
     config.maximumMemory = maxMemory->value();
 
-    config.windowWidth = windowWidth->value();
-    config.windowHeight = windowHeight->value();
-
     config.useCustomJre = useCustomJre->isChecked();
     config.customJrePath = jreLine->text();
 
@@ -152,9 +130,6 @@ void GeneralPage::load() {
 
     initialMemory->setValue(config.initialMemory);
     maxMemory->setValue(config.maximumMemory);
-
-    windowWidth->setValue(config.windowWidth);
-    windowHeight->setValue(config.windowHeight);
 
     useCustomJre->setChecked(config.useCustomJre);
     jreLine->setText(config.customJrePath);
