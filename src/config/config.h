@@ -18,14 +18,22 @@ public:
     int initialMemory;
     int maximumMemory;
 
-    int windowWidth;
-
-    int windowHeight;
-
     bool useCustomJre;
     QString customJrePath;
 
     QString jvmArgs;
+
+    bool closeOnLaunch;
+
+    bool useCustomMinecraftDir;
+    QString customMinecraftDir;
+
+    bool joinServerOnLaunch;
+    QString serverIp;
+
+    int windowWidth;
+
+    int windowHeight;
 
 
     QStringList agents;

@@ -23,13 +23,21 @@ void Config::save() {
     saveObj["initialMemory"] = initialMemory;
     saveObj["maxMemory"] = maximumMemory;
 
-    saveObj["windowWidth"] = windowWidth;
-    saveObj["windowHeight"] = windowHeight;
-
     saveObj["useCustomJre"] = useCustomJre;
     saveObj["customJrePath"] = customJrePath;
 
+    saveObj["closeOnLaunch"] = closeOnLaunch;
+
     saveObj["jvmArgs"] = jvmArgs;
+
+    saveObj["useCustomMinecraftDir"] = useCustomMinecraftDir;
+    saveObj["customMinecraftDir"] = customMinecraftDir;
+
+    saveObj["joinServerOnLaunch"] = joinServerOnLaunch;
+    saveObj["serverIp"] = serverIp;
+
+    saveObj["windowWidth"] = windowWidth;
+    saveObj["windowHeight"] = windowHeight;
 
 
     QJsonArray arr;
@@ -61,11 +69,16 @@ Config Config::load() {
         jsonObj["keepMemorySame"].toBool(true),
         jsonObj["initialMemory"].toInt(4096),
         jsonObj["maxMemory"].toInt(4096),
-        jsonObj["windowWidth"].toInt(640),
-        jsonObj["windowHeight"].toInt(480),
         jsonObj["useCustomJre"].toBool(false),
         jsonObj["customJrePath"].toString(),
         jsonObj["jvmArgs"].toString(),
+        jsonObj["closeOnLaunch"].toBool(false),
+        jsonObj["useCustomMinecraftDir"].toBool(false),
+        jsonObj["customMinecraftDir"].toString(),
+        jsonObj["joinServerOnLaunch"].toBool(false),
+        jsonObj["serverIp"].toString(),
+        jsonObj["windowWidth"].toInt(640),
+        jsonObj["windowHeight"].toInt(480),
         agents
     };
 }
