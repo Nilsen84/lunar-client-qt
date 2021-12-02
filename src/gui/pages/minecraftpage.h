@@ -7,6 +7,10 @@
 
 #include "configurationpage.h"
 #include <QSpinBox>
+#include <QLineEdit>
+#include <QCheckBox>
+
+#include "gui/widgets/filechooser.h"
 
 class MinecraftPage : public ConfigurationPage {
 Q_OBJECT
@@ -19,6 +23,9 @@ public:
     void apply() override;
     void load() override;
 private:
+    QCheckBox* customMinecraftDir;
+    FileChooser* minecraftPathChooser;
+
     QSpinBox* windowWidth;
     QSpinBox* windowHeight;
 };

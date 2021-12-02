@@ -6,7 +6,7 @@
 #include <QHBoxLayout>
 #include <QFileDialog>
 
-FileChooser::FileChooser(QWidget *parent) : QWidget(parent){
+FileChooser::FileChooser(FileType type, QWidget *parent) : QWidget(parent){
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
 
@@ -16,11 +16,19 @@ FileChooser::FileChooser(QWidget *parent) : QWidget(parent){
 
     connect(pathEdit, &QLineEdit::returnPressed, [this](){pathEdit->clearFocus();});
 
-    connect(button, &QPushButton::clicked, [this](){
-        QString fileName = QFileDialog::getOpenFileName();
-        if(!fileName.isNull())
-            pathEdit->setText(fileName);
-    });
+    if(type == FileType::FILE){
+        connect(button, &QPushButton::clicked, [this](){
+            QString fileName = QFileDialog::getOpenFileName();
+            if(!fileName.isNull())
+                pathEdit->setText(fileName);
+        });
+    }else{
+        connect(button, &QPushButton::clicked, [this](){
+            QString fileName = QFileDialog::getExistingDirectory();
+            if(!fileName.isNull())
+                pathEdit->setText(fileName);
+        });
+    }
 
     layout->addWidget(pathEdit);
     layout->addWidget(button);

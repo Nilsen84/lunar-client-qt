@@ -12,7 +12,11 @@
 class FileChooser : public QWidget {
 Q_OBJECT
 public:
-    explicit FileChooser(QWidget* parent = nullptr);
+    enum class FileType{
+        FOLDER,
+        FILE
+    };
+    explicit FileChooser(FileType type, QWidget* parent = nullptr);
 
     QString getPath();
     void setPath(const QString& path);

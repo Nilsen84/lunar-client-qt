@@ -51,7 +51,7 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
     //Custom jre checkbox lineedit and button
     useCustomJre = new QCheckBox(QStringLiteral("Use custom jre"));
 
-    jrePath = new FileChooser();
+    jrePath = new FileChooser(FileChooser::FileType::FILE);
     jrePath->setDisabled(true);
 
     connect(useCustomJre, &QCheckBox::toggled, jrePath, &QLineEdit::setEnabled);

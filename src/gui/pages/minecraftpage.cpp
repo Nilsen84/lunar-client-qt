@@ -6,8 +6,22 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QGroupBox>
 
 MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPage(config, parent) {
+    customMinecraftDir = new QCheckBox(QStringLiteral("Custom .minecraft directory"));
+
+    minecraftPathChooser = new FileChooser(FileChooser::FileType::FOLDER);
+    minecraftPathChooser->setDisabled(true);
+
+    connect(customMinecraftDir, &QCheckBox::toggled, minecraftPathChooser, &QLineEdit::setEnabled);
+
+    //Custom jre groups
+    QVBoxLayout* customMCPathContainer = new QVBoxLayout();
+    customMCPathContainer->setSpacing(6);
+    customMCPathContainer->addWidget(customMinecraftDir, 0, Qt::AlignHCenter);
+    customMCPathContainer->addWidget(minecraftPathChooser);
+
     windowWidth = new QSpinBox();
     windowHeight = new QSpinBox();
 
@@ -26,6 +40,7 @@ MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPag
 
     QVBoxLayout* mainLayout = new QVBoxLayout();
     mainLayout->setSpacing(40);
+    mainLayout->addLayout(customMCPathContainer);
     mainLayout->addLayout(windowResContainer);
     mainLayout->addStretch(1);
 
