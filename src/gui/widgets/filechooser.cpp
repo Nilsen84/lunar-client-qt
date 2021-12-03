@@ -5,7 +5,6 @@
 #include "filechooser.h"
 #include <QHBoxLayout>
 #include <QFileDialog>
-#include <qdebug.h>
 
 FileChooser::FileChooser(QFileDialog::FileMode mode, QWidget *parent) : QWidget(parent){
     QHBoxLayout* layout = new QHBoxLayout(this);
