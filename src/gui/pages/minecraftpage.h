@@ -29,13 +29,13 @@ private:
     QCheckBox* joinServerOnLaunch;
     QLineEdit* serverToJoin;
 
-    QCheckBox* useCustomNickHiderName;
+    QCheckBox* useNickHiderName;
     QLineEdit* nickHiderName;
 
-    QCheckBox* useCustomLevelHeadPrefix;
-    QLineEdit* levelHeadText;
+    QCheckBox* useLevelHeadPrefix;
+    QLineEdit* levelHeadPrefix;
 
-    QCheckBox* useCustomAutoggMessage;
+    QCheckBox* useAutoggMessage;
     QLineEdit* autoggMessage;
 
     QSpinBox* windowWidth;
