@@ -6,6 +6,7 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
+#include <gui/widgets/widgetutils.h>
 
 MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPage(config, parent) {
     customMinecraftDir = new QCheckBox(QStringLiteral("Custom .minecraft Directory"));
@@ -35,6 +36,19 @@ MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPag
     serverContainer->addWidget(joinServerOnLaunch, 0, Qt::AlignHCenter);
     serverContainer->addWidget(serverToJoin);
 
+    useCustomNickHiderName = new QCheckBox(QStringLiteral("NickHider Name"));
+    nickHiderName = new QLineEdit();
+    nickHiderName->setPlaceholderText(QStringLiteral("You"));
+
+    useCustomLevelHeadPrefix = new QCheckBox(QStringLiteral("LevelHead Prefix"));
+    levelHeadText = new QLineEdit();
+    levelHeadText->setPlaceholderText(QStringLiteral("Level: "));
+
+    useCustomAutoggMessage = new QCheckBox(QStringLiteral("AutoGG Message"));
+    autoggMessage = new QLineEdit();
+    autoggMessage->setPlaceholderText(QStringLiteral("gg"));
+
+
     windowWidth = new QSpinBox();
     windowHeight = new QSpinBox();
 
@@ -56,6 +70,11 @@ MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPag
     mainLayout->addLayout(customMCPathContainer);
     mainLayout->addLayout(serverContainer);
     mainLayout->addLayout(windowResContainer);
+    QHBoxLayout* hLayout = new QHBoxLayout;
+    hLayout->addLayout(WidgetUtils::createOptional(useCustomNickHiderName, nickHiderName));
+    hLayout->addLayout(WidgetUtils::createOptional(useCustomLevelHeadPrefix, levelHeadText));
+    mainLayout->addLayout(hLayout);
+    mainLayout->addLayout(WidgetUtils::createOptional(useCustomAutoggMessage, autoggMessage));
     mainLayout->addStretch(1);
 
     setLayout(mainLayout);

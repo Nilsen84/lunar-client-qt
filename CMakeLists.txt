@@ -35,7 +35,7 @@ set(SOURCE_FILES
         src/gui/pages/minecraftpage.cpp
         src/gui/pages/minecraftpage.h
         src/gui/widgets/filechooser.cpp
-        src/gui/widgets/filechooser.h)
+        src/gui/widgets/filechooser.h src/gui/widgets/widgetutils.cpp src/gui/widgets/widgetutils.h)
 
 add_executable(lunar-client-qt ${SOURCE_FILES} ${LIB_SRC} res.qrc)
 target_link_libraries(lunar-client-qt
