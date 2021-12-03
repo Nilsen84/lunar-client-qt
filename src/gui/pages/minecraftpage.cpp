@@ -85,6 +85,15 @@ void MinecraftPage::apply() {
     config.joinServerOnLaunch = joinServerOnLaunch->isChecked();
     config.serverIp = serverToJoin->text();
 
+    config.useNickHiderName = useNickHiderName->isChecked();
+    config.nickHiderName = nickHiderName->text();
+
+    config.useLevelHeadPrefix = useLevelHeadPrefix->isChecked();
+    config.levelHeadPrefix = levelHeadPrefix->text();
+
+    config.useAutoggMessage = useAutoggMessage->isChecked();
+    config.autoggMessage = autoggMessage->text();
+
     config.windowWidth = windowWidth->value();
     config.windowHeight = windowHeight->value();
 }
@@ -95,6 +104,15 @@ void MinecraftPage::load() {
 
     joinServerOnLaunch->setChecked(config.joinServerOnLaunch);
     serverToJoin->setText(config.serverIp);
+
+    useNickHiderName->setChecked(config.useNickHiderName);
+    nickHiderName->setText(config.nickHiderName);
+
+    useLevelHeadPrefix->setChecked(config.useLevelHeadPrefix);
+    levelHeadPrefix->setText(config.levelHeadPrefix);
+
+    useAutoggMessage->setChecked(config.useAutoggMessage);
+    autoggMessage->setText(config.autoggMessage);
 
     windowWidth->setValue(config.windowWidth);
     windowHeight->setValue(config.windowHeight);
