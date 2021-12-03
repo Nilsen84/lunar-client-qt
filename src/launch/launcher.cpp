@@ -6,3 +6,8 @@
 
 Launcher::Launcher(const Config& config, QObject *parent) : config(config), QObject(parent) {
 }
+
+QString Launcher::getAgentFlags(const QString &path, const QString &options) {
+    return QStringLiteral("-javaagent:%1=%2")
+        .arg(path,  options);
+}

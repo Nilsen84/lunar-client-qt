@@ -15,6 +15,7 @@ public:
 
     virtual void launch(bool cosmetics) = 0;
 
+    static QString getAgentFlags(const QString& path, const QString& options);
 protected:
     const Config& config;
 };

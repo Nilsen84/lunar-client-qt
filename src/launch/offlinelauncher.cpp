@@ -8,6 +8,7 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QStandardPaths>
+#include <QTemporaryFile>
 
 const QString OfflineLauncher::lunarDir = QDir::homePath() + "/.lunarclient";
 const QString OfflineLauncher::minecraftDir =
@@ -50,12 +51,28 @@ void OfflineLauncher::launch(bool cosmetics) {
         }).join(QDir::listSeparator())
     };
 
-    for(const QString& str : config.agents){
-        args << "-javaagent:" + str;
-    }
+    foreach(const QString& path, config.agents)
+        args << "-javaagent:" + path;
+
+    if(config.useAutoggMessage)
+        args << getAgentFlags(
+                QTemporaryFile::createNativeFile(":/res/CustomAutoGG.jar")->fileName(),
+                config.autoggMessage
+                );
+
+    if(config.useLevelHeadPrefix)
+        args << getAgentFlags(
+                QTemporaryFile::createNativeFile(":/res/CustomLevelHead.jar")->fileName(),
+                config.levelHeadPrefix
+                );
+
+    if(config.useNickHiderName)
+        args << getAgentFlags(
+                QTemporaryFile::createNativeFile(":/res/CustomNickHider.jar")->fileName(),
+                config.nickHiderName
+                );
 
     args << QProcess::splitCommand(config.jvmArgs);
-    args << "com.moonsworth.lunar.patcher.LunarMain";
 
     args << QStringList{
             "com.moonsworth.lunar.patcher.LunarMain",

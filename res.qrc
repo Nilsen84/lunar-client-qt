@@ -4,5 +4,9 @@
         <file>res/icons/openfolder.svg</file>
         <file>res/icons/agent.svg</file>
         <file>res/icons/minecraft.svg</file>
+
+        <file>res/CustomAutoGG.jar</file>
+        <file>res/CustomLevelHead.jar</file>
+        <file>res/CustomNickHider.jar</file>
     </qresource>
 </RCC>
