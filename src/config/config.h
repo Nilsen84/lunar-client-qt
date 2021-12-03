@@ -31,8 +31,16 @@ public:
     bool joinServerOnLaunch;
     QString serverIp;
 
-    int windowWidth;
+    bool useNickHiderName;
+    QString nickHiderName;
 
+    bool useLevelHeadPrefix;
+    QString levelHeadPrefix;
+
+    bool useAutoggMessage;
+    QString autoggMessage;
+
+    int windowWidth;
     int windowHeight;
 
 
