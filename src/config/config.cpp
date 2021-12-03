@@ -12,7 +12,7 @@
 #include <QFile>
 #include <QJsonDocument>
 
-const QString Config::configFilePath = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/lunar-client-qt/config.json";
+const QString Config::configFilePath = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/lunar-client-qt/settings.json";
 
 void Config::save() {
     QJsonObject saveObj;
