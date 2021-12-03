@@ -13,6 +13,7 @@
 #include <QRadioButton>
 
 #include "gui/widgets/filechooser.h"
+#include "gui/widgets/widgetutils.h"
 
 GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(config, parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
@@ -50,17 +51,7 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
 
     //Custom jre checkbox lineedit and button
     useCustomJre = new QCheckBox(QStringLiteral("Use Custom JRE"));
-
     jrePath = new FileChooser(QFileDialog::ExistingFile);
-    jrePath->setDisabled(true);
-
-    connect(useCustomJre, &QCheckBox::toggled, jrePath, &QLineEdit::setEnabled);
-
-    //Custom jre groups
-    QVBoxLayout* customJreContainer = new QVBoxLayout();
-    customJreContainer->setSpacing(6);
-    customJreContainer->addWidget(useCustomJre, 0, Qt::AlignHCenter);
-    customJreContainer->addWidget(jrePath);
 
     //Jvm arguments
     QVBoxLayout* jvmArgsGroup = new QVBoxLayout();
@@ -87,7 +78,7 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
 
     mainLayout->addWidget(keepMemorySame, 0, Qt::AlignHCenter);
     mainLayout->addLayout(memorySliderContainer);
-    mainLayout->addLayout(customJreContainer);
+    mainLayout->addLayout(WidgetUtils::createOptional(useCustomJre, jrePath));
     mainLayout->addLayout(jvmArgsGroup, 1);
     mainLayout->addWidget(groupBox);
 

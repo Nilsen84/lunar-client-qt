@@ -10,17 +10,7 @@
 
 MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPage(config, parent) {
     customMinecraftDir = new QCheckBox(QStringLiteral("Custom .minecraft Directory"));
-
     minecraftPathChooser = new FileChooser(QFileDialog::Directory);
-    minecraftPathChooser->setDisabled(true);
-
-    connect(customMinecraftDir, &QCheckBox::toggled, minecraftPathChooser, &FileChooser::setEnabled);
-
-    //Custom jre groups
-    QVBoxLayout* customMCPathContainer = new QVBoxLayout();
-    customMCPathContainer->setSpacing(6);
-    customMCPathContainer->addWidget(customMinecraftDir, 0, Qt::AlignHCenter);
-    customMCPathContainer->addWidget(minecraftPathChooser);
 
     serverToJoin = new QLineEdit();
     serverToJoin->setDisabled(true);
@@ -67,7 +57,7 @@ MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPag
 
     QVBoxLayout* mainLayout = new QVBoxLayout();
     mainLayout->setSpacing(40);
-    mainLayout->addLayout(customMCPathContainer);
+    mainLayout->addLayout(WidgetUtils::createOptional(customMinecraftDir, minecraftPathChooser));
     mainLayout->addLayout(serverContainer);
     mainLayout->addLayout(windowResContainer);
     QHBoxLayout* hLayout = new QHBoxLayout;
