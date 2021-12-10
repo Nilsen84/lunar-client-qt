@@ -3,6 +3,9 @@ Lunar Client Qt is a lightweight launcher for lunar client written in c++ using 
   
 ![alt text](https://i.imgur.com/cv9SJsk.png)
 
+## Discord
+Add me on discord: nils#5281 if you have any questions or thoughts about the project. For any suggestions/issues open an issue here on the github page.
+
 ## Agents
 One of the primary features of this launcher is the ability to easily attach java premain agents to your game, 
 this allows you to modify the game on launch which lets you write modifications that won't break when lunar recieves an update. 
