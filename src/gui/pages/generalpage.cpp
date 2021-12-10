@@ -40,20 +40,20 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
 
 	unsigned long long maximumMemory = getTotalSystemMemory(); // returns amount of memory in bytes
 	int maximumMemoryInMiB = (int)(maximumMemory/(1024*1024)); // converts to MiB
-
+	int pageStep = (int)((maximumMemoryInMiB-1024)/16);
     keepMemorySame = new QCheckBox(QStringLiteral("Keep initial and maximum memory allocations the same"));
 
     QLabel* initialMemoryLabel = new QLabel();
     initialMemory = new QSlider(Qt::Horizontal);
     initialMemory->setMinimum(1024);
     initialMemory->setMaximum(maximumMemoryInMiB);
-    initialMemory->setPageStep(1024);
+    initialMemory->setPageStep(pageStep);
 
     QLabel* maxMemoryLabel = new QLabel();
     maxMemory = new QSlider(Qt::Horizontal);
     maxMemory->setMinimum(1024);
     maxMemory->setMaximum(maximumMemoryInMiB);
-    maxMemory->setPageStep(1024);
+    maxMemory->setPageStep(pageStep);
 
     //Memory slider functionality
     connect(initialMemory, &QSlider::valueChanged, [initialMemoryLabel](int val){initialMemoryLabel->setText("Initial Memory:  " + QString::number(val) + " MiB");});
