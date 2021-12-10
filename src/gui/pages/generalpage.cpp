@@ -15,22 +15,44 @@
 #include "gui/widgets/filechooser.h"
 #include "gui/widgets/widgetutils.h"
 
+#ifndef _WIN32 // not windows
+#include <unistd.h>
+unsigned long long getTotalSystemMemory() {
+	long pages = sysconf(_SC_PHYS_PAGES);
+	long pageSize = sysconf(_SC_PAGE_SIZE);
+	return pages * pageSize;
+}
+
+#else // windows
+
+#include <windows.h>
+unsigned long long getTotalSystemMemory() {
+    MEMORYSTATUSEX status;
+    status.dwLength = sizeof(status);
+    GlobalMemoryStatusEx(&status);
+    return status.ullTotalPhys;
+}
+#endif // _WIN32
+
 GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(config, parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
     mainLayout->setSpacing(40);
+
+	unsigned long long maximumMemory = getTotalSystemMemory(); // returns amount of memory in bytes
+	int maximumMemoryInMiB = (int)(maximumMemory/(1024*1024)); // converts to MiB
 
     keepMemorySame = new QCheckBox(QStringLiteral("Keep initial and maximum memory allocations the same"));
 
     QLabel* initialMemoryLabel = new QLabel();
     initialMemory = new QSlider(Qt::Horizontal);
     initialMemory->setMinimum(1024);
-    initialMemory->setMaximum(16384);
+    initialMemory->setMaximum(maximumMemoryInMiB);
     initialMemory->setPageStep(1024);
 
     QLabel* maxMemoryLabel = new QLabel();
     maxMemory = new QSlider(Qt::Horizontal);
     maxMemory->setMinimum(1024);
-    maxMemory->setMaximum(16384);
+    maxMemory->setMaximum(maximumMemoryInMiB);
     maxMemory->setPageStep(1024);
 
     //Memory slider functionality
