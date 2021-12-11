@@ -1,5 +1,5 @@
 # Lunar Client Qt
-Lunar Client Qt is a lightweight launcher for lunar client written in c++ using the qt framework  
+Lunar Client Qt is a lightweight launcher for lunar client written in C++ using the Qt framework.  
   
 ![alt text](https://i.imgur.com/cv9SJsk.png)
 
