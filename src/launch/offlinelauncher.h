@@ -19,7 +19,7 @@ public:
 signals:
     void error(const QString& message);
 private:
-    static QString findJavaExecutable();
+    static QString findJavaExecutable(const QString& version);
 private:
     const static QString lunarDir;
     const static QString minecraftDir;

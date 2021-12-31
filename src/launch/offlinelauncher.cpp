@@ -26,7 +26,7 @@ OfflineLauncher::OfflineLauncher(const Config& config, QObject *parent) : Launch
 
 void OfflineLauncher::launch(bool cosmetics) {
     QProcess process;
-    process.setProgram(config.useCustomJre ? config.customJrePath : findJavaExecutable());
+    process.setProgram(config.useCustomJre ? config.customJrePath : findJavaExecutable(config.gameVersion));
 
     process.setStandardInputFile(QProcess::nullDevice());
     process.setStandardOutputFile(QProcess::nullDevice());
@@ -99,14 +99,29 @@ void OfflineLauncher::launch(bool cosmetics) {
     }
 }
 
-QString OfflineLauncher::findJavaExecutable() {
-    QDirIterator it(lunarDir+"/jre", QDir::Dirs | QDir::NoDotAndDotDot);
+QString OfflineLauncher::findJavaExecutable(const QString& version) {
+    QDirIterator versionSpecificIt(lunarDir+"/jre/"+version, QDir::Dirs | QDir::NoDotAndDotDot);
 
-    while(it.hasNext()){
-        QString potentialExecutable = it.next() +
+    while(versionSpecificIt.hasNext()){
+        QString potentialExecutable = versionSpecificIt.next() +
 #ifdef Q_OS_WIN
         "/bin/javaw.exe";
 #else
+        "/bin/java";
+#endif
+
+        if(QFileInfo(potentialExecutable).isExecutable())
+            return potentialExecutable;
+    }
+
+
+    QDirIterator generalIt(lunarDir+"/jre", QDir::Dirs | QDir::NoDotAndDotDot);
+
+    while(generalIt.hasNext()){
+        QString potentialExecutable = generalIt.next() +
+#ifdef Q_OS_WIN
+        "/bin/javaw.exe";
+        #else
         "/bin/java";
 #endif
 
