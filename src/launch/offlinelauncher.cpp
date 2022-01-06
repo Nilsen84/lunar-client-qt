@@ -24,7 +24,7 @@ OfflineLauncher::OfflineLauncher(const Config& config, QObject *parent) : Launch
 }
 
 
-void OfflineLauncher::launch(bool cosmetics) {
+void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
     QProcess process;
     process.setProgram(config.useCustomJre ? config.customJrePath : findJavaExecutable(config.gameVersion));
 
@@ -72,6 +72,9 @@ void OfflineLauncher::launch(bool cosmetics) {
                 config.nickHiderName
                 );
 
+    if(cosmeticsState == CosmeticsState::UNLOCKED)
+        args << "-javaagent:" + QTemporaryFile::createNativeFile(":/res/UnlockedCosmetics.jar")->fileName();
+
     args << QProcess::splitCommand(config.jvmArgs);
 
     args << QStringList{
@@ -86,8 +89,9 @@ void OfflineLauncher::launch(bool cosmetics) {
             "--height", QString::number(config.windowHeight)
     };
 
-    if(cosmetics)
+    if(cosmeticsState != CosmeticsState::OFF)
         args << "--texturesDir" << lunarDir + "/textures";
+
     if(config.joinServerOnLaunch)
         args << "--server" << config.serverIp;
 

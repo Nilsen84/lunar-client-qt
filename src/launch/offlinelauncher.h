@@ -15,7 +15,7 @@ Q_OBJECT
 public:
     explicit OfflineLauncher(const Config& config, QObject* parent = nullptr);
 
-    void launch(bool cosmetics) override;
+    void launch(CosmeticsState cosmeticsState) override;
 signals:
     void error(const QString& message);
 private:

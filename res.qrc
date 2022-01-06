@@ -8,5 +8,6 @@
         <file>res/CustomAutoGG.jar</file>
         <file>res/CustomLevelHead.jar</file>
         <file>res/CustomNickHider.jar</file>
+        <file>res/UnlockedCosmetics.jar</file>
     </qresource>
 </RCC>

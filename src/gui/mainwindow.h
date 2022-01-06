@@ -25,20 +25,22 @@ public:
     explicit MainWindow(QWidget* parent = nullptr);
 
 private:
-    void launch(Launcher& launcher, bool cosmetics);
+    void launch(Launcher& launcher, Launcher::CosmeticsState cosmeticsState);
     void closeEvent(QCloseEvent* closeEvent) override;
     void apply();
     void load();
 private slots:
     void resetLaunchButtons();
-    void launchOffline();
+    void launchUnlockedCosmetics();
+    void launchDefault();
     void launchNoCosmetics();
     void errorCallback(const QString& message);
 private:
     QListWidget* pageList;
     QStackedWidget* pageStack;
+    QPushButton* launchUnlockedCosmeticsButton;
+    QPushButton* launchButton;
     QPushButton* launchNoCosmeticsButton;
-    QPushButton* launchOfflineButton;
     QComboBox* versionSelect;
 
     QList<ConfigurationPage*> pages;

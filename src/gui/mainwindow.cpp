@@ -55,13 +55,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
     versionSelect = new QComboBox();
     versionSelect->addItems({"1.7", "1.8", "1.12", "1.16", "1.17", "1.18"});
 
+    launchUnlockedCosmeticsButton = new QPushButton;
+    launchUnlockedCosmeticsButton->setMinimumHeight(45);
+    connect(launchUnlockedCosmeticsButton, &QPushButton::pressed, this, &MainWindow::launchUnlockedCosmetics);
+
     launchNoCosmeticsButton = new QPushButton();
     launchNoCosmeticsButton->setMinimumHeight(45);
     connect(launchNoCosmeticsButton, &QPushButton::pressed, this, &MainWindow::launchNoCosmetics);
 
-    launchOfflineButton = new QPushButton();
-    launchOfflineButton->setMinimumHeight(45);
-    connect(launchOfflineButton, &QPushButton::pressed, this, &MainWindow::launchOffline);
+    launchButton = new QPushButton();
+    launchButton->setMinimumHeight(45);
+    connect(launchButton, &QPushButton::pressed, this, &MainWindow::launchDefault);
 
     connect(&offlineLauncher, &OfflineLauncher::error, this, &MainWindow::errorCallback);
 
@@ -69,8 +73,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
 
     mainLayout->addWidget(pageList);
     mainLayout->addWidget(versionSelect, 1, 0);
-    mainLayout->addWidget(launchNoCosmeticsButton, 2, 0);
-    mainLayout->addWidget(launchOfflineButton, 3, 0);
+    mainLayout->addWidget(launchUnlockedCosmeticsButton, 2, 0);
+    mainLayout->addWidget(launchNoCosmeticsButton, 3, 0);
+    mainLayout->addWidget(launchButton, 4, 0);
     mainLayout->addWidget(pageStack, 0, 3, -1, 1);
 
     centralWidget->setLayout(mainLayout);
@@ -82,29 +87,35 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
 }
 
 void MainWindow::resetLaunchButtons() {
-    launchOfflineButton->setEnabled(true);
-    launchOfflineButton->setText(QStringLiteral("Launch"));
+    launchUnlockedCosmeticsButton->setEnabled(true);
+    launchUnlockedCosmeticsButton->setText(QStringLiteral("Launch With All\nCosmetics"));
+
+    launchButton->setEnabled(true);
+    launchButton->setText(QStringLiteral("Launch"));
 
     launchNoCosmeticsButton->setEnabled(true);
     launchNoCosmeticsButton->setText(QStringLiteral("Launch Without\nCosmetics"));
 }
 
 void MainWindow::launchNoCosmetics() {
-    launch(offlineLauncher, false);
-    if(config.closeOnLaunch)
-        close();
+    launch(offlineLauncher, Launcher::CosmeticsState::OFF);
 }
 
 
-void MainWindow::launchOffline() {
-    launch(offlineLauncher, true);
-    if(config.closeOnLaunch)
-        close();
+void MainWindow::launchDefault() {
+    launch(offlineLauncher, Launcher::CosmeticsState::DEFAULT);
 }
 
-void MainWindow::launch(Launcher& launcher, bool cosmetics){
+void MainWindow::launchUnlockedCosmetics() {
+    launch(offlineLauncher, Launcher::CosmeticsState::UNLOCKED);
+}
+
+
+void MainWindow::launch(Launcher& launcher, Launcher::CosmeticsState cosmeticsState){
     apply();
-    launcher.launch(cosmetics);
+    launcher.launch(cosmeticsState);
+    if(config.closeOnLaunch)
+        close();
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
