@@ -92,6 +92,13 @@ void OfflineLauncher::launch(bool cosmetics) {
         args << "--server" << config.serverIp;
 
     process.setArguments(args);
+
+    //Removes the windir environment variable, preventing lunar from reading your hosts file and executing tasklist on windows
+
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    env.remove("windir");
+
+    process.setProcessEnvironment(env);
     process.setWorkingDirectory(lunarDir + "/offline/" + config.gameVersion);
 
     if(!process.startDetached()){
