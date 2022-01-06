@@ -51,9 +51,10 @@ void OfflineLauncher::launch(bool cosmetics) {
         }).join(QDir::listSeparator())
     };
 
-    foreach(const QString& path, config.agents)
+    foreach(const QString& path, config.agents) {
         args << "-javaagent:" + path;
-
+    }
+               
     if(config.useAutoggMessage)
         args << getAgentFlags(
                 QTemporaryFile::createNativeFile(":/res/CustomAutoGG.jar")->fileName(),
