@@ -116,7 +116,7 @@ QString OfflineLauncher::findJavaExecutable(const QString& version) {
     while(versionSpecificIt.hasNext()){
         QString potentialExecutable = versionSpecificIt.next() +
 #ifdef Q_OS_WIN
-        "/bin/javaw.exe";
+        "/bin/java.exe";
 #else
         "/bin/java";
 #endif
@@ -131,7 +131,7 @@ QString OfflineLauncher::findJavaExecutable(const QString& version) {
     while(generalIt.hasNext()){
         QString potentialExecutable = generalIt.next() +
 #ifdef Q_OS_WIN
-        "/bin/javaw.exe";
+        "/bin/java.exe";
         #else
         "/bin/java";
 #endif
