@@ -13,6 +13,11 @@ this allows you to modify the game on launch which lets you write modifications 
 Here's a repository containing some useful java agents that you might want to use: https://github.com/Nilsen84/lunar-client-agents  
 If you're familiar with java bytecode feel free to write your own!
 
+## Launching without launcher
+A useful feature of this launcher is the ability to with the click of a button immediately get into lunar client without the hassle every time
+of having to be faced with a launcher interface. Launch Lunar Client Qt with the --nogui argument and you will be launched into lunar client using
+the options you have used in the previous launch.
+
 ## Windir spoofing
 Another feature is the spoofing/disabling of the windows directory for lunar client, which on most systems is "C:\WINDOWS".
 This allows the user to prevent lunar client from accessing the hosts file and the tasklists command, or to spoof these files.
