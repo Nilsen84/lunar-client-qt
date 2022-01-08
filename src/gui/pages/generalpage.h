@@ -37,9 +37,6 @@ private:
     QCheckBox* useCustomJre;
     FileChooser* jrePath;
 
-    QCheckBox* useWindir;
-    FileChooser* windirPath;
-
     QRadioButton* closeOnLaunch;
 
     QPlainTextEdit* jvmArgs;

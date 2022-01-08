@@ -18,14 +18,6 @@ A useful feature of this launcher is the ability to with the click of a button i
 of having to be faced with a launcher interface. Launch Lunar Client Qt with the --nogui argument and you will be launched into lunar client using
 the options you have used in the previous launch.
 
-## Windir spoofing
-Another feature is the spoofing/disabling of the windows directory for lunar client, which on most systems is "C:\WINDOWS".
-This allows the user to prevent lunar client from accessing the hosts file and the tasklists command, or to spoof these files.
-
-If you wish to spoof these files, keep in mind that directory structures need to be the same as inside of the windir file, e.g. create 
-System32\drivers\etc in your custom directory and insert a hosts file in it. The tasklist.exe needs to be present in the System32 directory.
-This can be a copy of the original tasklist.exe, or an exe that replicates it's output. A repository created for this purpose is https://github.com/Youded-byte/tasklist-spoof
-
 ## Build instructions
 Make sure you have Qt 5.15+ and CMake 3.16+ installed. 
 ```

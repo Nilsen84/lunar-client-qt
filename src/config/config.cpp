@@ -49,8 +49,6 @@ void Config::save() {
     saveObj["windowWidth"] = windowWidth;
     saveObj["windowHeight"] = windowHeight;
 
-    saveObj["useWindir"] = useWindir;
-    saveObj["windirPath"] = windirPath;
     saveObj["cosmeticsLevel"] = cosmeticsLevel;
     QJsonArray arr;
     foreach(const QString& str, agents){
@@ -76,7 +74,7 @@ Config Config::load() {
         }
     }
 
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+
     return {
         jsonObj["version"].toString("1.8"),
         jsonObj["keepMemorySame"].toBool(true),
@@ -98,8 +96,6 @@ Config Config::load() {
         jsonObj["autoggMessage"].toString(),
         jsonObj["windowWidth"].toInt(640),
         jsonObj["windowHeight"].toInt(480),
-        jsonObj["useWindir"].toBool(false),
-        jsonObj["windirPath"].toString(env.value("windir")),
         jsonObj["cosmeticsLevel"].toInt(1),
         agents
     };
