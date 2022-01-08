@@ -8,13 +8,21 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt5 COMPONENTS
+find_package(Qt6 COMPONENTS
         Core
         Gui
         Widgets
         Svg
-        Network
-        REQUIRED)
+        Network)
+if (NOT Qt6_FOUND)
+    find_package(Qt5 COMPONENTS
+            Core
+            Gui
+            Widgets
+            Svg
+            Network
+            REQUIRED)
+endif()
 
 set(SOURCE_FILES
         src/main.cpp
