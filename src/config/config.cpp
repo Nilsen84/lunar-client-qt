@@ -51,6 +51,7 @@ void Config::save() {
 
     saveObj["useWindir"] = useWindir;
     saveObj["windirPath"] = windirPath;
+    saveObj["cosmeticsLevel"] = cosmeticsLevel;
     QJsonArray arr;
     foreach(const QString& str, agents){
         arr.append(str);
@@ -99,6 +100,7 @@ Config Config::load() {
         jsonObj["windowHeight"].toInt(480),
         jsonObj["useWindir"].toBool(false),
         jsonObj["windirPath"].toString(env.value("windir")),
+        jsonObj["cosmeticsLevel"].toInt(1),
         agents
     };
 }

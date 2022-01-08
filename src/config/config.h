@@ -46,6 +46,8 @@ public:
     bool useWindir;
     QString windirPath;
 
+    int cosmeticsLevel;
+
     QStringList agents;
 public:
     void save();

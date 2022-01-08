@@ -112,6 +112,7 @@ void MainWindow::launchUnlockedCosmetics() {
 
 
 void MainWindow::launch(Launcher& launcher, Launcher::CosmeticsState cosmeticsState){
+    config.cosmeticsLevel = (int)cosmeticsState;
     apply();
     launcher.launch(cosmeticsState);
     if(config.closeOnLaunch)
