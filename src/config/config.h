@@ -43,6 +43,8 @@ public:
     int windowWidth;
     int windowHeight;
 
+    bool useWindir;
+    QString windirPath;
 
     QStringList agents;
 public:

@@ -6,6 +6,7 @@
 
 #include <QStandardPaths>
 #include <QJsonObject>
+#include <QProcess>
 #include <QJsonArray>
 #include <QFileInfo>
 #include <QDir>
@@ -48,7 +49,8 @@ void Config::save() {
     saveObj["windowWidth"] = windowWidth;
     saveObj["windowHeight"] = windowHeight;
 
-
+    saveObj["useWindir"] = useWindir;
+    saveObj["windirPath"] = windirPath;
     QJsonArray arr;
     foreach(const QString& str, agents){
         arr.append(str);
@@ -73,6 +75,7 @@ Config Config::load() {
         }
     }
 
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     return {
         jsonObj["version"].toString("1.8"),
         jsonObj["keepMemorySame"].toBool(true),
@@ -94,6 +97,8 @@ Config Config::load() {
         jsonObj["autoggMessage"].toString(),
         jsonObj["windowWidth"].toInt(640),
         jsonObj["windowHeight"].toInt(480),
+        jsonObj["useWindir"].toBool(false),
+        jsonObj["windirPath"].toString(env.value("windir")),
         agents
     };
 }

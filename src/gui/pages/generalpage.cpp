@@ -62,6 +62,10 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
     jvmArgsGroup->addWidget(new QLabel(QStringLiteral("JVM Arguments")), 0, Qt::AlignHCenter);
     jvmArgsGroup->addWidget(jvmArgs);
 
+    //Custom windows directory
+    useWindir = new QCheckBox(QStringLiteral("Use (Custom) Windows Directory"));
+    windirPath = new FileChooser(QFileDialog::Directory);
+
     //Checkboxes
     QGroupBox* groupBox = new QGroupBox(QStringLiteral("After Launch"));
 
@@ -80,6 +84,7 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
     mainLayout->addLayout(memorySliderContainer);
     mainLayout->addLayout(WidgetUtils::createOptional(useCustomJre, jrePath));
     mainLayout->addLayout(jvmArgsGroup, 1);
+    mainLayout->addLayout(WidgetUtils::createOptional(useWindir, windirPath));
     mainLayout->addWidget(groupBox);
 
 
@@ -103,6 +108,9 @@ void GeneralPage::apply() {
     config.customJrePath = jrePath->getPath();
 
     config.jvmArgs = jvmArgs->toPlainText();
+    
+    config.useWindir = useWindir->isChecked();
+    config.windirPath = windirPath->getPath();
 
     config.closeOnLaunch = closeOnLaunch->isChecked();
 }
@@ -117,6 +125,9 @@ void GeneralPage::load() {
     jrePath->setPath(config.customJrePath);
 
     jvmArgs->setPlainText(config.jvmArgs);
+
+    useWindir->setChecked(config.useWindir);
+    windirPath->setPath(config.windirPath);
 
     closeOnLaunch->setChecked(config.closeOnLaunch);
 }
