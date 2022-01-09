@@ -18,6 +18,10 @@ A useful feature of this launcher is the ability to with the click of a button i
 with a launcher interface at every launch. Launch Lunar Client Qt with the --nogui argument and you will be launched into lunar client using the 
 options you have used in the previous launch. It can be added to a shortcut of the program with ease.
 
+## Helper program support
+It is common for people to use external programs to enhance their minecraft experience. These programs range from chat log readers to memory readers and
+programs using JNI to interact with minecraft's JVM. This launcher includes built-in support to launch such programs alongside lunar client.
+
 ## Build instructions
 Make sure you have Qt 5.15+ and CMake 3.16+ installed. 
 ```
