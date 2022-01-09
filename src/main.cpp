@@ -19,8 +19,7 @@ int main(int argc, char *argv[]) {
     parser.process(app);
 
     if (parser.isSet(noGuiOption)) {
-        Config config = Config::load();
-        OfflineLauncher(config, nullptr).launch((Launcher::CosmeticsState)config.cosmeticsLevel);
+        OfflineLauncher(Config::load(), nullptr).launch();
     }
     else {
         MainWindow mainWindow;

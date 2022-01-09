@@ -46,10 +46,12 @@ void Config::save() {
     saveObj["useAutoggMessage"] = useAutoggMessage;
     saveObj["autoggMessage"] = autoggMessage;
 
+    saveObj["useCosmetics"] = useCosmetics;
+    saveObj["unlockCosmetics"] = unlockCosmetics;
+
     saveObj["windowWidth"] = windowWidth;
     saveObj["windowHeight"] = windowHeight;
 
-    saveObj["cosmeticsLevel"] = cosmeticsLevel;
     QJsonArray arr;
     foreach(const QString& str, agents){
         arr.append(str);
@@ -96,7 +98,8 @@ Config Config::load() {
         jsonObj["autoggMessage"].toString(),
         jsonObj["windowWidth"].toInt(640),
         jsonObj["windowHeight"].toInt(480),
-        jsonObj["cosmeticsLevel"].toInt(1),
+        jsonObj["useCosmetics"].toBool(true),
+        jsonObj["unlockCosmetics"].toBool(false),
         agents
     };
 }

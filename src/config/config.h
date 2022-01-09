@@ -43,8 +43,8 @@ public:
     int windowWidth;
     int windowHeight;
 
-
-    int cosmeticsLevel;
+    bool useCosmetics;
+    bool unlockCosmetics;
 
     QStringList agents;
 public:

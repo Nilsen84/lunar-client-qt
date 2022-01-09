@@ -11,15 +11,10 @@
 class Launcher : public QObject {
 Q_OBJECT
 public:
-    enum class CosmeticsState {
-        OFF,
-        DEFAULT,
-        UNLOCKED
-    };
 
     explicit Launcher(const Config& config, QObject* parent);
 
-    virtual void launch(CosmeticsState cosmeticsState) = 0;
+    virtual void launch() = 0;
 
     static QString getAgentFlags(const QString& path, const QString& options);
 protected:

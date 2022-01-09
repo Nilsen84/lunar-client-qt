@@ -38,6 +38,10 @@ MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPag
     autoggMessage = new QLineEdit();
     autoggMessage->setPlaceholderText(QStringLiteral("gg"));
 
+    useCosmetics = new QCheckBox(QStringLiteral("Enable Cosmetics"));
+    unlockCosmetics = new QCheckBox(QStringLiteral("Unlock All Cosmetics"));
+
+    connect(useCosmetics, &QCheckBox::toggled, unlockCosmetics, &QCheckBox::setEnabled);
 
     windowWidth = new QSpinBox();
     windowHeight = new QSpinBox();
@@ -54,7 +58,7 @@ MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPag
     windowResContainer->addWidget(windowWidth, 1);
     windowResContainer->addWidget(new QLabel(QStringLiteral("Window Height")));
     windowResContainer->addWidget(windowHeight, 1);
-
+        
     QVBoxLayout* mainLayout = new QVBoxLayout();
     mainLayout->setSpacing(40);
     mainLayout->addLayout(WidgetUtils::createOptional(customMinecraftDir, minecraftPathChooser));
@@ -65,6 +69,8 @@ MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPag
     hLayout->addLayout(WidgetUtils::createOptional(useLevelHeadPrefix, levelHeadPrefix));
     mainLayout->addLayout(hLayout);
     mainLayout->addLayout(WidgetUtils::createOptional(useAutoggMessage, autoggMessage));
+    mainLayout->addWidget(useCosmetics, 1, Qt::AlignHCenter);
+    mainLayout->addWidget(unlockCosmetics, 0, Qt::AlignCenter);
     mainLayout->addStretch(1);
 
     setLayout(mainLayout);
@@ -94,6 +100,9 @@ void MinecraftPage::apply() {
     config.useAutoggMessage = useAutoggMessage->isChecked();
     config.autoggMessage = autoggMessage->text();
 
+    config.useCosmetics = useCosmetics->isChecked();
+    config.unlockCosmetics = unlockCosmetics->isChecked();
+
     config.windowWidth = windowWidth->value();
     config.windowHeight = windowHeight->value();
 }
@@ -114,13 +123,9 @@ void MinecraftPage::load() {
     useAutoggMessage->setChecked(config.useAutoggMessage);
     autoggMessage->setText(config.autoggMessage);
 
+    useCosmetics->setChecked(config.useCosmetics);
+    unlockCosmetics->setChecked(config.unlockCosmetics);
+
     windowWidth->setValue(config.windowWidth);
     windowHeight->setValue(config.windowHeight);
 }
-
-
-
-
-
-
-
