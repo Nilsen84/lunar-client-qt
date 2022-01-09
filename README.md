@@ -14,9 +14,9 @@ Here's a repository containing some useful java agents that you might want to us
 If you're familiar with java bytecode feel free to write your own!
 
 ## Launching without launcher
-A useful feature of this launcher is the ability to with the click of a button immediately get into lunar client without the hassle every time
-of having to be faced with a launcher interface. Launch Lunar Client Qt with the --nogui argument and you will be launched into lunar client using
-the options you have used in the previous launch.
+A useful feature of this launcher is the ability to with the click of a button immediately get into lunar client without the hassle of being faced 
+with a launcher interface at every launch. Launch Lunar Client Qt with the --nogui argument and you will be launched into lunar client using the 
+options you have used in the previous launch. It can be added to a shortcut of the program with ease.
 
 ## Build instructions
 Make sure you have Qt 5.15+ and CMake 3.16+ installed. 
