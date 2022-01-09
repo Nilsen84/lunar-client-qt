@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
     versionSelect->addItems({"1.7", "1.8", "1.12", "1.16", "1.17", "1.18"});
 
     launchButton = new QPushButton();
-    launchButton->setMinimumHeight(45);
+    launchButton->setMinimumHeight(80);
     connect(launchButton, &QPushButton::pressed, this, &MainWindow::launch);
 
     connect(&offlineLauncher, &OfflineLauncher::error, this, &MainWindow::errorCallback);
