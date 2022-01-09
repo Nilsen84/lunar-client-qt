@@ -72,7 +72,7 @@ void OfflineLauncher::launch() {
                 config.nickHiderName
                 );
 
-    if(config.unlockCosmetics)
+    if(config.useCosmetics && config.unlockCosmetics)
         args << "-javaagent:" + QTemporaryFile::createNativeFile(":/res/UnlockedCosmetics.jar")->fileName();
 
     args << QProcess::splitCommand(config.jvmArgs);
