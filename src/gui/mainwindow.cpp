@@ -34,7 +34,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
     pages = {
         new GeneralPage(config),
         new MinecraftPage(config),
-        new AgentsPage(config)
+        new AgentsPage(config),
+        new HelpersPage(config)
     };
 
     foreach(ConfigurationPage* page, pages){

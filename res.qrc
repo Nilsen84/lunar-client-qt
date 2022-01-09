@@ -1,13 +1,13 @@
-<!DOCTYPE RCC><RCC version="1.0">
-    <qresource>
+<RCC>
+    <qresource prefix="/">
         <file>res/icons/cog.svg</file>
         <file>res/icons/openfolder.svg</file>
         <file>res/icons/agent.svg</file>
         <file>res/icons/minecraft.svg</file>
-
         <file>res/CustomAutoGG.jar</file>
         <file>res/CustomLevelHead.jar</file>
         <file>res/CustomNickHider.jar</file>
         <file>res/UnlockedCosmetics.jar</file>
+        <file>res/icons/helper.svg</file>
     </qresource>
 </RCC>

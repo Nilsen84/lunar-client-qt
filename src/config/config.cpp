@@ -59,6 +59,12 @@ void Config::save() {
 
     saveObj["agents"] = arr;
 
+    arr.empty();
+    foreach(const QString& str, helpers) {
+        arr.append(str);
+    }
+
+    saveObj["helpers"] = arr;
     saveJsonToConfig(saveObj);
 }
 
@@ -73,6 +79,18 @@ Config Config::load() {
         QString path = val.toString();
         if(QFile::exists(path)){
             agents.append(path);
+        }
+    }
+
+    arr.empty();
+    arr = jsonObj["helpers"].toArray();
+
+    QStringList helpers;
+
+    foreach(const QJsonValue& val, arr) {
+        QString path = val.toString();
+        if (QFile::exists(path)) {
+            helpers.append(path);
         }
     }
 
@@ -100,7 +118,8 @@ Config Config::load() {
         jsonObj["windowHeight"].toInt(480),
         jsonObj["useCosmetics"].toBool(true),
         jsonObj["unlockCosmetics"].toBool(false),
-        agents
+        agents,
+        helpers
     };
 }
 

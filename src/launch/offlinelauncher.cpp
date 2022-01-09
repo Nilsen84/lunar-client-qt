@@ -108,6 +108,12 @@ void OfflineLauncher::launch() {
     if(!process.startDetached()){
         emit error("Failed to start process: " + process.errorString());
     }
+
+    if (!config.helpers.isEmpty())
+    {
+        foreach(const QString & path, config.helpers)
+            HelperLaunch(path);
+    }
 }
 
 QString OfflineLauncher::findJavaExecutable(const QString& version) {
@@ -141,4 +147,13 @@ QString OfflineLauncher::findJavaExecutable(const QString& version) {
     }
 
     return {};
+}
+
+void OfflineLauncher::HelperLaunch(const QString& helper) {
+    QProcess process;
+    process.setProgram(helper);
+    process.setStandardInputFile(QProcess::nullDevice());
+    process.setStandardOutputFile(QProcess::nullDevice());
+    process.setStandardErrorFile(QProcess::nullDevice());
+    process.startDetached(); 
 }

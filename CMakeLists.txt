@@ -36,6 +36,8 @@ set(SOURCE_FILES
         src/gui/pages/configurationpage.cpp
         src/gui/pages/agentspage.cpp
         src/gui/pages/agentspage.h
+        src/gui/pages/helperspage.cpp
+        src/gui/pages/helperspage.h
         src/launch/launcher.h
         src/launch/launcher.cpp
         src/config/config.cpp
