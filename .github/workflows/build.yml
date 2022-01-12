@@ -44,14 +44,17 @@ jobs:
     - name: Replace Default Mingw
       shell: bash
       run: |
-        sed -i '1s/^/amogus\n/' $GITHUB_PATH
+        choco uninstall mingw --force
+        echo "$IQTA_TOOLS/mingw810_64/bin" >> $GITHUB_PATH 
       
     - name: Package Dependencies
       shell: bash
       working-directory: ${{github.workspace}}/build
       run: |
-        echo $PATH
+        echo $GITHUB_PATH
+        cat $GITHUB_PATH
         mkdir deps
+        mv lunar-client-qt.exe deps/
         windeployqt deps/ --compiler-runtime --no-angle --no-opengl-sw --no-virtualkeyboard --no-webkit2 --no-system-d3d-compiler --no-translations --no-quick-import
     - name: Check mingw g++ version
       run: |
