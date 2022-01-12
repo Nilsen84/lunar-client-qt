@@ -19,11 +19,6 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Check mingw g++ version
-      run: |
-        Write-Output (Get-Command g++.exe).Path
-        g++.exe --version     
-        
     - uses: actions/checkout@v2
         
     - name: Install Qt & MinGW
@@ -34,12 +29,8 @@ jobs:
         target: 'desktop'
         arch: 'win64_mingw81'
         install-deps: 'true'
-        tools: 'qt.tools.win64_mingw810'
+        tools: 'tools_mingw,8.1.0-1-202004170606,qt.tools.win64_mingw810'
         setup-python: 'false'
-        
-    - name: List Tools
-      shell: cmd
-      run: tree ${{github.workspace}}/../Qt
       
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
