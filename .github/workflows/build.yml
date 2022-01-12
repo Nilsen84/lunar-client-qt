@@ -1,4 +1,4 @@
-name: CMake
+name: Build
 
 on:
   push:
@@ -13,6 +13,7 @@ env:
 
 jobs:
   build_windows:
+    name: "Windows Build"
     if: ${{ false }}
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
@@ -68,17 +69,24 @@ jobs:
         name: windows
         path: ${{github.workspace}}/build/deps/
   build_mac:
+    name: "MacOS Build"
     runs-on: macos-latest
     
     steps:
       - uses: actions/checkout@v2
       
       - name: Install Qt
-        run: |
-          brew install qt@5
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: '5.15.2'
+          host: 'mac'
+          target: 'desktop'
+          arch: 'clang_64'
+          install-deps: 'true'
+          setup-python: 'false'
         
       - name: Configure CMake
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_PREFIX_PATH=/usr/local/opt/qt@5/
+        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build
         working-directory: ${{github.workspace}}/build
@@ -89,7 +97,7 @@ jobs:
         run: |
           mkdir with_deps
           mv lunar-client-qt with_deps/
-          /usr/local/opt/qt@5/bin/macdeployqt with_deps/
+          macdeployqt with_deps/
           
       - uses: actions/upload-artifact@v2
         with:
