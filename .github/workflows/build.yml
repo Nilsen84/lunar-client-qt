@@ -43,6 +43,7 @@ jobs:
       
     - name: Package Dependencies
       shell: bash
+      working-directory: ${{github.workspace}}/build
       run: |
         mkdir deps
         mv lunar-client-qt.exe deps/
