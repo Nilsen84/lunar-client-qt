@@ -2,9 +2,9 @@ name: Build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ macostest ]
   pull_request:
-    branches: [ master ]
+    branches: [ macostest ]
   workflow_dispatch:
 
 env:
