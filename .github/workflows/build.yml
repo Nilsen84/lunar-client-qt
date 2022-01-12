@@ -76,10 +76,9 @@ jobs:
       - name: Install Qt
         run: |
           brew install qt@5
-          brew link qt@5 --force
         
       - name: Configure CMake
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_PREFIX_PATH=/usr/local/opt/qt@5/
 
       - name: Build
         working-directory: ${{github.workspace}}/build
@@ -90,8 +89,7 @@ jobs:
         run: |
           mkdir with_deps
           mv lunar-client-qt with_deps/
-          macdeployqt with_deps/
-          - name: Upload Artifiact
+          /usr/local/opt/qt@5/bin/macdeployqt with_deps/
           
       - uses: actions/upload-artifact@v2
         with:
