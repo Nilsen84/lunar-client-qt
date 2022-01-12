@@ -44,9 +44,7 @@ jobs:
     - name: Replace Default Mingw
       shell: bash
       run: |
-        echo $PATH
-        choco uninstall mingw
-        echo "$IQTA_TOOLS/mingw810_64/bin" >> $GITHUB_PATH
+        sed -i '1s/^/amogus\n/' $GITHUB_PATH
       
     - name: Package Dependencies
       shell: bash
