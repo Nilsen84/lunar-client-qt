@@ -19,6 +19,11 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    - name: Check mingw g++ version
+      run: |
+        Write-Output (Get-Command g++.exe).Path
+        g++.exe --version     
+        
     - uses: actions/checkout@v2
         
     - name: Install Qt & MinGW
@@ -49,6 +54,10 @@ jobs:
         mv lunar-client-qt.exe deps/
         echo "$IQTA_TOOLS/mingw810/bin" >> $GITHUB_PATH
         windeployqt deps/ --compiler-runtime --no-angle --no-opengl-sw --no-virtualkeyboard --no-webkit2 --no-system-d3d-compiler --no-translations --no-quick-import
+    - name: Check mingw g++ version
+      run: |
+        Write-Output (Get-Command g++.exe).Path
+        g++.exe --version     
     - name: Upload Artifiact
       uses: actions/upload-artifact@v2
       with:
