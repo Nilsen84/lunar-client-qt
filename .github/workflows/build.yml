@@ -52,11 +52,12 @@ jobs:
       run: |
         mkdir deps
         mv lunar-client-qt.exe deps/
-        echo "$IQTA_TOOLS/mingw810/bin" >> $GITHUB_PATH
+        echo "$IQTA_TOOLS/mingw810_64/bin" >> $GITHUB_PATH
         windeployqt deps/ --compiler-runtime --no-angle --no-opengl-sw --no-virtualkeyboard --no-webkit2 --no-system-d3d-compiler --no-translations --no-quick-import
     - name: Check mingw g++ version
       run: |
         Write-Output (Get-Command g++.exe).Path
+        echo $env:PATH
         g++.exe --version     
     - name: Upload Artifiact
       uses: actions/upload-artifact@v2
