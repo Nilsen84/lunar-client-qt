@@ -8,15 +8,12 @@ on:
   workflow_dispatch:
 
 env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
 
 jobs:
   build_windows:
     name: "Windows Build"
-    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
-    # You can convert this to a matrix build if you need cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+
     runs-on: windows-latest
 
     defaults:
@@ -41,23 +38,22 @@ jobs:
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "Unix Makefiles"
+      run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "Unix Makefiles"
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      run: cmake --build . --config ${{env.BUILD_TYPE}}
       
     - name: Package Dependencies
-      working-directory: ${{github.workspace}}/build
       run: |
         mkdir with_deps
         mv lunar-client-qt.exe with_deps/
-        windeployqt deps/ --compiler-runtime --no-angle --no-opengl-sw --no-virtualkeyboard --no-webkit2 --no-system-d3d-compiler --no-translations --no-quick-import  
+        windeployqt with_deps/ --compiler-runtime --no-angle --no-opengl-sw --no-virtualkeyboard --no-webkit2 --no-system-d3d-compiler --no-translations --no-quick-import  
     - name: Upload Artifiact
       uses: actions/upload-artifact@v2
       with:
         name: windows
-        path: ${{github.workspace}}/build/deps/
+        path: ./with_deps
   build_mac:
     if: ${{ false }}
     name: "MacOS Build"
