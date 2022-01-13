@@ -20,10 +20,12 @@ int main(int argc, char *argv[]) {
 
     if (parser.isSet(noGuiOption)) {
         OfflineLauncher(Config::load(), nullptr).launch();
+        return 1;
     }
     else {
         MainWindow mainWindow;
         mainWindow.show();
-        return QApplication::exec();
+        QApplication::exec();
+        return 1;
     }
 }
