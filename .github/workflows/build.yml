@@ -103,7 +103,7 @@ jobs:
       
       - name: Install Qt
         run: |
-          pacman -S --noconfirm qt5-base qt5-svg
+          pacman -Sy --noconfirm qt5-base qt5-svg
           
       - name: Configure CMake
         run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
