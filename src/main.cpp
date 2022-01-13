@@ -24,6 +24,6 @@ int main(int argc, char *argv[]) {
     else {
         MainWindow mainWindow;
         mainWindow.show();
-        return QApplication::exec();
+        QApplication::exec();
     }
 }
