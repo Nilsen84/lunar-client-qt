@@ -101,9 +101,9 @@ jobs:
     steps: 
       - uses: actions/checkout@v2
       
-      - name: Install Qt
+      - name: Install Packages
         run: |
-          pacman -Sy --noconfirm qt5-base qt5-svg
+          pacman -Sy --noconfirm qt5-base qt5-svg cmake
           
       - name: Configure CMake
         run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
