@@ -12,7 +12,6 @@ env:
 
 jobs:
   build_windows:
-    if: ${{ false }}
     name: "Windows Build"
 
     runs-on: windows-latest
@@ -91,3 +90,29 @@ jobs:
         with:
           name: mac
           path: ./mac.tar.gz
+          
+          
+  arch_build:
+    name: "Arch Linux Build"
+    
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    
+    steps: 
+      - uses: actions/checkout@v2
+      
+      - name: Install Qt
+        run: |
+          pacman -S --noconfirm qt5-base qt5-svg
+          
+      - name: Configure CMake
+        run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        
+      - name: Build
+        run: make
+        
+      - uses: actions/upload-artifact@v2
+        with:
+          name: linux
+          path: ./lunar-client-qt
+    
