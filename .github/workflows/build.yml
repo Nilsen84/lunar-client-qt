@@ -12,6 +12,7 @@ env:
 
 jobs:
   build_windows:
+    if: ${{ false }}
     name: "Windows Build"
 
     runs-on: windows-latest
@@ -56,9 +57,8 @@ jobs:
         name: windows
         path: ./with_deps
   build_mac:
-    if: ${{ false }}
     name: "MacOS Build"
-    runs-on: macos-11
+    runs-on: macos-latest
     
     steps:
       - uses: actions/checkout@v2
@@ -74,20 +74,20 @@ jobs:
           setup-python: 'false'
         
       - name: Configure CMake
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build
-        working-directory: ${{github.workspace}}/build
         run: make
         
       - name: Package Dependencies
-        working-directory: ${{github.workspace}}/build
         run: |
-          mkdir with_deps
-          mv lunar-client-qt with_deps/
-          macdeployqt with_deps/
+          macdeployqt lunar-client-qt.app
+          
+      - name: Compress into tar
+        run: |
+          tar -czvf mac.tar.gz lunar-client-qt.app
           
       - uses: actions/upload-artifact@v2
         with:
           name: mac
-          path: ${{github.workspace}}/build/with_deps/
+          path: ./mac.tar.gz
