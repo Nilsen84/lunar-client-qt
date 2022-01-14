@@ -14,7 +14,8 @@ jobs:
   build_windows:
     name: "Windows Build"
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+    container: archlinux:latest
 
     defaults:
       run:
@@ -31,23 +32,14 @@ jobs:
         pacman-key --finger    B9E36A7275FC61B464B67907E06FE8F53CDC6A4C # verify fingerprint
         pacman-key --lsign-key B9E36A7275FC61B464B67907E06FE8F53CDC6A4C # sign imported key locally
         
-    - uses: msys2/setup-msys2@v2
-      with:
-        update: true
-        install: >-
-          git
-          base-devel
-          cmake
-          mingw-w64-x86_64-toolchain
-          mingw-w64-x86_64-cmake
-          mingw-w64-qt6-base-static
-          mingw-w64-qt6-svg-static
-          mingw-w64-qt6-tools-static
+    - name: Install Packages
+      run: |
+        pacman -Syu --noconfirm base-devel cmake mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-qt6-base-static mingw-w64-qt6-svg-static mingw-w64-qt6-tools-static
       
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "Unix Makefiles"
+      run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "MinGW Makefiles"
 
     - name: Build
       # Build your program with the given configuration
