@@ -58,6 +58,11 @@ target_link_libraries(lunar-client-qt
         Qt::Svg
         Qt::Network
         )
+        
+if(STATICCOMPILE)
+        find_package(Freetype REQUIRED)
+        target_link_libraries(lunar-client-qt ${FREETYPE_LIBRARIES})
+        target_include_directories(lunar-client-qt PRIVATE ${FREETYPE_INCLUDE_DIRS})
 
 target_include_directories(lunar-client-qt PRIVATE src)
 
