@@ -26,6 +26,7 @@ jobs:
     - name: Add repository
       run: |
         printf '[ownstuff]\nServer = https://ftp.f3l.de/~martchus/$repo/os/$arch\nServer = https://martchus.no-ip.biz/repo/arch/$repo/os/$arch' >> /etc/pacman.conf
+        pacman-key --init
         pacman-key --recv-keys B9E36A7275FC61B464B67907E06FE8F53CDC6A4C
         pacman-key --finger    B9E36A7275FC61B464B67907E06FE8F53CDC6A4C # verify fingerprint
         pacman-key --lsign-key B9E36A7275FC61B464B67907E06FE8F53CDC6A4C # sign imported key locally
@@ -98,6 +99,7 @@ jobs:
       - name: Add repository
         run: |
           printf '[ownstuff]\nServer = https://ftp.f3l.de/~martchus/$repo/os/$arch\nServer = https://martchus.no-ip.biz/repo/arch/$repo/os/$arch' >> /etc/pacman.conf
+          pacman-key --init
           pacman-key --recv-keys B9E36A7275FC61B464B67907E06FE8F53CDC6A4C
           pacman-key --finger    B9E36A7275FC61B464B67907E06FE8F53CDC6A4C # verify fingerprint
           pacman-key --lsign-key B9E36A7275FC61B464B67907E06FE8F53CDC6A4C # sign imported key locally
