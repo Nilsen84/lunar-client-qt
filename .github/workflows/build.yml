@@ -22,6 +22,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+     
+    - name: Add repository
+      run: echo "[ownstuff]\nServer = https://ftp.f3l.de/~martchus/$repo/os/$arch\nServer = https://martchus.no-ip.biz/repo/arch/$repo/os/$arch" >> /etc/pacman.conf
         
     - uses: msys2/setup-msys2@v2
       with:
@@ -87,14 +90,17 @@ jobs:
     
     steps: 
       - uses: actions/checkout@v2
-      
+       
+      - name: Add repository
+        run: echo "[ownstuff]\nServer = https://ftp.f3l.de/~martchus/$repo/os/$arch\nServer = https://martchus.no-ip.biz/repo/arch/$repo/os/$arch" >> /etc/pacman.conf
+        
       - name: Install Packages
         run: |
           pacman -Syu --noconfirm qt6-base-static qt6-svg-static cmake base-devel
           
       - name: Configure CMake
         run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-        
+       
       - name: Build
         run: make
         
