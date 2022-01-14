@@ -32,9 +32,9 @@ jobs:
           cmake
           mingw-w64-x86_64-toolchain
           mingw-w64-x86_64-cmake
-          mingw-w64-x86_64-qt6-base
-          mingw-w64-x86_64-qt6-svg   
-          mingw-w64-x86_64-qt6-tools
+          mingw-w64-x86_64-qt6-base-static
+          mingw-w64-x86_64-qt6-svg-static
+          mingw-w64-x86_64-qt6-tools-static
       
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -45,16 +45,11 @@ jobs:
       # Build your program with the given configuration
       run: cmake --build . --config ${{env.BUILD_TYPE}}
       
-    - name: Package Dependencies
-      run: |
-        mkdir with_deps
-        mv lunar-client-qt.exe with_deps/
-        windeployqt.exe with_deps/ --compiler-runtime --no-angle --no-opengl-sw --no-virtualkeyboard --no-webkit2 --no-system-d3d-compiler --no-translations --no-quick-import  
     - name: Upload Artifiact
       uses: actions/upload-artifact@v2
       with:
         name: windows
-        path: ./with_deps
+        path: ./lunar-client-qt.exe
   build_mac:
     name: "MacOS Build"
     runs-on: macos-latest
@@ -78,18 +73,10 @@ jobs:
       - name: Build
         run: make
         
-      - name: Package Dependencies
-        run: |
-          macdeployqt lunar-client-qt.app
-          
-      - name: Compress into tar
-        run: |
-          tar -czvf mac.tar.gz lunar-client-qt.app
-          
       - uses: actions/upload-artifact@v2
         with:
           name: mac
-          path: ./mac.tar.gz
+          path: ./lunar-client-qt.app
           
           
   arch_build:
@@ -103,7 +90,7 @@ jobs:
       
       - name: Install Packages
         run: |
-          pacman -Syu --noconfirm qt6-base qt6-svg cmake base-devel
+          pacman -Syu --noconfirm qt6-base-static qt6-svg-static cmake base-devel
           
       - name: Configure CMake
         run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
