@@ -64,7 +64,7 @@ if (STATICCOMPILE)
         find_package(PNG REQUIRED)
         find_package(JPEG REQUIRED)
         #find_package(Harfbuzz REQUIRED)
-        find_package(PCRE2 REQUIRED)
+        find_package(Pcre2 REQUIRED)
         target_link_libraries(lunar-client-qt ${FREETYPE_LIBRARIES} ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${HARFBUZZ_LIBRARIES} ${PCRE2_LIBRARIES})
         target_include_directories(lunar-client-qt PRIVATE ${FREETYPE_INCLUDE_DIRS} ${PNG_INCLUDE_DIRS} ${JPEG_INCLUDE_DIRS} ${HARFBUZZ_INCLUDE_DIRS} ${PCRE2_INCLUDE_DIRS})
         
