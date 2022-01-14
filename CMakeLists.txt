@@ -24,6 +24,13 @@ if (NOT Qt6_FOUND)
             REQUIRED
             )
 endif()
+find_package(PCRE2 REQUIRED)
+find_package(WrapPNG REQUIRED)
+find_package(ZLIB REQUIRED)
+find_package(ZSTD REQUIRED)
+find_package(PNG REQUIRED)
+find_package(harfbuzz REQUIRED)
+find_package(Freetype REQUIRED)
 
 set(SOURCE_FILES
         src/main.cpp
@@ -57,7 +64,13 @@ target_link_libraries(lunar-client-qt
         Qt::Widgets
         Qt::Svg
         Qt::Network
-        "-static"
+        PCRE2
+        WrapPNG
+        ZLIB
+        ZSTD
+        PNG
+        harfbuzz
+        Freetype
         )
 
 target_include_directories(lunar-client-qt PRIVATE src)
