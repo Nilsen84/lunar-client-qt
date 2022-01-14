@@ -57,7 +57,6 @@ target_link_libraries(lunar-client-qt
         Qt::Widgets
         Qt::Svg
         Qt::Network
-        "-static"
         )
 
 target_include_directories(lunar-client-qt PRIVATE src)
