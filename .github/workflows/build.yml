@@ -35,7 +35,7 @@ jobs:
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: x86_64-w64-mingw32-cmake-static . -DCMAKE_INSTALL_PREFIX:PATH="/usr/x86_64-w64-mingw32/static" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "Unix Makefiles"
+      run: x86_64-w64-mingw32-cmake-static . -DCMAKE_INSTALL_PREFIX:PATH="/usr/x86_64-w64-mingw32/static/lib/cmake/Qt6HostInfo" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "Unix Makefiles"
 
     - name: Build
       # Build your program with the given configuration
