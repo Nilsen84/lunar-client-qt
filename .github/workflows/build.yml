@@ -24,7 +24,7 @@ jobs:
     - uses: actions/checkout@v2
      
     - name: Add repository
-      run: echo '[ownstuff]\nServer = https://ftp.f3l.de/~martchus/$repo/os/$arch\nServer = https://martchus.no-ip.biz/repo/arch/$repo/os/$arch' >> /etc/pacman.conf
+      run: printf '[ownstuff]\nServer = https://ftp.f3l.de/~martchus/$repo/os/$arch\nServer = https://martchus.no-ip.biz/repo/arch/$repo/os/$arch' >> /etc/pacman.conf
         
     - uses: msys2/setup-msys2@v2
       with:
@@ -92,7 +92,7 @@ jobs:
       - uses: actions/checkout@v2
        
       - name: Add repository
-        run: echo '[ownstuff]\nServer = https://ftp.f3l.de/~martchus/$repo/os/$arch\nServer = https://martchus.no-ip.biz/repo/arch/$repo/os/$arch' >> /etc/pacman.conf
+        run: printf '[ownstuff]\nServer = https://ftp.f3l.de/~martchus/$repo/os/$arch\nServer = https://martchus.no-ip.biz/repo/arch/$repo/os/$arch' >> /etc/pacman.conf
         
       - name: Install Packages
         run: |
