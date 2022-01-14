@@ -61,8 +61,12 @@ target_link_libraries(lunar-client-qt
         
 if (STATICCOMPILE)
         find_package(Freetype REQUIRED)
-        target_link_libraries(lunar-client-qt ${FREETYPE_LIBRARIES})
-        target_include_directories(lunar-client-qt PRIVATE ${FREETYPE_INCLUDE_DIRS})
+        find_package(PNG REQUIRED)
+        find_package(JPEG REQUIRED)
+        find_package(harfbuzz REQUIRED)
+        find_package(pcre2 REQUIRED)
+        target_link_libraries(lunar-client-qt ${FREETYPE_LIBRARIES} ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${HARFBUZZ_LIBRARIES} ${PCRE2})
+        target_include_directories(lunar-client-qt PRIVATE ${FREETYPE_INCLUDE_DIRS} ${PNG_INCLUDE_DIRS} ${JPEG_INCLUDE_DIRS} ${HARFBUZZ_INCLUDE_DIRS} ${PCRE2})
         
 endif()
 
