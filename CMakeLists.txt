@@ -21,7 +21,7 @@ if (NOT Qt6_FOUND)
             Widgets
             Svg
             Network
-            REQUIRED)
+            )
 endif()
 
 set(SOURCE_FILES
