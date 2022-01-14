@@ -60,6 +60,7 @@ target_link_libraries(lunar-client-qt
         )
 
 target_include_directories(lunar-client-qt PRIVATE src)
+link_libraries("-static")
 
 # Removes the console window on windows and macos respectively
 set_property(TARGET lunar-client-qt PROPERTY WIN32_EXECUTABLE true)
