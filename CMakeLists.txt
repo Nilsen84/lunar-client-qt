@@ -58,13 +58,6 @@ target_link_libraries(lunar-client-qt
         Qt::Svg
         Qt::Network
         )
-      
-if (STATICCOMPILE)
-        #find_library(licpp STATIC libstdc++.a)
-        #find_library(libwinpthread STATIC libwinpthread.a)
-        #find_library(libgcc STATIC libgcc.a)
-        target_link_libraries(lunar-client-qt "-l:libgcc.a" "-l:libwinpthread.a" "-l:libstdc++.a")
-endif()
 
 target_include_directories(lunar-client-qt PRIVATE src)
 
