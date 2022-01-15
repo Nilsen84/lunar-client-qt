@@ -52,7 +52,7 @@ jobs:
       run: |
         mkdir with_deps
         mv lunar-client-qt.exe with_deps/
-        windeployqt-qt6 with_deps/ --compiler-runtime --no-opengl-sw --no-virtualkeyboard --no-system-d3d-compiler --no-translations --no-quick-import --release  
+        windeployqt-qt6 with_deps/ --compiler-runtime --no-opengl-sw --no-virtualkeyboard --no-system-d3d-compiler --no-translations --no-quick-import --no-plugins --release  
     - name: Upload Artifiact
       uses: actions/upload-artifact@v2
       with:
