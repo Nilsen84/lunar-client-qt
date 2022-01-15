@@ -1,7 +1,7 @@
 # Lunar Client Qt
 Lunar Client Qt is a lightweight launcher for lunar client written in C++ using the Qt framework.  
   
-![alt text](https://i.imgur.com/cv9SJsk.png)
+![alt text](https://i.imgur.com/Ih9BGOn.png)
 
 ## Discord
 Add me on discord: nils#5281 if you have any questions or thoughts about the project. For any suggestions/issues open an issue here on the github page.
