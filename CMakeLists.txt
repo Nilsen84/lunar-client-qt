@@ -60,7 +60,10 @@ target_link_libraries(lunar-client-qt
         )
       
 if (STATICCOMPILE)
-        target_link_libraries(lunar-client-qt PRIVATE "-static-libstdc++" "-static-libgcc")
+        find_library(licpp libc++.a)
+        find_library(libwinpthread libwinpthread.a)
+        find_library(libgcc libgcc.a)
+        target_link_libraries(lunar-client-qt licpp libwinpthread libgcc)
 endif()
 
 target_include_directories(lunar-client-qt PRIVATE src)
