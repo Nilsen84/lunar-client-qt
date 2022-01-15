@@ -22,7 +22,7 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
-        version: '6.2.0'
+        version: '6.2.2'
         host: 'windows'
         target: 'desktop'
         install-deps: 'true'
@@ -47,10 +47,17 @@ jobs:
         mv lunar-client-qt.exe with_deps/
         windeployqt with_deps/ --compiler-runtime --no-opengl-sw --no-virtualkeyboard --no-system-d3d-compiler --no-translations --no-quick-import
         
-    - name: Upload Artifiact
+    - name: Upload Artifact with vc_redist
       uses: actions/upload-artifact@v2
       with:
         name: windows
+        path: ./with_deps
+    - name: Remove vc_redist
+      run: del /F "./with_deps/vc_redist.x64.exe"
+    - name: Upload Artifact without vc_redist
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows_no_vcredist
         path: ./with_deps
   build_mac:
     name: "MacOS Build"
@@ -75,6 +82,7 @@ jobs:
       - name: Build
         run: make
         
+      - name: Upload Artifact
       - uses: actions/upload-artifact@v2
         with:
           name: mac
