@@ -43,7 +43,7 @@ jobs:
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake . -DSTATICCOMPILE:bool=TRUE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "Unix Makefiles"
+      run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "Unix Makefiles"
 
     - name: Build
       # Build your program with the given configuration
@@ -54,9 +54,9 @@ jobs:
         mkdir with_deps
         mv lunar-client-qt.exe with_deps/
         windeployqt-qt6 with_deps/ --compiler-runtime --no-opengl-sw --no-virtualkeyboard --no-system-d3d-compiler --no-translations --no-quick-import
-        cp libgcc_s_seh-1.dll with_deps/
-        cp libstdc++-6.dll with_deps/
-        cp libwinpthread-1.dll with_deps/
+        cp /mingw64/bin/libgcc_s_seh-1.dll with_deps/libgcc_s_seh-1.dll
+        cp /mingw64/bin/libstdc++-6.dll with_deps/libstdc++-6.dll
+        cp /mingw64/bin/libwinpthread-1.dll with_deps/libwinpthread-1.dll
         
     - name: Upload Artifiact
       uses: actions/upload-artifact@v2
