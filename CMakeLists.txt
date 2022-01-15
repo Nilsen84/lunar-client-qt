@@ -65,35 +65,8 @@ if (STATICCOMPILE)
         find_package(JPEG REQUIRED)
 	find_package(Graphite REQUIRED)
         #find_package(Harfbuzz REQUIRED)
-        #include(FindPCRE2.cmake)#
-#
-# Locate pcre2
-#
-# This module accepts the following environment variables:
-#
-#    PCRE2_DIR or PCRE2_ROOT - Specify the location of PCRE2
-#
-# This module defines the following CMake variables:
-#
-#    PCRE2_FOUND - True if libpcre2 is found
-#    PCRE2_LIBRARY - A variable pointing to the PCRE2 library
-#    PCRE2_INCLUDE_DIR - Where to find the headers
-
-#=============================================================================
-# Inspired by FindGDAL
-#
-# Distributed under the OSI-approved BSD License (the "License");
-# see accompanying file Copyright.txt for details.
-#
-# This software is distributed WITHOUT ANY WARRANTY; without even the
-# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See COPYING-CMAKE-SCRIPTS for more information.
-#=============================================================================
-
-# This makes the presumption that you are include pcre2.h like
-#
-#include "pcre2.h"
-
+        #include(FindPCRE2.cmake)
+	
 if (DEFINED PCRE2_ROOT AND NOT PCRE2_ROOT)
 	set (PCRE2_LIBRARY "" CACHE INTERNAL "")
 	set (PCRE2_INCLUDE_DIR "" CACHE INTERNAL "")
@@ -101,8 +74,6 @@ if (DEFINED PCRE2_ROOT AND NOT PCRE2_ROOT)
 endif (DEFINED PCRE2_ROOT AND NOT PCRE2_ROOT)
 
 if (UNIX AND NOT PCRE2_FOUND)
-	# Use pcre2-config to obtain the library location and name, something like
-	# -L/sw/lib -lpcre2-8)
 	find_program (PCRE2_CONFIG pcre2-config
 		HINTS
 		${PCRE2_DIR}
@@ -181,14 +152,53 @@ find_library (PCRE2_LIBRARY
 	/usr/local
         /usr/x86_64-w64-mingw32
 )
-
 include (FindPackageHandleStandardArgs)
 find_package_handle_standard_args (PCRE2 DEFAULT_MSG PCRE2_LIBRARY PCRE2_INCLUDE_DIR)
+set (PCRE2_LIBRARIES ${PCRE2_LIBRARY})
+set (PCRE2_INCLUDE_DIRS ${PCRE2_INCLUDE_DIR})
+## FindGRAPHITE2.cmake
+##
+## Copyright (C) 2016 Christian Schenk
+## 
+## This file is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published
+## by the Free Software Foundation; either version 2, or (at your
+## option) any later version.
+## 
+## This file is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+## 
+## You should have received a copy of the GNU General Public License
+## along with this file; if not, write to the Free Software
+## Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+## USA.
 
-        set (PCRE2_LIBRARIES ${PCRE2_LIBRARY})
-        set (PCRE2_INCLUDE_DIRS ${PCRE2_INCLUDE_DIR})
-        target_link_libraries(lunar-client-qt ${FREETYPE_LIBRARIES} ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${HARFBUZZ_LIBRARIES} ${PCRE2_LIBRARIES})
-        target_include_directories(lunar-client-qt PRIVATE ${FREETYPE_INCLUDE_DIRS} ${PNG_INCLUDE_DIRS} ${JPEG_INCLUDE_DIRS} ${HARFBUZZ_INCLUDE_DIRS} ${PCRE2_INCLUDE_DIRS})
+find_path(GRAPHITE2_INCLUDE_DIR
+  NAMES
+    graphite2/Font.h
+)
+
+find_library(GRAPHITE2_LIBRARY
+  NAMES
+    graphite2
+)
+
+find_package_handle_standard_args(GRAPHITE2 DEFAULT_MSG GRAPHITE2_LIBRARY GRAPHITE2_INCLUDE_DIR)
+
+if(GRAPHITE2_FOUND)
+  set(GRAPHITE2_INCLUDE_DIRS ${GRAPHITE2_INCLUDE_DIR})
+  set(GRAPHITE2_LIBRARIES ${GRAPHITE2_LIBRARY})
+else()
+  set(GRAPHITE2_INCLUDE_DIRS)
+  set(GRAPHITE2_LIBRARIES)
+endif()
+
+mark_as_advanced(GRAPHITE2_LIBRARY GRAPHITE2_INCLUDE_DIR)
+	
+        target_link_libraries(lunar-client-qt ${FREETYPE_LIBRARIES} ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${HARFBUZZ_LIBRARIES} ${PCRE2_LIBRARIES} ${GRAPHITE_LIBRARIES})
+        target_include_directories(lunar-client-qt PRIVATE ${FREETYPE_INCLUDE_DIRS} ${PNG_INCLUDE_DIRS} ${JPEG_INCLUDE_DIRS} ${HARFBUZZ_INCLUDE_DIRS} ${PCRE2_INCLUDE_DIRS} ${GRAPHITE2_INCLUDE_DIRS})
         
 endif()
 
