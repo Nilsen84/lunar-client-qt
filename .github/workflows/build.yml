@@ -60,10 +60,10 @@ jobs:
         cp /mingw64/bin/libdouble-conversion.dll with_deps/libdouble-conversion.dll
         cp /mingw64/bin/libicuin69.dll with_deps/libicuin69.dll
         cp /mingw64/bin/libicuuc69.dll with_deps/libicuuc69.dll
-        cp mingw64/bin/libpcre2-16-0.dll with_deps/libpcre2-16-0.dll
-        cp mingw64/bin/zlib1.dll with_deps/zlib1.dll
-        cp mingw64/bin/libfreetype-6.dll with_deps/libfreetype-6.dll
-        cp mingw64/bin/libharfbuzz-0.dll with_deps/libharfbuzz-0.dll
+        cp /mingw64/bin/libpcre2-16-0.dll with_deps/libpcre2-16-0.dll
+        cp /mingw64/bin/zlib1.dll with_deps/zlib1.dll
+        cp /mingw64/bin/libfreetype-6.dll with_deps/libfreetype-6.dll
+        cp /mingw64/bin/libharfbuzz-0.dll with_deps/libharfbuzz-0.dll
         
     - name: Upload Artifiact
       uses: actions/upload-artifact@v2
