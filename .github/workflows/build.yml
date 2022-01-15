@@ -30,7 +30,7 @@ jobs:
         
     - name: Install Packages
       run: |
-        pacman -Syu --noconfirm base-devel cmake mingw-w64-cmake-static mingw-w64-make mingw-w64-gcc mingw-w64-qt6-base-static mingw-w64-qt6-svg-static mingw-w64-qt6-tools-static mingw-w64-freetype2 mingw-w64-harfbuzz mingw-w64-openjpeg2 mingw-w64-pcre2 mingw-w64-libpng mingw-w64-zstd libpng-static openssl-static zstd-static pcre2-static harfbuzz-static freetype2-static qt6-base qt6-svg qt6-tools
+        pacman -Syu --noconfirm base-devel cmake mingw-w64-cmake-static mingw-w64-make mingw-w64-gcc mingw-w64-qt6-base-static mingw-w64-qt6-svg-static mingw-w64-qt6-tools-static mingw-w64-freetype2 mingw-w64-harfbuzz mingw-w64-openjpeg2 mingw-w64-pcre2 mingw-w64-libpng mingw-w64-zstd mingw-w64-graphite libpng-static openssl-static zstd-static graphite-static pcre2-static harfbuzz-static freetype2-static qt6-base qt6-svg qt6-tools
       
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
