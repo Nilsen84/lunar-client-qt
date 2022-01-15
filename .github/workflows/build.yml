@@ -57,6 +57,9 @@ jobs:
         cp /mingw64/bin/libgcc_s_seh-1.dll with_deps/libgcc_s_seh-1.dll
         cp /mingw64/bin/libstdc++-6.dll with_deps/libstdc++-6.dll
         cp /mingw64/bin/libwinpthread-1.dll with_deps/libwinpthread-1.dll
+        cp /mingw64/bin/libdouble-conversion.dll with_deps/libdouble-conversion.dll
+        cp /mingw64/bin/libicuin69.dll with_deps/libicuin69.dll
+        cp /mingw64/bin/libicuuc69.dll with_deps/libicuuc69.dll
         
     - name: Upload Artifiact
       uses: actions/upload-artifact@v2
