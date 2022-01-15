@@ -25,6 +25,7 @@ jobs:
         version: '6.2.2'
         host: 'windows'
         target: 'desktop'
+        arch: 'win64_msvc2019_64'
         install-deps: 'true'
         modules: 'qtwidget qtgui qtsvg qtnetwork'
         setup-python: 'true'
@@ -47,17 +48,10 @@ jobs:
         mv lunar-client-qt.exe with_deps/
         windeployqt with_deps/ --compiler-runtime --no-opengl-sw --no-virtualkeyboard --no-system-d3d-compiler --no-translations --no-quick-import
         
-    - name: Upload Artifact with vc_redist
+    - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
         name: windows
-        path: ./with_deps
-    - name: Remove vc_redist
-      run: del /F "./with_deps/vc_redist.x64.exe"
-    - name: Upload Artifact without vc_redist
-      uses: actions/upload-artifact@v2
-      with:
-        name: windows_no_vcredist
         path: ./with_deps
   build_mac:
     name: "MacOS Build"
@@ -74,6 +68,7 @@ jobs:
           target: 'desktop'
           arch: 'clang_64'
           install-deps: 'true'
+          modules: 'qtwidget qtgui qtsvg qtnetwork'
           setup-python: 'false'
         
       - name: Configure CMake
