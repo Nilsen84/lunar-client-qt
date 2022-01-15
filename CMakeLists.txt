@@ -196,7 +196,7 @@ endif()
 
 mark_as_advanced(GRAPHITE2_LIBRARY GRAPHITE2_INCLUDE_DIR)
 	
-        target_link_libraries(lunar-client-qt ${FREETYPE_LIBRARIES} ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${PCRE2_LIBRARIES} ${GRAPHITE2_LIBRARIES} ${HARFBUZZ_LIBRARIES}  "-static" "-lstdc++" "-static-libgcc" )
+        target_link_libraries(lunar-client-qt ${FREETYPE_LIBRARIES} ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${PCRE2_LIBRARIES} ${GRAPHITE2_LIBRARIES} ${HARFBUZZ_LIBRARIES}  "-static" "-static-libgcc" "-static-libstdc++" )
         target_include_directories(lunar-client-qt PRIVATE ${FREETYPE_INCLUDE_DIRS} ${PNG_INCLUDE_DIRS} ${JPEG_INCLUDE_DIRS} ${PCRE2_INCLUDE_DIRS} ${GRAPHITE2_INCLUDE_DIRS} ${HARFBUZZ_INCLUDE_DIRS} )
         
 endif()
