@@ -35,6 +35,8 @@ jobs:
           mingw-w64-x86_64-qt6-base
           mingw-w64-x86_64-qt6-svg   
           mingw-w64-x86_64-qt6-tools
+          mingw-w64-x86_64-ninja
+          mingw-w64-x86_64-gcc
           
     - name: Enable Qt6 Static Linking for Cmake
       run: |
