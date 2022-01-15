@@ -38,15 +38,6 @@ jobs:
           mingw-w64-x86_64-qt6-base
           mingw-w64-x86_64-qt6-svg   
           mingw-w64-x86_64-qt6-tools
-          
-    - name: Enable Qt6 Static Linking for Cmake
-      run: |
-        source /opt/qt6.1-static/bin/qt6.1-static-env.sh
-    #    mkdir ~/msys2-qt6base-static
-    #    git clone https://github.com/AnClark/msys2-qt6base-static ~/msys2-qt6base-static
-    #    cd ~/msys2-qt6base-static/
-    #    makepkg -f
-    #    pacman --noconfirm -U mingw-w64-x86_64-qtbase6-static-6.1.2-x86_64.pkg.tar.zst
       
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
