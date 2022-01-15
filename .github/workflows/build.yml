@@ -14,7 +14,7 @@ jobs:
   build_windows:
     name: "Windows Build"
 
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     defaults:
       run:
@@ -34,8 +34,6 @@ jobs:
           mingw-w64-x86_64-cmake
           mingw-w64-x86_64-qt6-svg   
           mingw-w64-x86_64-qt6-tools
-          mingw-w64-x86_64-ninja
-          mingw-w64-x86_64-gcc
           mingw-w64-x86_64-qt6-static
           
     - name: Enable Qt6 Static Linking for Cmake
