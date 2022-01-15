@@ -23,7 +23,7 @@ It is common for people to use external programs to enhance their minecraft expe
 programs using JNI to interact with minecraft's JVM. This launcher includes built-in support to launch such programs alongside lunar client.
 
 ## Build instructions
-Make sure you have Qt 5.15+ and CMake 3.16+ installed. 
+Make sure you have Qt6 and CMake 3.16+ installed. 
 ```
 git clone https://github.com/Nilsen84/lunar-client-qt.git
 cd lunar-client-qt
@@ -33,7 +33,7 @@ make
 ```
 
 **NOTE**  
-If you're on mac, you wanna start off by installing qt using brew: ```brew install qt@5```  
-You also want to replace the ```cmake ..``` command with ```cmake -DCMAKE_PREFIX_PATH=/usr/local/opt/qt5/ ..```  
+If you're on mac, you wanna start off by installing qt using brew: ```brew install qt@6```  
+You also want to replace the ```cmake ..``` command with ```cmake -DCMAKE_PREFIX_PATH=/usr/local/opt/qt6/ ..```  
 Besides that follow the same instructions above.
 
