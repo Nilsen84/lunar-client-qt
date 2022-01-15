@@ -51,7 +51,7 @@ set(SOURCE_FILES
         src/gui/widgets/widgetutils.h)
 
 if (STATICCOMPILE)
-        target_link_libraries(lunar-client-qt "-static")
+        target_link_libraries(lunar-client-qt "-static-libstdc++" "-static-libgcc")
 endif()
 add_executable(lunar-client-qt ${SOURCE_FILES} ${LIB_SRC} res.qrc)
 target_link_libraries(lunar-client-qt
