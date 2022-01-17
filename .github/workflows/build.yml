@@ -85,10 +85,10 @@ jobs:
           
       - name: Package Dependencies
         run: |
-          mkdir with_deps/
-          mv lunar-client-qt.app with_deps/
-          cd ./with_deps
           macdeployqt lunar-client-qt.app -dmg -always-overwrite
+          ls
+          mv *.dmg lunar-client-qt.dmg
+          mv ./*/*.dmg lunar-client-qt.dmg
           
       - uses: actions/upload-artifact@v2
         with:
