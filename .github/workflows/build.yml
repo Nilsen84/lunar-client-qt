@@ -111,7 +111,6 @@ jobs:
     name: "Ubuntu Linux Build"
     
     runs-on: ubuntu-18.04
-    container: ubuntu-18.04
     steps:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
