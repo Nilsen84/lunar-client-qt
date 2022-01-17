@@ -119,6 +119,9 @@ jobs:
           modules: 'qtwidget qtgui qtsvg qtnetwork'
           setup-python: 'false'
         
+      - name: Fix Wrong Directory
+        run: cd ..
+        
       - name: Configure CMake
         run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
        
