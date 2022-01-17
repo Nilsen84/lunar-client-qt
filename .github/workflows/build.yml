@@ -86,9 +86,7 @@ jobs:
       - name: Package Dependencies
         run: |
           macdeployqt lunar-client-qt.app -dmg -always-overwrite
-          ls
           mv *.dmg lunar-client-qt.dmg
-          mv ./*/*.dmg lunar-client-qt.dmg
           
       - uses: actions/upload-artifact@v2
         with:
