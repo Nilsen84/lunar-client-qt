@@ -139,7 +139,7 @@ jobs:
           mkdir ./AppDir/share
           mkdir ./AppDir/share/applications
           echo -e '[Desktop Entry]\nType=Application\nName=lunar-client-qt\nComment=lunar client qt\nExec=lunar-client-qt\nCategories=Game;' > ./AppDir/share/applications/lunar-client-qt.desktop
-          mv lunar-client-qt with_deps/
+          mv lunar-client-qt AppDir/bin/
           ./linuxdeployqt.AppImage ./AppDir/share/applications/lunar-client-qt.desktop -appimage
           mkdir executablefile
           mv *.AppImage executablefile
