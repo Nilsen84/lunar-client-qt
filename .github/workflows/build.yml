@@ -70,6 +70,7 @@ jobs:
           install-deps: 'true'
           modules: 'qtwidget qtgui qtsvg qtnetwork'
           setup-python: 'false'
+          tools: 'tools_ifw tools_qtcreator,qt.tools.qtcreator'
         
       - name: Configure CMake
         run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
@@ -82,6 +83,17 @@ jobs:
           name: mac
           path: ./lunar-client-qt.app
           
+      - name: Package Dependencies
+        run: |
+          mkdir with_deps/
+          mv lunar-client-qt.app with_deps/
+          cd ./with_deps
+          macdeployqt lunar-client-qt.app -dmg -always-overwrite
+          
+      - uses: actions/upload-artifact@v2
+        with:
+          name: mac-dmg
+          path: ./lunar-client-qt.dmg
           
   arch_build:
     name: "Arch Linux Build"
