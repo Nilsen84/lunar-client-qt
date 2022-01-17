@@ -112,6 +112,7 @@ jobs:
     
     runs-on: ubuntu-18.04
     steps:
+      - uses: actions/checkout@v2
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
@@ -119,19 +120,16 @@ jobs:
           modules: 'qtwidget qtgui qtsvg qtnetwork'
           setup-python: 'false'
         
-      - name: Fix Wrong Directory
-        run: cd ..
-        
+      - name: Install linuxdeployqt
+        run: |
+          curl -o linuxdeployqt.AppImage https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
+          chmod a+x ./linuxdeployqt.AppImage
+          
       - name: Configure CMake
         run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
        
       - name: Build
         run: make
-        
-      - name: Install linuxdeployqt
-        run: |
-          curl -o linuxdeployqt.AppImage https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
-          chmod a+x ./linuxdeployqt.AppImage
           
       - name: Package Dependencies
         run: |
