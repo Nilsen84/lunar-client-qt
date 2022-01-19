@@ -152,8 +152,5 @@ QString OfflineLauncher::findJavaExecutable(const QString& version) {
 void OfflineLauncher::HelperLaunch(const QString& helper) {
     QProcess process;
     process.setProgram(helper);
-    process.setStandardInputFile(QProcess::nullDevice());
-    process.setStandardOutputFile(QProcess::nullDevice());
-    process.setStandardErrorFile(QProcess::nullDevice());
     process.startDetached(); 
 }

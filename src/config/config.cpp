@@ -59,12 +59,12 @@ void Config::save() {
 
     saveObj["agents"] = arr;
 
-    arr.empty();
+    QJsonArray arr2;
     foreach(const QString& str, helpers) {
-        arr.append(str);
+        arr2.append(str);
     }
 
-    saveObj["helpers"] = arr;
+    saveObj["helpers"] = arr2;
     saveJsonToConfig(saveObj);
 }
 
