@@ -20,14 +20,14 @@ jobs:
     - uses: actions/checkout@v2
       
     - name: Install Qt & MinGW
-      uses: jurplel/install-qt-action@v2.14.0
+      uses: jurplel/install-qt-action@v2
       with:
         version: '5.15.2'
         host: 'windows'
         target: 'desktop'
         arch: 'win64_mingw81'
         tools: 'tools_mingw,8.1.0-1-202004170606,qt.tools.win64_mingw810'
-        archives: 'qtbase qtsvg'
+        extra: '--archives qtbase qtsvg'
       
     - name: Configure CMake
       run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "MinGW Makefiles"
@@ -54,13 +54,13 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2.14.0
+        uses: jurplel/install-qt-action@v2
         with:
           version: '5.15.2'
           host: 'mac'
           target: 'desktop'
           arch: 'clang_64'
-          archives: 'qtbase qtsvg'
+          extra: '--archives qtbase qtsvg'
         
       - name: Configure CMake
         run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
