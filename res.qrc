@@ -5,9 +5,9 @@
         <file>res/icons/agent.svg</file>
         <file>res/icons/minecraft.svg</file>
         <file>res/CustomAutoGG.jar</file>
-        <file>res/CustomLevelHead.jar</file>
         <file>res/CustomNickHider.jar</file>
         <file>res/UnlockedCosmetics.jar</file>
         <file>res/icons/helper.svg</file>
+        <file>res/LevelHeadImproved.jar</file>
     </qresource>
 </RCC>

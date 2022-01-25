@@ -62,7 +62,7 @@ void OfflineLauncher::launch() {
 
     if(config.useLevelHeadPrefix)
         args << getAgentFlags(
-                QTemporaryFile::createNativeFile(":/res/CustomLevelHead.jar")->fileName(),
+                QTemporaryFile::createNativeFile(":/res/LevelHeadImproved.jar")->fileName(),
                 config.levelHeadPrefix
                 );
 
