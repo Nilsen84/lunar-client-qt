@@ -101,6 +101,7 @@ void OfflineLauncher::launch() {
 
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     env.remove("windir");
+    env.remove("JAVA_OPTS");
 
     process.setProcessEnvironment(env);
     process.setWorkingDirectory(lunarDir + "/offline/" + config.gameVersion);
