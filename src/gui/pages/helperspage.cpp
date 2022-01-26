@@ -33,9 +33,9 @@ HelpersPage::HelpersPage(Config& config, QWidget *parent) : ConfigurationPage(co
     connect(add, &QPushButton::clicked, [this](){
         QStringList files = QFileDialog::getOpenFileNames(
                 nullptr,
-                QStringLiteral("Open Helper Executable"),
+                QStringLiteral("Open Helper Program"),
                 {},
-                QStringLiteral("Helper Executable (*.exe)")
+                QStringLiteral("Helper Program (*.*)")
                 );
         foreach(const QString& str, files){
             if(!str.isEmpty()){
