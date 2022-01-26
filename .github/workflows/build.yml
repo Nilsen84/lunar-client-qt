@@ -22,10 +22,9 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
-        version: '6.2.2'
+        version: '5.15.2'
         host: 'windows'
         target: 'desktop'
-        modules: 'qtwidget qtgui qtsvg qtnetwork'
         arch: 'win64_mingw81'
         tools: 'tools_mingw,8.1.0-1-202004170606,qt.tools.win64_mingw810'
       
