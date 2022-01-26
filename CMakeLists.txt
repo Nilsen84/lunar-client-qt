@@ -12,15 +12,13 @@ find_package(Qt6 COMPONENTS
         Core
         Gui
         Widgets
-        Svg
-        Network)
+        Svg)
 if (NOT Qt6_FOUND)
     find_package(Qt5 COMPONENTS
             Core
             Gui
             Widgets
             Svg
-            Network
             REQUIRED
             )
 endif()
@@ -48,6 +46,8 @@ set(SOURCE_FILES
         src/gui/widgets/filechooser.cpp
         src/gui/widgets/filechooser.h 
         src/gui/widgets/widgetutils.cpp 
+        src/gui/widgets/filechooser.h
+        src/gui/widgets/widgetutils.cpp
         src/gui/widgets/widgetutils.h)
 
 add_executable(lunar-client-qt ${SOURCE_FILES} ${LIB_SRC} res.qrc)
@@ -56,7 +56,6 @@ target_link_libraries(lunar-client-qt
         Qt::Gui
         Qt::Widgets
         Qt::Svg
-        Qt::Network
         )
 
 target_include_directories(lunar-client-qt PRIVATE src)
