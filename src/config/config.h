@@ -34,11 +34,14 @@ public:
     bool useNickHiderName;
     QString nickHiderName;
 
+    bool useAutoggMessage;
+    QString autoggMessage;
+
     bool useLevelHeadPrefix;
     QString levelHeadPrefix;
 
-    bool useAutoggMessage;
-    QString autoggMessage;
+    bool useLevelHeadNick;
+    int levelHeadNickLevel;
 
     int windowWidth;
     int windowHeight;

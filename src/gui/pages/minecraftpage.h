@@ -35,6 +35,9 @@ private:
     QCheckBox* useLevelHeadPrefix;
     QLineEdit* levelHeadPrefix;
 
+    QCheckBox* useLevelHeadNick;
+    QLineEdit* levelHeadNickLevel;
+
     QCheckBox* useAutoggMessage;
     QLineEdit* autoggMessage;
 

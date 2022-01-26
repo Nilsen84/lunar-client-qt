@@ -60,10 +60,10 @@ void OfflineLauncher::launch() {
                 config.autoggMessage
                 );
 
-    if(config.useLevelHeadPrefix)
+    if(config.useLevelHeadPrefix || config.useLevelHeadNick)
         args << getAgentFlags(
                 QTemporaryFile::createNativeFile(":/res/LevelHeadImproved.jar")->fileName(),
-                config.levelHeadPrefix
+                getLevelHeadOptions(config.useLevelHeadPrefix, config.levelHeadPrefix, config.useLevelHeadNick, QString::number(config.levelHeadNickLevel))
                 );
 
     if(config.useNickHiderName)

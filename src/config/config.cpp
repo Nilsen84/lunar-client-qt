@@ -43,6 +43,9 @@ void Config::save() {
     saveObj["useLevelHeadPrefix"] = useLevelHeadPrefix;
     saveObj["levelHeadPrefix"] = levelHeadPrefix;
 
+    saveObj["useLevelHeadNick"] = useLevelHeadNick;
+    saveObj["levelHeadNickLevel"] = levelHeadNickLevel;
+
     saveObj["useAutoggMessage"] = useAutoggMessage;
     saveObj["autoggMessage"] = autoggMessage;
 
@@ -110,10 +113,12 @@ Config Config::load() {
         jsonObj["serverIp"].toString(),
         jsonObj["useNickHiderName"].toBool(false),
         jsonObj["nickHiderName"].toString(),
-        jsonObj["useLevelHeadPrefix"].toBool(false),
-        jsonObj["levelHeadPrefix"].toString(),
         jsonObj["useAutoggMessage"].toBool(false),
         jsonObj["autoggMessage"].toString(),
+        jsonObj["useLevelHeadPrefix"].toBool(false),
+        jsonObj["levelHeadPrefix"].toString(),
+        jsonObj["useLevelHeadNick"].toBool(false),
+        jsonObj["levelHeadNickLevel"].toInt(-1),
         jsonObj["windowWidth"].toInt(640),
         jsonObj["windowHeight"].toInt(480),
         jsonObj["useCosmetics"].toBool(true),
