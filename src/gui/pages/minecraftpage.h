@@ -38,6 +38,9 @@ private:
     QCheckBox* useAutoggMessage;
     QLineEdit* autoggMessage;
 
+    QCheckBox* useNickLevel;
+    QSpinBox* nickLevel;
+
     QSpinBox* windowWidth;
     QSpinBox* windowHeight;
 };

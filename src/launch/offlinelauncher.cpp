@@ -72,6 +72,12 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
                 config.nickHiderName
                 );
 
+    if(config.useNickLevel)
+        args << getAgentFlags(
+                    QTemporaryFile::createNativeFile(":/res/NickLevel.jar")->fileName(),
+                    QString::number(config.nickLevel)
+                );
+
     if(cosmeticsState == CosmeticsState::UNLOCKED)
         args << "-javaagent:" + QTemporaryFile::createNativeFile(":/res/UnlockedCosmetics.jar")->fileName();
 

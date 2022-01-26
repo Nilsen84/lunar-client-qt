@@ -6,6 +6,8 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
+#include <limits>
+
 #include <gui/widgets/widgetutils.h>
 
 MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPage(config, parent) {
@@ -38,6 +40,10 @@ MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPag
     autoggMessage = new QLineEdit();
     autoggMessage->setPlaceholderText(QStringLiteral("gg"));
 
+    useNickLevel = new QCheckBox(QStringLiteral("Custom Level For Nicks (-1 means levelhead won't show for nicks)"));
+    nickLevel = new QSpinBox;
+    nickLevel->setMinimum(INT_MIN);
+    nickLevel->setMaximum(INT_MAX);
 
     windowWidth = new QSpinBox();
     windowHeight = new QSpinBox();
@@ -65,6 +71,8 @@ MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPag
     hLayout->addLayout(WidgetUtils::createOptional(useLevelHeadPrefix, levelHeadPrefix));
     mainLayout->addLayout(hLayout);
     mainLayout->addLayout(WidgetUtils::createOptional(useAutoggMessage, autoggMessage));
+    mainLayout->addLayout(WidgetUtils::createOptional(useNickLevel, nickLevel));
+
     mainLayout->addStretch(1);
 
     setLayout(mainLayout);
@@ -94,6 +102,9 @@ void MinecraftPage::apply() {
     config.useAutoggMessage = useAutoggMessage->isChecked();
     config.autoggMessage = autoggMessage->text();
 
+    config.useNickLevel = useNickLevel->isChecked();
+    config.nickLevel = nickLevel->value();
+
     config.windowWidth = windowWidth->value();
     config.windowHeight = windowHeight->value();
 }
@@ -113,6 +124,9 @@ void MinecraftPage::load() {
 
     useAutoggMessage->setChecked(config.useAutoggMessage);
     autoggMessage->setText(config.autoggMessage);
+
+    useNickLevel->setChecked(config.useNickLevel);
+    nickLevel->setValue(config.nickLevel);
 
     windowWidth->setValue(config.windowWidth);
     windowHeight->setValue(config.windowHeight);
