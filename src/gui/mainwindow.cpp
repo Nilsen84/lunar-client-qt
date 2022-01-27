@@ -57,15 +57,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
 
     launchUnlockedCosmeticsButton = new QPushButton;
     launchUnlockedCosmeticsButton->setMinimumHeight(45);
-    connect(launchUnlockedCosmeticsButton, &QPushButton::pressed, this, &MainWindow::launchUnlockedCosmetics);
+    connect(launchUnlockedCosmeticsButton, &QPushButton::clicked, this, &MainWindow::launchUnlockedCosmetics);
 
     launchNoCosmeticsButton = new QPushButton();
     launchNoCosmeticsButton->setMinimumHeight(45);
-    connect(launchNoCosmeticsButton, &QPushButton::pressed, this, &MainWindow::launchNoCosmetics);
+    connect(launchNoCosmeticsButton, &QPushButton::clicked, this, &MainWindow::launchNoCosmetics);
 
     launchButton = new QPushButton();
     launchButton->setMinimumHeight(45);
-    connect(launchButton, &QPushButton::pressed, this, &MainWindow::launchDefault);
+    connect(launchButton, &QPushButton::clicked, this, &MainWindow::launchDefault);
 
     connect(&offlineLauncher, &OfflineLauncher::error, this, &MainWindow::errorCallback);
 
@@ -100,7 +100,6 @@ void MainWindow::resetLaunchButtons() {
 void MainWindow::launchNoCosmetics() {
     launch(offlineLauncher, Launcher::CosmeticsState::OFF);
 }
-
 
 void MainWindow::launchDefault() {
     launch(offlineLauncher, Launcher::CosmeticsState::DEFAULT);
