@@ -40,7 +40,7 @@ MinecraftPage::MinecraftPage(Config &config, QWidget *parent) : ConfigurationPag
     autoggMessage = new QLineEdit();
     autoggMessage->setPlaceholderText(QStringLiteral("gg"));
 
-    useNickLevel = new QCheckBox(QStringLiteral("Custom Level For Nicks (-1 means levelhead won't show for nicks)"));
+    useNickLevel = new QCheckBox(QStringLiteral("LevelHead level shown for nicks (-1 means nothing will show)"));
     nickLevel = new QSpinBox;
     nickLevel->setMinimum(INT_MIN);
     nickLevel->setMaximum(INT_MAX);
