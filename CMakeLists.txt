@@ -8,12 +8,17 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt5 COMPONENTS
-        Core
-        Gui
-        Widgets
-        Svg
-        REQUIRED)
+option(USE_QT6 "Use Qt 6 instead of Qt 5" OFF)
+
+if(USE_QT6)
+    set(QT_VER 6)
+else()
+    set(QT_VER 5)
+endif()
+
+set(QT_COMPONENTS Core Gui Widgets Svg)
+
+find_package(Qt${QT_VER} COMPONENTS ${QT_COMPONENTS} REQUIRED)
 
 set(SOURCE_FILES
         src/main.cpp
@@ -38,16 +43,11 @@ set(SOURCE_FILES
         src/gui/widgets/widgetutils.cpp
         src/gui/widgets/widgetutils.h)
 
-add_executable(lunar-client-qt ${SOURCE_FILES} ${LIB_SRC} res.qrc)
-target_link_libraries(lunar-client-qt
-        Qt::Core
-        Qt::Gui
-        Qt::Widgets
-        Qt::Svg
-        )
+add_executable(lunar-client-qt WIN32 MACOSX_BUNDLE ${SOURCE_FILES} ${LIB_SRC} res.qrc)
+
+set(QT_LIBS ${QT_COMPONENTS})
+list(TRANSFORM QT_LIBS PREPEND Qt${QT_VER}::)
+
+target_link_libraries(lunar-client-qt ${QT_LIBS})
 
 target_include_directories(lunar-client-qt PRIVATE src)
-
-# Removes the console window on windows and macos respectively
-set_property(TARGET lunar-client-qt PROPERTY WIN32_EXECUTABLE true)
-set_property(TARGET lunar-client-qt PROPERTY MACOSX_BUNDLE true)
