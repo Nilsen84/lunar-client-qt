@@ -45,8 +45,7 @@ set(SOURCE_FILES
 
 add_executable(lunar-client-qt WIN32 MACOSX_BUNDLE ${SOURCE_FILES} ${LIB_SRC} res.qrc)
 
-set(QT_LIBS ${QT_COMPONENTS})
-list(TRANSFORM QT_LIBS PREPEND ${QT_VER}::)
+list(TRANSFORM QT_COMPONENTS PREPEND ${QT_VER}:: OUTPUT_VARIABLE QT_LIBS)
 
 target_link_libraries(lunar-client-qt ${QT_LIBS})
 
