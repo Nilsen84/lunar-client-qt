@@ -11,14 +11,14 @@ set(CMAKE_AUTOUIC ON)
 option(USE_QT6 "Use Qt 6 instead of Qt 5" OFF)
 
 if(USE_QT6)
-    set(QT_VER 6)
+    set(QT_VER Qt6)
 else()
-    set(QT_VER 5)
+    set(QT_VER Qt5)
 endif()
 
 set(QT_COMPONENTS Core Gui Widgets Svg)
 
-find_package(Qt${QT_VER} COMPONENTS ${QT_COMPONENTS} REQUIRED)
+find_package(${QT_VER} COMPONENTS ${QT_COMPONENTS} REQUIRED)
 
 set(SOURCE_FILES
         src/main.cpp
@@ -46,7 +46,7 @@ set(SOURCE_FILES
 add_executable(lunar-client-qt WIN32 MACOSX_BUNDLE ${SOURCE_FILES} ${LIB_SRC} res.qrc)
 
 set(QT_LIBS ${QT_COMPONENTS})
-list(TRANSFORM QT_LIBS PREPEND Qt${QT_VER}::)
+list(TRANSFORM QT_LIBS PREPEND ${QT_VER}::)
 
 target_link_libraries(lunar-client-qt ${QT_LIBS})
 
