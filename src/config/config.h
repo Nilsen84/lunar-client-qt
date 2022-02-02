@@ -31,9 +31,6 @@ public:
     bool joinServerOnLaunch;
     QString serverIp;
 
-    bool useNickHiderName;
-    QString nickHiderName;
-
     bool useLevelHeadPrefix;
     QString levelHeadPrefix;
 

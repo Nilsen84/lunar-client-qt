@@ -66,12 +66,6 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
                 config.levelHeadPrefix
                 );
 
-    if(config.useNickHiderName)
-        args << getAgentFlags(
-                QTemporaryFile::createNativeFile(":/res/CustomNickHider.jar")->fileName(),
-                config.nickHiderName
-                );
-
     if(config.useNickLevel)
         args << getAgentFlags(
                     QTemporaryFile::createNativeFile(":/res/NickLevel.jar")->fileName(),

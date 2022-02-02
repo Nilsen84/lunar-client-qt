@@ -29,9 +29,6 @@ private:
     QCheckBox* joinServerOnLaunch;
     QLineEdit* serverToJoin;
 
-    QCheckBox* useNickHiderName;
-    QLineEdit* nickHiderName;
-
     QCheckBox* useLevelHeadPrefix;
     QLineEdit* levelHeadPrefix;
 
