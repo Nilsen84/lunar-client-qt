@@ -45,26 +45,32 @@ set(SOURCE_FILES
 
 add_executable(lunar-client-qt WIN32 MACOSX_BUNDLE ${SOURCE_FILES} ${LIB_SRC} res.qrc)
 
+if(UNIX AND APPLE)
+    set(JAR_DEST_DIR ${CMAKE_BINARY_DIR}/lunar-client-qt.app/Contents/MacOS)
+else()
+    set(JAR_DEST_DIR ${CMAKE_BINARY_DIR})
+endif()
+
 function(COPY_JARS DIR OUTPUT_LIST)
     add_custom_command(
-            OUTPUT "${CMAKE_BINARY_DIR}/${DIR}/"
-            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/${DIR}/
+            OUTPUT "${JAR_DEST_DIR}/${DIR}/"
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${JAR_DEST_DIR}/${DIR}/
     )
 
-    set(COPIED_FILES "${CMAKE_BINARY_DIR}/${DIR}/")
+    set(COPIED_FILES "${JAR_DEST_DIR}/${DIR}/")
 
     file(GLOB JARS ${CMAKE_SOURCE_DIR}/${DIR}/*.jar)
 
     foreach(JAR ${JARS})
         get_filename_component(FILE_NAME ${JAR} NAME)
         add_custom_command(
-                OUTPUT "${CMAKE_BINARY_DIR}/${DIR}/${FILE_NAME}"
+                OUTPUT "${JAR_DEST_DIR}/${DIR}/${FILE_NAME}"
                 COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                ${JAR} ${CMAKE_BINARY_DIR}/${DIR}/
+                ${JAR} ${JAR_DEST_DIR}/${DIR}/
                 DEPENDS ${JAR}
                 COMMENT "Copying ${FILE_NAME}"
         )
-        list(APPEND COPIED_FILES ${CMAKE_BINARY_DIR}/${DIR}/${FILE_NAME})
+        list(APPEND COPIED_FILES ${JAR_DEST_DIR}/${DIR}/${FILE_NAME})
     endforeach()
 
     set(${OUTPUT_LIST} ${COPIED_FILES} PARENT_SCOPE)
