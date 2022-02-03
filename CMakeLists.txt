@@ -41,9 +41,40 @@ set(SOURCE_FILES
         src/gui/widgets/filechooser.cpp
         src/gui/widgets/filechooser.h
         src/gui/widgets/widgetutils.cpp
-        src/gui/widgets/widgetutils.h)
+        src/gui/widgets/widgetutils.h src/utils.cpp src/utils.h)
 
 add_executable(lunar-client-qt WIN32 MACOSX_BUNDLE ${SOURCE_FILES} ${LIB_SRC} res.qrc)
+
+function(COPY_JARS DIR OUTPUT_LIST)
+    add_custom_command(
+            OUTPUT "${CMAKE_BINARY_DIR}/${DIR}/"
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/${DIR}/
+    )
+
+    set(COPIED_FILES "${CMAKE_BINARY_DIR}/${DIR}/")
+
+    file(GLOB JARS ${CMAKE_SOURCE_DIR}/${DIR}/*.jar)
+
+    foreach(JAR ${JARS})
+        get_filename_component(FILE_NAME ${JAR} NAME)
+        add_custom_command(
+                OUTPUT "${CMAKE_BINARY_DIR}/${DIR}/${FILE_NAME}"
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${JAR} ${CMAKE_BINARY_DIR}/${DIR}/
+                DEPENDS ${JAR}
+                COMMENT "Copying ${FILE_NAME}"
+        )
+        list(APPEND COPIED_FILES ${CMAKE_BINARY_DIR}/${DIR}/${FILE_NAME})
+    endforeach()
+
+    set(${OUTPUT_LIST} ${COPIED_FILES} PARENT_SCOPE)
+endfunction()
+
+copy_jars(agents COPIED_AGENTS)
+copy_jars(libs COPIED_LIBRARIES)
+
+add_custom_target(CopyJars ALL COMMAND DEPENDS ${COPIED_AGENTS} ${COPIED_LIBRARIES})
+add_dependencies(lunar-client-qt CopyJars)
 
 list(TRANSFORM QT_COMPONENTS PREPEND ${QT_VER}:: OUTPUT_VARIABLE QT_LIBS)
 

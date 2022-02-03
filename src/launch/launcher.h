@@ -20,8 +20,6 @@ public:
     explicit Launcher(const Config& config, QObject* parent);
 
     virtual void launch(CosmeticsState cosmeticsState) = 0;
-
-    static QString getAgentFlags(const QString& path, const QString& options);
 protected:
     const Config& config;
 };

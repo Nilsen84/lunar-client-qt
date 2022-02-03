@@ -10,6 +10,8 @@
 #include <QStandardPaths>
 #include <QTemporaryFile>
 
+#include "utils.h"
+
 const QString OfflineLauncher::lunarDir = QDir::homePath() + "/.lunarclient";
 const QString OfflineLauncher::minecraftDir =
 #if defined(Q_OS_WIN)
@@ -47,33 +49,27 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
                     "lunar-assets-prod-1-optifine.jar",
                     "lunar-assets-prod-2-optifine.jar",
                     "lunar-assets-prod-3-optifine.jar",
-                    "OptiFine.jar"
+                    "OptiFine.jar",
+
+                    Utils::getLibsDirectory() + QDir::separator() + '*'
         }).join(QDir::listSeparator())
     };
 
     foreach(const QString& path, config.agents)
         args << "-javaagent:" + path;
 
-    if(config.useAutoggMessage)
-        args << getAgentFlags(
-                QTemporaryFile::createNativeFile(":/res/CustomAutoGG.jar")->fileName(),
-                config.autoggMessage
-                );
 
     if(config.useLevelHeadPrefix)
-        args << getAgentFlags(
-                QTemporaryFile::createNativeFile(":/res/CustomLevelHead.jar")->fileName(),
-                config.levelHeadPrefix
-                );
+        args << Utils::getAgentFlags("CustomLevelHead.jar", config.levelHeadPrefix);
+
+    if(config.useAutoggMessage)
+        args << Utils::getAgentFlags("CustomAutoGG.jar", config.autoggMessage);
 
     if(config.useNickLevel)
-        args << getAgentFlags(
-                    QTemporaryFile::createNativeFile(":/res/NickLevel.jar")->fileName(),
-                    QString::number(config.nickLevel)
-                );
+        args << Utils::getAgentFlags("NickLevel.jar", QString::number(config.nickLevel));
 
     if(cosmeticsState == CosmeticsState::UNLOCKED)
-        args << "-javaagent:" + QTemporaryFile::createNativeFile(":/res/UnlockedCosmetics.jar")->fileName();
+        args << Utils::getAgentFlags("UnlockCosmetics.jar");
 
     args << QProcess::splitCommand(config.jvmArgs);
 
