@@ -80,7 +80,7 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
             "--assetIndex", config.gameVersion == QStringLiteral("1.7") ? "1.7.10" : config.gameVersion,
             "--userProperties", "{}",
             "--gameDir", config.useCustomMinecraftDir ? config.customMinecraftDir : minecraftDir,
-            "--launcherVersion", "2.8.8",
+            "--launcherVersion", "2.9.4",
             "--width", QString::number(config.windowWidth),
             "--height", QString::number(config.windowHeight)
     };
