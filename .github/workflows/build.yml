@@ -3,6 +3,8 @@ name: Build and Release
 on:
   push:
     branches: [ master ]
+    tags:
+      - "v*.*.*"
   pull_request:
     branches: [ master ]
   workflow_dispatch:
@@ -117,6 +119,7 @@ jobs:
 
   create_release:
     needs: [build_windows, build_mac, build_arch]
+    if: startsWith(github.ref, 'refs/tags/v')
 
     runs-on: ubuntu-latest
     steps:
