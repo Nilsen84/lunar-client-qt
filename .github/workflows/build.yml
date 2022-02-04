@@ -1,4 +1,4 @@
-name: Build
+name: Build and Release
 
 on:
   push:
@@ -85,7 +85,7 @@ jobs:
           path: ./mac.tar.gz
           
           
-  arch_build:
+  build_arch:
     name: "Arch Linux Build"
     
     runs-on: ubuntu-latest
@@ -114,3 +114,22 @@ jobs:
         with:
           name: linux
           path: ./linux.tar.gz
+
+  create_release:
+    needs: [build_windows, build_mac, build_arch]
+    if: startsWith(github.ref, 'refs/tags/')
+
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download Builds
+      uses: actions/download-artifact@v2.1.0
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v0.1.14
+      with:
+        draft: true
+        fail_on_unmatched_files: true
+        files: |
+          linux.tar.gz
+          mac.tar.gz
+          windows.zip
