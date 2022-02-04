@@ -59,7 +59,7 @@ function(COPY_JARS DIR OUTPUT_LIST)
 
     set(COPIED_FILES "${JAR_DEST_DIR}/${DIR}/")
 
-    file(GLOB JARS ${CMAKE_SOURCE_DIR}/${DIR}/*.jar)
+    file(GLOB JARS ${CMAKE_SOURCE_DIR}/java/${DIR}/*.jar)
 
     foreach(JAR ${JARS})
         get_filename_component(FILE_NAME ${JAR} NAME)
