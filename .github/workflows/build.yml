@@ -118,6 +118,7 @@ jobs:
           path: ./linux.tar.gz
 
   create_release:
+    name: "Create Release"
     needs: [build_windows, build_mac, build_arch]
     if: startsWith(github.ref, 'refs/tags/v')
 
@@ -137,6 +138,6 @@ jobs:
         draft: true
         fail_on_unmatched_files: true
         files: |
-          linux.tar.gz
-          mac.tar.gz
-          windows.zip
+          linux/linux.tar.gz
+          mac/mac.tar.gz
+          windows/windows.zip
