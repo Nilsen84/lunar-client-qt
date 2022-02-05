@@ -17,9 +17,10 @@
 #include "pages/generalpage.h"
 #include "pages/minecraftpage.h"
 #include "launch/launcher.h"
+#include "version.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::load()), offlineLauncher(config){
-    setWindowTitle(QStringLiteral("Lunar Client Qt"));
+    setWindowTitle(QStringLiteral("Lunar Client Qt (%1)").arg(VERSION));
     QWidget* centralWidget = new QWidget();
 
     QGridLayout* mainLayout = new QGridLayout();

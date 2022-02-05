@@ -1,5 +1,4 @@
 #include <QApplication>
-#include <QStandardPaths>
 
 #include "gui/mainwindow.h"
 
