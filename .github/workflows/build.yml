@@ -110,7 +110,7 @@ jobs:
         run: |
           mkdir Lunar\ Client\ Qt
           mv -t Lunar\ Client\ Qt/ lunar-client-qt libs/ agents/
-          tar czvf linux.tar.gz linux/
+          tar czvf linux.tar.gz Lunar\ Client\ Qt/
 
       - uses: actions/upload-artifact@v2
         with:
