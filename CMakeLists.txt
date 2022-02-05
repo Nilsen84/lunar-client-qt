@@ -48,11 +48,11 @@ set(LCQT_VERSION UNKNOWN)
 find_package(Git)
 if(Git_FOUND)
     execute_process(
-            COMMAND ${GIT_EXECUTABLE} describe
+            COMMAND ${GIT_EXECUTABLE} describe --match "v[0-9]*"
             OUTPUT_VARIABLE tag
     )
 
-    if(tag MATCHES "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)")
+    if(tag MATCHES "^v?([0-9]+)\\.([0-9]+)\\.([0-9]+)")
         set(LCQT_VERSION ${CMAKE_MATCH_1}.${CMAKE_MATCH_2}.${CMAKE_MATCH_3})
     endif()
 endif()
