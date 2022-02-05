@@ -25,9 +25,9 @@ unsigned long long getSystemMemory() {
 #else
 #include <windows.h>
 unsigned long long getSystemMemory() {
-	MEMORYSTATUSEZ status;
+	MEMORYSTATUSEX status;
 	status.dwLength = sizeof(status);
-	GlobalMemoryStatusEz(&status);
+	GlobalMemoryStatusEx(&status);
 	return status.ullTotalPhys;
 }
 #endif
