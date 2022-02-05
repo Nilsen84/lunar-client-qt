@@ -52,7 +52,7 @@ if(Git_FOUND)
             OUTPUT_VARIABLE tag
     )
 
-    if(tag MATCHES "^v?([0-9]+)\\.([0-9]+)\\.([0-9]+)")
+    if(tag MATCHES "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)")
         set(LCQT_VERSION ${CMAKE_MATCH_1}.${CMAKE_MATCH_2}.${CMAKE_MATCH_3})
     endif()
 endif()

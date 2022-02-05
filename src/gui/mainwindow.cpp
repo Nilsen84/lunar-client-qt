@@ -20,7 +20,7 @@
 #include "version.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::load()), offlineLauncher(config){
-    setWindowTitle(QStringLiteral("Lunar Client Qt (%1)").arg(VERSION));
+    setWindowTitle(QStringLiteral("Lunar Client Qt - Version: ") + VERSION);
     QWidget* centralWidget = new QWidget();
 
     QGridLayout* mainLayout = new QGridLayout();
