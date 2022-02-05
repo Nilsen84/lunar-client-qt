@@ -108,8 +108,8 @@ jobs:
 
       - name: Compress
         run: |
-          mkdir linux
-          mv -t linux/ lunar-client-qt libs/ agents/
+          mkdir Lunar\ Client\ Qt
+          mv -t Lunar\ Client\ Qt/ lunar-client-qt libs/ agents/
           tar czvf linux.tar.gz linux/
 
       - uses: actions/upload-artifact@v2
