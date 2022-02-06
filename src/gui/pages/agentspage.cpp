@@ -12,6 +12,7 @@
 #include <QJsonObject>
 #include <QProxyStyle>
 #include <QHeaderView>
+#include <QItemSelectionModel>
 
 class RemoveOutlineStyle : public QProxyStyle {
 public:
@@ -41,10 +42,17 @@ AgentsPage::AgentsPage(Config& config, QWidget *parent) : ConfigurationPage(conf
     agents->setAlternatingRowColors(true);
 
 
-    QPushButton* add = new QPushButton(QStringLiteral("Add"));
-    QPushButton* remove = new QPushButton(QStringLiteral("Remove"));
-    QPushButton* moveUp = new QPushButton(QStringLiteral("Move Up"));
-    QPushButton* moveDown = new QPushButton(QStringLiteral("Move Down"));
+    add = new QPushButton(QStringLiteral("Add"));
+    remove = new QPushButton(QStringLiteral("Remove"));
+    moveUp = new QPushButton(QStringLiteral("Move Up"));
+    moveDown = new QPushButton(QStringLiteral("Move Down"));
+
+    connect(agents->selectionModel(), &QItemSelectionModel::selectionChanged, this, &AgentsPage::onSelect);
+
+    remove->setDisabled(true);
+    moveUp->setDisabled(true);
+    moveDown->setDisabled(true);
+
 
     connect(add, &QPushButton::clicked, [this](){
         QStringList files = QFileDialog::getOpenFileNames(
@@ -132,4 +140,18 @@ void AgentsPage::load() {
 void AgentsPage::resizeEvent(QResizeEvent *event) {
     agents->setColumnWidth(Column::OPTION, agents->width() / 3);
     QWidget::resizeEvent(event);
+}
+
+void AgentsPage::onSelect(const QItemSelection &selected, const QItemSelection &deselected) {
+    QModelIndexList selectedRows = qobject_cast<QItemSelectionModel*>(sender())->selectedRows();
+
+    if(selectedRows.isEmpty()){
+        remove->setDisabled(true);
+        moveUp->setDisabled(true);
+        moveDown->setDisabled(true);
+    } else {
+        remove->setEnabled(true);
+        moveUp->setEnabled(true);
+        moveDown->setEnabled(true);
+    }
 }

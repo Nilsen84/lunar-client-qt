@@ -7,6 +7,7 @@
 
 #include <QListWidget>
 #include <QTableView>
+#include <QPushButton>
 
 #include "configurationpage.h"
 #include "../agents/agentsmodel.h"
@@ -21,14 +22,19 @@ public:
 
     void apply() override;
     void load() override;
-private:
-
+private slots:
+    void onSelect(const QItemSelection & selected, const QItemSelection & deselected);
 protected:
     void resizeEvent(QResizeEvent *event) override;
 
 private:
     AgentsModel* model;
     QTableView* agents;
+
+    QPushButton* add;
+    QPushButton* remove;
+    QPushButton* moveUp;
+    QPushButton* moveDown;
 };
 
 
