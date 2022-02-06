@@ -55,8 +55,8 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
         }).join(QDir::listSeparator())
     };
 
-    foreach(const QString& path, config.agents)
-        args << "-javaagent:" + path;
+    foreach(const Agent& agent, config.agents)
+        args << "-javaagent:" + agent.path + '=' + agent.option;
 
 
     if(config.useLevelHeadPrefix)

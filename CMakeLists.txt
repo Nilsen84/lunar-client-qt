@@ -41,10 +41,14 @@ set(SOURCE_FILES
         src/gui/widgets/filechooser.cpp
         src/gui/widgets/filechooser.h
         src/gui/widgets/widgetutils.cpp
-        src/gui/widgets/widgetutils.h src/utils.cpp src/utils.h src/version.h)
+        src/gui/widgets/widgetutils.h
+        src/utils.cpp src/utils.h
+        src/version.h
+        src/gui/agents/agentsmodel.cpp
+        src/gui/agents/agentsmodel.h)
 
 
-set(LCQT_VERSION UNKNOWN)
+set(LCQT_VERSION Unknown)
 find_package(Git)
 if(Git_FOUND)
     execute_process(

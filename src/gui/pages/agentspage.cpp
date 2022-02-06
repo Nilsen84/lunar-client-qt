@@ -10,20 +10,36 @@
 #include <QFileDialog>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QProxyStyle>
+#include <QHeaderView>
+
+class RemoveOutlineStyle : public QProxyStyle {
+public:
+    void drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter,
+                       const QWidget *widget) const override {
+        if(element != PE_FrameFocusRect){
+            QProxyStyle::drawPrimitive(element, option, painter, widget);
+        }
+    }
+};
 
 AgentsPage::AgentsPage(Config& config, QWidget *parent) : ConfigurationPage(config, parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
     mainLayout->setSpacing(20);
 
-    agents = new QListWidget();
-    QFont font;
-    font.setPointSize(11);
-    agents->setFont(font);
+    agents = new QTableView(this);
+    agents->setSelectionBehavior(QTableView::SelectRows);
+    agents->setSelectionMode(QTableView::SingleSelection);
+    agents->horizontalHeader()->setHighlightSections(false);
+    agents->setAlternatingRowColors(true);
+    agents->verticalHeader()->hide();
+    auto style = new RemoveOutlineStyle;
+    style->setParent(agents);
+    agents->setStyle(style);
+    agents->setModel((model = new AgentsModel(config.agents, this)));
+    agents->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     agents->setAlternatingRowColors(true);
 
-    QPalette palette;
-    palette.setColor(QPalette::Disabled, QPalette::Text, Qt::blue);
-    agents->setPalette(palette);
 
     QPushButton* add = new QPushButton(QStringLiteral("Add"));
     QPushButton* remove = new QPushButton(QStringLiteral("Remove"));
@@ -37,34 +53,50 @@ AgentsPage::AgentsPage(Config& config, QWidget *parent) : ConfigurationPage(conf
                 {},
                 QStringLiteral("Java Agent (*.jar)")
                 );
+        //bool added = false;
         foreach(const QString& str, files){
-            if(!str.isEmpty()){
-                addAgent(str, true);
+/*            if(!str.isEmpty()){
+                foreach(const Agent& agent, this->config.agents){
+                    if(agent.path == str){
+                        goto skip;
+                    }
+                }*/
+
+                model->addAgent(str, {});
+
+/*                added = true;
             }
+
+            skip:;*/
+
         }
+   //     if(added)
+        agents->selectRow(model->rowCount(QModelIndex())-1);
     });
 
     connect(remove, &QPushButton::clicked, [this](){
-        foreach(QListWidgetItem* item, agents->selectedItems()){
-            delete item;
+        foreach(const QModelIndex& item, agents->selectionModel()->selectedRows()){
+            model->removeRow(item.row());
         }
     });
 
     connect(moveUp, &QPushButton::clicked, [this](){
-        int currentRow = agents->currentRow();
-        if(currentRow > 0){
-            auto currentItem = agents->takeItem(currentRow);
-            agents->insertItem(currentRow - 1, currentItem);
-            agents->setCurrentRow(currentRow - 1);
+        QModelIndexList selected = agents->selectionModel()->selectedRows();
+        if(!selected.isEmpty()){
+            int currentRow = selected[0].row();
+            if(currentRow > 0){
+                model->moveRow(QModelIndex(), currentRow-1, QModelIndex(), currentRow+1);
+            }
         }
     });
 
     connect(moveDown, &QPushButton::clicked, [this](){
-        int currentRow = agents->currentRow();
-        if(currentRow < agents->count()-1){
-            auto currentItem = agents->takeItem(currentRow);
-            agents->insertItem(currentRow + 1, currentItem);
-            agents->setCurrentRow(currentRow + 1);
+        QModelIndexList selected = agents->selectionModel()->selectedRows();
+        if(!selected.isEmpty()) {
+            int currentRow = selected[0].row();
+            if (currentRow < model->rowCount(QModelIndex()) - 1) {
+                model->moveRow(QModelIndex(), currentRow, QModelIndex(), currentRow+2);
+            }
         }
     });
 
@@ -92,28 +124,12 @@ QIcon AgentsPage::icon() {
 }
 
 void AgentsPage::apply() {
-    config.agents = getAgents();
 }
 
 void AgentsPage::load() {
-    foreach(const QString &path, config.agents) {
-        if (QFile::exists(path)) {
-            addAgent(path);
-        }
-    }
 }
 
-void AgentsPage::addAgent(const QString& path, bool select) {
-    auto item = new QListWidgetItem(QFileInfo(path).fileName(), agents);
-    item->setToolTip(path);
-    if(select)
-        agents->setCurrentItem(item);
-}
-
-QStringList AgentsPage::getAgents() {
-    QStringList list;
-    for(int i = 0; i < agents->count(); ++i){
-        list << agents->item(i)->toolTip();
-    }
-    return list;
+void AgentsPage::resizeEvent(QResizeEvent *event) {
+    agents->setColumnWidth(Column::OPTION, agents->width() / 3);
+    QWidget::resizeEvent(event);
 }
