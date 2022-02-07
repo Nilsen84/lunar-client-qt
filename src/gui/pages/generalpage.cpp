@@ -132,3 +132,7 @@ void GeneralPage::keepMinMaxSameChanged(bool checked) {
         disconnect(initialMemory, &QSlider::valueChanged, maxMemory, &QSlider::setValue);
     }
 }
+
+QString GeneralPage::description() {
+    return "Java and launcher settings.";
+}

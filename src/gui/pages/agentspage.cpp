@@ -155,3 +155,7 @@ void AgentsPage::onSelect(const QItemSelection &selected, const QItemSelection &
         moveDown->setEnabled(true);
     }
 }
+
+QString AgentsPage::description() {
+    return "List of agents you want to use. Don't add any forge/fabric mods or else your game won't start.";
+}

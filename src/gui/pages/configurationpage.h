@@ -15,6 +15,7 @@ class ConfigurationPage : public QWidget{
 Q_OBJECT
 public:
     virtual QString title() = 0;
+    virtual QString description() = 0;
 
     virtual QIcon icon() = 0;
 

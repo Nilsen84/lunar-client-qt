@@ -16,3 +16,9 @@ QVBoxLayout *WidgetUtils::createOptional(QCheckBox *checkBox, QWidget *item) {
 
     return layout;
 }
+
+QWidget *WidgetUtils::layoutToWidget(QLayout *layout) {
+    QWidget* widget = new QWidget;
+    widget->setLayout(layout);
+    return widget;
+}
