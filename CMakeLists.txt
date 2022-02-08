@@ -49,13 +49,16 @@ set(SOURCE_FILES
 
 set(UPDATER_SOURCES src/updater/updatechecker.cpp src/updater/updatechecker.h)
 
+if(INCLUDE_UPDATER)
+    list(APPEND SOURCE_FILES ${UPDATER_SOURCES})
+endif()
+
 # ------------------------- Dependencies --------------------------
 
 set(QT_COMPONENTS Core Gui Widgets Svg)
 
 if(INCLUDE_UPDATER)
     list(APPEND QT_COMPONENTS Network)
-    list(APPEND SOURCE_FILES ${UPDATER_SOURCES})
 endif()
 
 find_package(${QT_VER} COMPONENTS ${QT_COMPONENTS} REQUIRED)
