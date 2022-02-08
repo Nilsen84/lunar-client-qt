@@ -79,8 +79,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
 
 
     QFrame* frame = new QFrame;
-    frame->setFrameShape(QFrame::StyledPanel);
-    frame->setFrameShadow(QFrame::Raised);
+    frame->setFrameShape(QFrame::Box);
+    frame->setFrameShadow(QFrame::Sunken);
+
     QLabel* title = new QLabel;
     QFont titleFont;
     titleFont.setPointSize(13);
