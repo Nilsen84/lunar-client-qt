@@ -38,7 +38,7 @@ AgentsPage::AgentsPage(Config& config, QWidget *parent) : ConfigurationPage(conf
     style->setParent(agents);
     agents->setStyle(style);
     agents->setModel((model = new AgentsModel(config.agents, this)));
-    agents->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    agents->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     agents->setAlternatingRowColors(true);
 
 
@@ -135,11 +135,6 @@ void AgentsPage::apply() {
 }
 
 void AgentsPage::load() {
-}
-
-void AgentsPage::resizeEvent(QResizeEvent *event) {
-    agents->setColumnWidth(Column::OPTION, agents->width() / 3);
-    QWidget::resizeEvent(event);
 }
 
 void AgentsPage::onSelect(const QItemSelection &selected, const QItemSelection &deselected) {

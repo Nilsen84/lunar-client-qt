@@ -27,8 +27,6 @@ public:
     void load() override;
 private slots:
     void onSelect(const QItemSelection & selected, const QItemSelection & deselected);
-protected:
-    void resizeEvent(QResizeEvent *event) override;
 
 private:
     AgentsModel* model;
