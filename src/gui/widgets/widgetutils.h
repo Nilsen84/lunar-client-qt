@@ -10,6 +10,8 @@
 
 namespace WidgetUtils {
     QVBoxLayout* createOptional(QCheckBox* checkBox, QWidget* item);
+
+    QWidget* layoutToWidget(QLayout* layout);
 }
 
 

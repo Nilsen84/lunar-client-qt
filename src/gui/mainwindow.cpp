@@ -12,16 +12,17 @@
 #include <QStandardPaths>
 #include <QJsonDocument>
 #include <QMessageBox>
+#include <QLabel>
 
 #include "pages/configurationpage.h"
 #include "pages/generalpage.h"
 #include "pages/minecraftpage.h"
 #include "launch/launcher.h"
+#include "version.h"
+#include "widgets/widgetutils.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::load()), offlineLauncher(config){
-    setWindowTitle(QStringLiteral("Lunar Client Qt"));
-    QWidget* centralWidget = new QWidget();
-
+    setWindowTitle(QStringLiteral("Lunar Client Qt - Version: ") + VERSION);
     QGridLayout* mainLayout = new QGridLayout();
 
     pageList = new QListWidget();
@@ -44,7 +45,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
 
     connect(pageList, &QListWidget::currentRowChanged, pageStack, &QStackedWidget::setCurrentIndex);
 
-    pageList->setCurrentRow(0);
     pageList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     pageList->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
     pageList->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
@@ -76,11 +76,35 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
     mainLayout->addWidget(launchUnlockedCosmeticsButton, 2, 0);
     mainLayout->addWidget(launchNoCosmeticsButton, 3, 0);
     mainLayout->addWidget(launchButton, 4, 0);
-    mainLayout->addWidget(pageStack, 0, 3, -1, 1);
 
-    centralWidget->setLayout(mainLayout);
 
-    setCentralWidget(centralWidget);
+    QFrame* frame = new QFrame;
+    frame->setFrameShape(QFrame::Panel);
+    frame->setFrameShadow(QFrame::Raised);
+
+    QLabel* title = new QLabel;
+    QFont titleFont;
+    titleFont.setPointSize(13);
+    title->setFont(titleFont);
+    QLabel* description = new QLabel;
+
+    QVBoxLayout* textLayout = new QVBoxLayout(frame);
+    textLayout->addWidget(title);
+    textLayout->addWidget(description);
+
+    connect(pageList, &QListWidget::currentRowChanged, [this, title, description](int current){
+        title->setText(pages[current]->title());
+        description->setText(pages[current]->description());
+    });
+
+    pageList->setCurrentRow(0);
+
+    QVBoxLayout* layout = new QVBoxLayout;
+    layout->addWidget(frame);
+    layout->addWidget(pageStack, 1);
+    mainLayout->addLayout(layout, 0, 1, -1, 1);
+
+    setCentralWidget(WidgetUtils::layoutToWidget(mainLayout));
     resize(800, 600);
 
     load();

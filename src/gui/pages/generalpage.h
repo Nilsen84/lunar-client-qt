@@ -22,6 +22,8 @@ public:
 
     QString title() override;
 
+    QString description() override;
+
     QIcon icon() override;
 
     void apply() override;

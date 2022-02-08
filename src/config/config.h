@@ -8,6 +8,16 @@
 #include <QString>
 #include <QStringList>
 #include <QJsonObject>
+#include <QFileInfo>
+
+struct Agent {
+    QString name;
+    QString path;
+    QString option;
+
+public:
+    Agent(const QString& path, const QString& option) : name(QFileInfo(path).fileName()), path(path), option(option) {}
+};
 
 class Config {
 public:
@@ -44,7 +54,7 @@ public:
     int windowHeight;
 
 
-    QStringList agents;
+    QList<Agent> agents;
 public:
     void save();
     static Config load();

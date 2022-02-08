@@ -40,9 +40,31 @@ set(SOURCE_FILES
         src/gui/widgets/filechooser.cpp
         src/gui/widgets/filechooser.h
         src/gui/widgets/widgetutils.cpp
-        src/gui/widgets/widgetutils.h src/utils.cpp src/utils.h)
+        src/gui/widgets/widgetutils.h
+        src/utils.cpp src/utils.h
+        src/version.h
+        src/gui/agents/agentsmodel.cpp
+        src/gui/agents/agentsmodel.h)
 
-add_executable(lunar-client-qt WIN32 MACOSX_BUNDLE ${SOURCE_FILES} ${LIB_SRC} res.qrc)
+
+set(LCQT_VERSION Unknown)
+find_package(Git)
+if(Git_FOUND)
+    execute_process(
+            COMMAND ${GIT_EXECUTABLE} describe --match "v[0-9]*"
+            OUTPUT_VARIABLE tag
+    )
+
+    if(tag MATCHES "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)")
+        set(LCQT_VERSION ${CMAKE_MATCH_1}.${CMAKE_MATCH_2}.${CMAKE_MATCH_3})
+    endif()
+endif()
+
+configure_file(${CMAKE_SOURCE_DIR}/version.cpp.in ${CMAKE_BINARY_DIR}/version.cpp @ONLY)
+set(VERSION_FILE ${CMAKE_BINARY_DIR}/version.cpp)
+
+
+add_executable(lunar-client-qt WIN32 MACOSX_BUNDLE ${SOURCE_FILES} ${VERSION_FILE} res.qrc)
 
 if(UNIX AND APPLE)
     set(JAR_DEST_DIR ${CMAKE_BINARY_DIR}/lunar-client-qt.app/Contents/MacOS)

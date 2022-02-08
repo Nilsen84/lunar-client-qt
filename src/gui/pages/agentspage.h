@@ -6,8 +6,11 @@
 #define LUNAR_CLIENT_QT_AGENTSPAGE_H
 
 #include <QListWidget>
+#include <QTableView>
+#include <QPushButton>
 
 #include "configurationpage.h"
+#include "../agents/agentsmodel.h"
 
 class AgentsPage : public ConfigurationPage {
 Q_OBJECT
@@ -15,16 +18,24 @@ public:
     explicit AgentsPage(Config& config, QWidget* parent = nullptr);
 
     QString title() override;
+
+    QString description() override;
+
     QIcon icon() override;
 
     void apply() override;
     void load() override;
-private:
-    void addAgent(const QString& path, bool select = false);
+private slots:
+    void onSelect(const QItemSelection & selected, const QItemSelection & deselected);
 
-    QStringList getAgents();
 private:
-    QListWidget* agents;
+    AgentsModel* model;
+    QTableView* agents;
+
+    QPushButton* add;
+    QPushButton* remove;
+    QPushButton* moveUp;
+    QPushButton* moveDown;
 };
 
 

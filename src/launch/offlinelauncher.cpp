@@ -38,6 +38,7 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
          "--add-modules", "jdk.naming.dns",
          "--add-exports", "jdk.naming.dns/com.sun.jndi.dns=java.naming",
          "-Djna.boot.library.path=natives",
+         "-Dlog4j2.formatMsgNoLookups=true",
          "--add-opens", "java.base/java.io=ALL-UNNAMED",
          QString("-Xms%1m").arg(config.initialMemory),
          QString("-Xmx%1m").arg(config.maximumMemory),
@@ -55,8 +56,8 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
         }).join(QDir::listSeparator())
     };
 
-    foreach(const QString& path, config.agents)
-        args << "-javaagent:" + path;
+    foreach(const Agent& agent, config.agents)
+        args << "-javaagent:" + agent.path + '=' + agent.option;
 
 
     if(config.useLevelHeadPrefix)
