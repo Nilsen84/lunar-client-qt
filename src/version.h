@@ -8,5 +8,6 @@
 #include <QString>
 
 extern const QString VERSION;
+extern const QString VERSION_TAG;
 
 #endif //LUNAR_CLIENT_QT_VERSION_H

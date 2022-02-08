@@ -21,9 +21,9 @@
 #include "version.h"
 #include "widgets/widgetutils.h"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::load()), offlineLauncher(config){
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::load()), offlineLauncher(config) {
     setWindowTitle(QStringLiteral("Lunar Client Qt - Version: ") + VERSION);
-    QGridLayout* mainLayout = new QGridLayout();
+    QGridLayout *mainLayout = new QGridLayout();
 
     pageList = new QListWidget();
     pageStack = new QStackedWidget();
@@ -33,15 +33,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
     pageList->setIconSize(QSize(32, 32));
 
     pages = {
-        new GeneralPage(config),
-        new MinecraftPage(config),
-        new AgentsPage(config)
+            new GeneralPage(config),
+            new MinecraftPage(config),
+            new AgentsPage(config)
     };
 
-    foreach(ConfigurationPage* page, pages){
-        new QListWidgetItem(page->icon(), page->title(), pageList);
-        pageStack->addWidget(page);
-    }
+            foreach(ConfigurationPage *page, pages) {
+            new QListWidgetItem(page->icon(), page->title(), pageList);
+            pageStack->addWidget(page);
+        }
 
     connect(pageList, &QListWidget::currentRowChanged, pageStack, &QStackedWidget::setCurrentIndex);
 
@@ -78,28 +78,28 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
     mainLayout->addWidget(launchButton, 4, 0);
 
 
-    QFrame* frame = new QFrame;
-    frame->setFrameShape(QFrame::Panel);
+    QFrame *frame = new QFrame;
+    frame->setFrameShape(QFrame::StyledPanel);
     frame->setFrameShadow(QFrame::Raised);
 
-    QLabel* title = new QLabel;
+    QLabel *title = new QLabel;
     QFont titleFont;
     titleFont.setPointSize(13);
     title->setFont(titleFont);
-    QLabel* description = new QLabel;
+    QLabel *description = new QLabel;
 
-    QVBoxLayout* textLayout = new QVBoxLayout(frame);
+    QVBoxLayout *textLayout = new QVBoxLayout(frame);
     textLayout->addWidget(title);
     textLayout->addWidget(description);
 
-    connect(pageList, &QListWidget::currentRowChanged, [this, title, description](int current){
+    connect(pageList, &QListWidget::currentRowChanged, [this, title, description](int current) {
         title->setText(pages[current]->title());
         description->setText(pages[current]->description());
     });
 
     pageList->setCurrentRow(0);
 
-    QVBoxLayout* layout = new QVBoxLayout;
+    QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(frame);
     layout->addWidget(pageStack, 1);
     mainLayout->addLayout(layout, 0, 1, -1, 1);
@@ -108,6 +108,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
     resize(800, 600);
 
     load();
+
+#ifdef INCLUDE_UPDATER
+    connect(&updaterChecker, &UpdateChecker::updateAvailable, this, &MainWindow::updateAvailable);
+
+    updaterChecker.checkForUpdates();
+#endif
 }
 
 void MainWindow::resetLaunchButtons() {
@@ -134,30 +140,30 @@ void MainWindow::launchUnlockedCosmetics() {
 }
 
 
-void MainWindow::launch(Launcher& launcher, Launcher::CosmeticsState cosmeticsState){
+void MainWindow::launch(Launcher &launcher, Launcher::CosmeticsState cosmeticsState) {
     apply();
     launcher.launch(cosmeticsState);
-    if(config.closeOnLaunch)
+    if (config.closeOnLaunch)
         close();
 }
 
-void MainWindow::closeEvent(QCloseEvent* event) {
+void MainWindow::closeEvent(QCloseEvent *event) {
     apply();
     config.save();
     event->accept();
 }
 
 void MainWindow::apply() {
-    foreach(ConfigurationPage* page, pages){
-        page->apply();
-    }
+            foreach(ConfigurationPage *page, pages) {
+            page->apply();
+        }
     config.gameVersion = versionSelect->currentText();
 }
 
 void MainWindow::load() {
-    foreach(ConfigurationPage* page, pages){
-        page->load();
-    }
+            foreach(ConfigurationPage *page, pages) {
+            page->load();
+        }
     versionSelect->setCurrentText(config.gameVersion);
 }
 
@@ -167,3 +173,18 @@ void MainWindow::errorCallback(const QString &message) {
     messageBox.setText(message);
     messageBox.exec();
 }
+
+#ifdef INCLUDE_UPDATER
+
+void MainWindow::updateAvailable(const QString &url) {
+    QMessageBox messageBox;
+    messageBox.setWindowTitle("Update available!");
+    messageBox.setText(QString(
+            "A new update is availabe!<br>"
+            "To update lcqt follow the link below:<br>"
+            "<a href='%1'>%1</a>"
+    ).arg(url));
+    messageBox.exec();
+}
+
+#endif

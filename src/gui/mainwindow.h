@@ -19,6 +19,10 @@
 #include "pages/agentspage.h"
 #include "config/config.h"
 
+#ifdef INCLUDE_UPDATER
+#include "updater/updatechecker.h"
+#endif
+
 class MainWindow : public QMainWindow {
 Q_OBJECT
 public:
@@ -35,6 +39,10 @@ private slots:
     void launchDefault();
     void launchNoCosmetics();
     void errorCallback(const QString& message);
+
+#ifdef INCLUDE_UPDATER
+    void updateAvailable(const QString& url);
+#endif
 private:
     QListWidget* pageList;
     QStackedWidget* pageStack;
@@ -48,6 +56,10 @@ private:
     OfflineLauncher offlineLauncher;
 
     Config config;
+
+#ifdef INCLUDE_UPDATER
+    UpdateChecker updaterChecker;
+#endif
 };
 
 

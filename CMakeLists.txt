@@ -9,16 +9,13 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 option(USE_QT6 "Use Qt 6 instead of Qt 5" OFF)
+option(INCLUDE_UPDATER "Include update checker" ON)
 
 if(USE_QT6)
     set(QT_VER Qt6)
 else()
     set(QT_VER Qt5)
 endif()
-
-set(QT_COMPONENTS Core Gui Widgets Svg)
-
-find_package(${QT_VER} COMPONENTS ${QT_COMPONENTS} REQUIRED)
 
 set(SOURCE_FILES
         src/main.cpp
@@ -46,8 +43,19 @@ set(SOURCE_FILES
         src/gui/agents/agentsmodel.cpp
         src/gui/agents/agentsmodel.h)
 
+set(UPDATER_SOURCES src/updater/updatechecker.cpp src/updater/updatechecker.h)
+
+set(QT_COMPONENTS Core Gui Widgets Svg)
+
+if(INCLUDE_UPDATER)
+    list(APPEND QT_COMPONENTS Network)
+    list(APPEND SOURCE_FILES ${UPDATER_SOURCES})
+endif()
+
+find_package(${QT_VER} COMPONENTS ${QT_COMPONENTS} REQUIRED)
 
 set(LCQT_VERSION Unknown)
+set(LCQT_VERSION_TAG Unknown)
 find_package(Git)
 if(Git_FOUND)
     execute_process(
@@ -57,6 +65,7 @@ if(Git_FOUND)
 
     if(tag MATCHES "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)")
         set(LCQT_VERSION ${CMAKE_MATCH_1}.${CMAKE_MATCH_2}.${CMAKE_MATCH_3})
+        set(LCQT_VERSION_TAG v${LCQT_VERSION})
     endif()
 endif()
 
@@ -65,6 +74,10 @@ set(VERSION_FILE ${CMAKE_BINARY_DIR}/version.cpp)
 
 
 add_executable(lunar-client-qt WIN32 MACOSX_BUNDLE ${SOURCE_FILES} ${VERSION_FILE} res.qrc)
+
+if(INCLUDE_UPDATER)
+    target_compile_definitions(lunar-client-qt PRIVATE INCLUDE_UPDATER)
+endif()
 
 if(UNIX AND APPLE)
     set(JAR_DEST_DIR ${CMAKE_BINARY_DIR}/lunar-client-qt.app/Contents/MacOS)
