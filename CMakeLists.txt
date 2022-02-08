@@ -8,6 +8,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+# ----------------------- Options -------------------------
+
 option(USE_QT6 "Use Qt 6 instead of Qt 5" OFF)
 option(INCLUDE_UPDATER "Include update checker" ON)
 
@@ -16,6 +18,8 @@ if(USE_QT6)
 else()
     set(QT_VER Qt5)
 endif()
+
+# ----------------------- Sources ------------------------
 
 set(SOURCE_FILES
         src/main.cpp
@@ -45,6 +49,8 @@ set(SOURCE_FILES
 
 set(UPDATER_SOURCES src/updater/updatechecker.cpp src/updater/updatechecker.h)
 
+# ------------------------- Dependencies --------------------------
+
 set(QT_COMPONENTS Core Gui Widgets Svg)
 
 if(INCLUDE_UPDATER)
@@ -53,6 +59,8 @@ if(INCLUDE_UPDATER)
 endif()
 
 find_package(${QT_VER} COMPONENTS ${QT_COMPONENTS} REQUIRED)
+
+# ---------------------------- Get current version and tag --------------------------------
 
 set(LCQT_VERSION Unknown)
 set(LCQT_VERSION_TAG Unknown)
@@ -72,12 +80,17 @@ endif()
 configure_file(${CMAKE_SOURCE_DIR}/version.cpp.in ${CMAKE_BINARY_DIR}/version.cpp @ONLY)
 set(VERSION_FILE ${CMAKE_BINARY_DIR}/version.cpp)
 
+# ----------------------------- Executable --------------------------------------
 
 add_executable(lunar-client-qt WIN32 MACOSX_BUNDLE ${SOURCE_FILES} ${VERSION_FILE} res.qrc)
+
+# ----------------------------- Compile Definitions --------------------------------
 
 if(INCLUDE_UPDATER)
     target_compile_definitions(lunar-client-qt PRIVATE INCLUDE_UPDATER)
 endif()
+
+# ------------------------- Copy java agents and libraries -----------------------
 
 if(UNIX AND APPLE)
     set(JAR_DEST_DIR ${CMAKE_BINARY_DIR}/lunar-client-qt.app/Contents/MacOS)
@@ -116,8 +129,12 @@ copy_jars(libs COPIED_LIBRARIES)
 add_custom_target(CopyJars ALL COMMAND DEPENDS ${COPIED_AGENTS} ${COPIED_LIBRARIES})
 add_dependencies(lunar-client-qt CopyJars)
 
+# ----------------------- Link against libraries ------------------------------
+
 list(TRANSFORM QT_COMPONENTS PREPEND ${QT_VER}:: OUTPUT_VARIABLE QT_LIBS)
 
 target_link_libraries(lunar-client-qt ${QT_LIBS})
+
+# ---------------------- Set include directory ---------------------------
 
 target_include_directories(lunar-client-qt PRIVATE src)
