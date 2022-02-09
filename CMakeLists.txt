@@ -19,6 +19,33 @@ else()
     set(QT_VER Qt5)
 endif()
 
+# ---------------------------- Get current version and tag --------------------------------
+
+set(LCQT_VERSION Unknown)
+set(LCQT_VERSION_TAG Unknown)
+
+find_package(Git)
+if(Git_FOUND)
+    execute_process(
+            COMMAND ${GIT_EXECUTABLE} describe --match "v[0-9]*"
+            OUTPUT_VARIABLE tag
+    )
+
+    if(tag MATCHES "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)")
+        set(LCQT_VERSION ${CMAKE_MATCH_1}.${CMAKE_MATCH_2}.${CMAKE_MATCH_3})
+        set(LCQT_VERSION_TAG v${LCQT_VERSION})
+    else()
+        message(WARNING "Couldn't find latest version tag, disabling update checker.")
+        set(INCLUDE_UPDATER Off)
+    endif()
+else()
+    message(WARNING "Couldn't find git, disabling update checker.")
+    set(INCLUDE_UPDATER Off)
+endif()
+
+configure_file(${CMAKE_SOURCE_DIR}/version.cpp.in ${CMAKE_BINARY_DIR}/version.cpp @ONLY)
+set(VERSION_FILE ${CMAKE_BINARY_DIR}/version.cpp)
+
 # ----------------------- Sources ------------------------
 
 set(SOURCE_FILES
@@ -63,25 +90,6 @@ endif()
 
 find_package(${QT_VER} COMPONENTS ${QT_COMPONENTS} REQUIRED)
 
-# ---------------------------- Get current version and tag --------------------------------
-
-set(LCQT_VERSION Unknown)
-set(LCQT_VERSION_TAG Unknown)
-find_package(Git)
-if(Git_FOUND)
-    execute_process(
-            COMMAND ${GIT_EXECUTABLE} describe --match "v[0-9]*"
-            OUTPUT_VARIABLE tag
-    )
-
-    if(tag MATCHES "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)")
-        set(LCQT_VERSION ${CMAKE_MATCH_1}.${CMAKE_MATCH_2}.${CMAKE_MATCH_3})
-        set(LCQT_VERSION_TAG v${LCQT_VERSION})
-    endif()
-endif()
-
-configure_file(${CMAKE_SOURCE_DIR}/version.cpp.in ${CMAKE_BINARY_DIR}/version.cpp @ONLY)
-set(VERSION_FILE ${CMAKE_BINARY_DIR}/version.cpp)
 
 # ----------------------------- Executable --------------------------------------
 
