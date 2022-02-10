@@ -115,7 +115,7 @@ function(COPY_JARS DIR OUTPUT_LIST)
             COMMAND ${CMAKE_COMMAND} -E make_directory ${JAR_DEST_DIR}/${DIR}/
     )
 
-    set(COPIED_FILES "${JAR_DEST_DIR}/${DIR}/")
+    set(COPIED_FILES "")
 
     file(GLOB JARS ${CMAKE_SOURCE_DIR}/java/${DIR}/*.jar)
 
@@ -125,6 +125,7 @@ function(COPY_JARS DIR OUTPUT_LIST)
                 OUTPUT "${JAR_DEST_DIR}/${DIR}/${FILE_NAME}"
                 COMMAND ${CMAKE_COMMAND} -E copy_if_different
                 ${JAR} ${JAR_DEST_DIR}/${DIR}/
+                DEPENDS ${JAR_DEST_DIR}/${DIR}/
                 DEPENDS ${JAR}
                 COMMENT "Copying ${FILE_NAME}"
         )
@@ -137,7 +138,7 @@ endfunction()
 copy_jars(agents COPIED_AGENTS)
 copy_jars(libs COPIED_LIBRARIES)
 
-add_custom_target(CopyJars ALL COMMAND DEPENDS ${COPIED_AGENTS} ${COPIED_LIBRARIES})
+add_custom_target(CopyJars ALL DEPENDS ${COPIED_AGENTS} ${COPIED_LIBRARIES})
 add_dependencies(lunar-client-qt CopyJars)
 
 # ----------------------- Link against libraries ------------------------------
