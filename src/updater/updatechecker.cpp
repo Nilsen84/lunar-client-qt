@@ -16,8 +16,9 @@ UpdateChecker::UpdateChecker() {
     connect(&networkManager, &QNetworkAccessManager::finished, this, &UpdateChecker::parseApiResonse);
 }
 
-void UpdateChecker::checkForUpdates() {
+void UpdateChecker::checkForUpdates(bool emitIfUnavailable) {
     QNetworkRequest request(QUrl("https://api.github.com/repos/Nilsen84/lunar-client-qt/releases"));
+    request.setAttribute(QNetworkRequest::User, emitIfUnavailable);
 
     networkManager.get(request);
 }
@@ -41,6 +42,10 @@ void UpdateChecker::parseApiResonse(QNetworkReply *reply) {
         QJsonObject obj = releases.first().toObject();
         if(obj["tag_name"].toString() != VERSION_TAG){
             emit updateAvailable(obj["html_url"].toString());
+        }else{
+            bool shouldEmit = reply->request().attribute(QNetworkRequest::User).toBool();
+            if(shouldEmit)
+                emit noUpdatesAvailable();
         }
     }
 

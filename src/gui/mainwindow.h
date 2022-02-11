@@ -42,6 +42,7 @@ private slots:
 
 #ifdef INCLUDE_UPDATER
     void updateAvailable(const QString& url);
+    void noUpdatesAvailable();
 #endif
 private:
     QListWidget* pageList;

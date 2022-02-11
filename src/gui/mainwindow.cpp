@@ -88,9 +88,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
     title->setFont(titleFont);
     QLabel *description = new QLabel;
 
-    QVBoxLayout *textLayout = new QVBoxLayout(frame);
-    textLayout->addWidget(title);
-    textLayout->addWidget(description);
+    QVBoxLayout *frameLayout = new QVBoxLayout(frame);
+
+#ifdef INCLUDE_UPDATER
+    QHBoxLayout *titleBtnLayout = new QHBoxLayout;
+    QPushButton *checkForUpdates = new QPushButton("Check for updates");
+    titleBtnLayout->addWidget(title, 1);
+    titleBtnLayout->addWidget(checkForUpdates);
+
+    frameLayout->addLayout(titleBtnLayout);
+
+    connect(checkForUpdates, &QPushButton::clicked, [this]{updaterChecker.checkForUpdates(true);});
+#else
+    frameLayout->addWidget(title);
+#endif
+    frameLayout->addWidget(description);
+
 
     connect(pageList, &QListWidget::currentRowChanged, [this, title, description](int current) {
         title->setText(pages[current]->title());
@@ -111,8 +124,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
 
 #ifdef INCLUDE_UPDATER
     connect(&updaterChecker, &UpdateChecker::updateAvailable, this, &MainWindow::updateAvailable);
+    connect(&updaterChecker, &UpdateChecker::noUpdatesAvailable, this, &MainWindow::noUpdatesAvailable);
 
-    updaterChecker.checkForUpdates();
+    updaterChecker.checkForUpdates(false);
 #endif
 }
 
@@ -184,6 +198,13 @@ void MainWindow::updateAvailable(const QString &url) {
             "To update lcqt follow the link below:<br>"
             "<a href='%1'>%1</a>"
     ).arg(url));
+    messageBox.exec();
+}
+
+void MainWindow::noUpdatesAvailable() {
+    QMessageBox messageBox;
+    messageBox.setWindowTitle("No updates available!");
+    messageBox.setText("No updates available!");
     messageBox.exec();
 }
 

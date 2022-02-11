@@ -13,9 +13,10 @@ Q_OBJECT
 public:
     UpdateChecker();
 
-    void checkForUpdates();
+    void checkForUpdates(bool emitIfUnavailable = true);
 signals:
     void updateAvailable(const QString& url);
+    void noUpdatesAvailable();
 private slots:
     void parseApiResonse(QNetworkReply* reply);
 private:
