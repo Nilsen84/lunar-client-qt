@@ -29,6 +29,7 @@ if(Git_FOUND)
     execute_process(
             COMMAND ${GIT_EXECUTABLE} describe --match "v[0-9]*"
             OUTPUT_VARIABLE tag
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     )
 
     if(tag MATCHES "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)")
