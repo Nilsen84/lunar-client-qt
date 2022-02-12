@@ -31,7 +31,10 @@ jobs:
         target: 'desktop'
         arch: 'win64_mingw81'
         tools: 'tools_mingw,8.1.0-1-202004170606,qt.tools.win64_mingw810'
-      
+
+    - name: Install OpenSSL
+      run: vcpkg install openssl:x64-mingw-dynamic
+
     - name: Configure CMake
       run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "MinGW Makefiles"
 
@@ -45,6 +48,7 @@ jobs:
         mv -t Lunar\ Client\ Qt/ lunar-client-qt.exe libs/ agents/
         PATH="$IQTA_TOOLS/mingw810_64/bin":$PATH windeployqt Lunar\ Client\ Qt/ --compiler-runtime --no-angle --no-opengl-sw --no-virtualkeyboard --no-webkit2 --no-system-d3d-compiler --no-translations --no-quick-import
 
+        cp $VCPKG_INSTALLATION_ROOT/packages/openssl_x64-mingw-dynamic/bin/*.dll  Lunar\ Client\ Qt/
     - name: Compress
       shell: powershell
       run: Compress-Archive -Path 'Lunar Client Qt' -DestinationPath windows.zip
