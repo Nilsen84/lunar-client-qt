@@ -33,7 +33,10 @@ jobs:
         tools: 'tools_mingw,8.1.0-1-202004170606,qt.tools.win64_mingw810'
 
     - name: Install OpenSSL
-      run: vcpkg install openssl:x64-mingw-dynamic
+      shell: powershell
+      run: |
+        Add-Content -Path "$env:VCPKG_INSTALLATION_ROOT\triplets\**\*" -Filter *.cmake -Value "`nset(VCPKG_BUILD_TYPE release)"
+        vcpkg install openssl:x64-mingw-dynamic
 
     - name: Configure CMake
       run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "MinGW Makefiles"
