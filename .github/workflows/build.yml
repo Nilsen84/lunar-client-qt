@@ -41,14 +41,17 @@ jobs:
     - name: Build
       run: cmake --build . --config ${{env.BUILD_TYPE}}
       
-    - name: Package Dependencies
+    - name: Package Qt
       shell: bash
       run: |
         mkdir Lunar\ Client\ Qt
         mv -t Lunar\ Client\ Qt/ lunar-client-qt.exe libs/ agents/
         PATH="$IQTA_TOOLS/mingw810_64/bin":$PATH windeployqt Lunar\ Client\ Qt/ --compiler-runtime --no-angle --no-opengl-sw --no-virtualkeyboard --no-webkit2 --no-system-d3d-compiler --no-translations --no-quick-import
 
-        cp $VCPKG_INSTALLATION_ROOT/packages/openssl_x64-mingw-dynamic/bin/*.dll  Lunar\ Client\ Qt/
+    - name: Package OpenSSL
+      shell: powershell
+      run: Get-ChildItem -Path "$env:VCPKG_INSTALLATION_ROOT\packages\openssl_x64-mingw-dynamic\bin\*" -Include *.dll | Copy-Item -Destination "Lunar Client Qt"
+
     - name: Compress
       shell: powershell
       run: Compress-Archive -Path 'Lunar Client Qt' -DestinationPath windows.zip
