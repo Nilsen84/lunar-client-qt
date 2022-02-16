@@ -1,8 +1,0 @@
-//
-// Created by nils on 2/5/22.
-//
-
-#include "version.h"
-
-const QString VERSION = "@LCQT_VERSION@";
-const QString VERSION_TAG = "@LCQT_VERSION_TAG@";

@@ -1,0 +1,15 @@
+//
+// Created by nils on 2/5/22.
+//
+
+#include "buildconfig.h"
+
+namespace BuildConfig {
+
+    const QString VERSION = QSL("@LCQT_VERSION@");
+    const QString VERSION_TAG = QSL("@LCQT_VERSION_TAG@");
+    const QString AGENTS_DIR = QSL("@AGENTS_DEST_DIR@");
+    const QString LIBS_DIR = QSL("@LIBS_DEST_DIR@");
+    const QString RELEASES_API_LINK = QSL("@GITHUB_RELEASE_LINK@");
+
+}

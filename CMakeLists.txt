@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.19)
 project(lunar-client-qt LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -44,8 +44,20 @@ else()
     set(INCLUDE_UPDATER Off)
 endif()
 
-configure_file(${CMAKE_SOURCE_DIR}/version.cpp.in ${CMAKE_BINARY_DIR}/version.cpp @ONLY)
-set(VERSION_FILE ${CMAKE_BINARY_DIR}/version.cpp)
+# ----------------------- Parse json config file -----------------------------
+
+file(READ ${CMAKE_CURRENT_LIST_DIR}/config.json CONFIG)
+
+string(JSON AGENTS_DEST_DIR GET ${CONFIG} "agentsDestDir")
+string(JSON LIBS_DEST_DIR GET ${CONFIG} "libsDestDir")
+string(JSON GITHUB_RELEASE_LINK GET ${CONFIG} "githubReleaseApiLink")
+
+# ----------------------- Replace values in cpp file -----------------------------
+
+configure_file(${CMAKE_SOURCE_DIR}/buildconfig.cpp.in ${CMAKE_BINARY_DIR}/buildconfig.cpp @ONLY)
+set(VERSION_FILE ${CMAKE_BINARY_DIR}/buildconfig.cpp)
+
+set_source_files_properties(${VERSION_FILE} PROPERTIES COMPILE_DEFINITIONS "QSL=QStringLiteral")
 
 # ----------------------- Sources ------------------------
 
@@ -71,7 +83,7 @@ set(SOURCE_FILES
         src/gui/widgets/widgetutils.cpp
         src/gui/widgets/widgetutils.h
         src/utils.cpp src/utils.h
-        src/version.h
+        src/buildconfig.h
         src/gui/agents/agentsmodel.cpp
         src/gui/agents/agentsmodel.h)
 
@@ -110,34 +122,36 @@ else()
     set(JAR_DEST_DIR ${CMAKE_BINARY_DIR})
 endif()
 
-function(COPY_JARS DIR OUTPUT_LIST)
+function(COPY_JARS S_DIR D_DIR OUTPUT_LIST)
     add_custom_command(
-            OUTPUT "${JAR_DEST_DIR}/${DIR}/"
-            COMMAND ${CMAKE_COMMAND} -E make_directory ${JAR_DEST_DIR}/${DIR}/
+            OUTPUT "${JAR_DEST_DIR}/${D_DIR}/"
+            COMMAND ${CMAKE_COMMAND} -E make_directory "${JAR_DEST_DIR}/${D_DIR}/"
+            VERBATIM
     )
 
     set(COPIED_FILES "")
 
-    file(GLOB JARS ${CMAKE_SOURCE_DIR}/java/${DIR}/*.jar)
+    file(GLOB JARS ${CMAKE_SOURCE_DIR}/java/${S_DIR}/*.jar)
 
     foreach(JAR ${JARS})
-        get_filename_component(FILE_NAME ${JAR} NAME)
+        get_filename_component(FILE_NAME ${JAR} NAME_WE)
         add_custom_command(
-                OUTPUT "${JAR_DEST_DIR}/${DIR}/${FILE_NAME}"
+                OUTPUT "${JAR_DEST_DIR}/${D_DIR}/${FILE_NAME}"
                 COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                ${JAR} ${JAR_DEST_DIR}/${DIR}/
-                DEPENDS ${JAR_DEST_DIR}/${DIR}/
+                ${JAR} "${JAR_DEST_DIR}/${D_DIR}/${FILE_NAME}"
+                DEPENDS "${JAR_DEST_DIR}/${D_DIR}/"
                 DEPENDS ${JAR}
                 COMMENT "Copying ${FILE_NAME}"
+                VERBATIM
         )
-        list(APPEND COPIED_FILES ${JAR_DEST_DIR}/${DIR}/${FILE_NAME})
+        list(APPEND COPIED_FILES "${JAR_DEST_DIR}/${D_DIR}/${FILE_NAME}")
     endforeach()
 
     set(${OUTPUT_LIST} ${COPIED_FILES} PARENT_SCOPE)
 endfunction()
 
-copy_jars(agents COPIED_AGENTS)
-copy_jars(libs COPIED_LIBRARIES)
+copy_jars(agents ${AGENTS_DEST_DIR} COPIED_AGENTS)
+copy_jars(libs ${LIBS_DEST_DIR} COPIED_LIBRARIES)
 
 add_custom_target(CopyJars ALL DEPENDS ${COPIED_AGENTS} ${COPIED_LIBRARIES})
 add_dependencies(lunar-client-qt CopyJars)

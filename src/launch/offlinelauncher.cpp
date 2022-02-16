@@ -61,16 +61,16 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
 
 
     if(config.useLevelHeadPrefix)
-        args << Utils::getAgentFlags("CustomLevelHead.jar", config.levelHeadPrefix);
+        args << Utils::getAgentFlags("CustomLevelHead", config.levelHeadPrefix);
 
     if(config.useAutoggMessage)
-        args << Utils::getAgentFlags("CustomAutoGG.jar", config.autoggMessage);
+        args << Utils::getAgentFlags("CustomAutoGG", config.autoggMessage);
 
     if(config.useNickLevel)
-        args << Utils::getAgentFlags("NickLevel.jar", QString::number(config.nickLevel));
+        args << Utils::getAgentFlags("NickLevel", QString::number(config.nickLevel));
 
     if(cosmeticsState == CosmeticsState::UNLOCKED)
-        args << Utils::getAgentFlags("UnlockCosmetics.jar");
+        args << Utils::getAgentFlags("UnlockCosmetics");
 
     args << QProcess::splitCommand(config.jvmArgs);
 

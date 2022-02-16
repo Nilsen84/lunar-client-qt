@@ -10,14 +10,14 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
-#include "version.h"
+#include "buildconfig.h"
 
 UpdateChecker::UpdateChecker() {
     connect(&networkManager, &QNetworkAccessManager::finished, this, &UpdateChecker::parseApiResonse);
 }
 
 void UpdateChecker::checkForUpdates(bool emitIfUnavailable) {
-    QNetworkRequest request(QUrl("https://api.github.com/repos/Nilsen84/lunar-client-qt/releases"));
+    QNetworkRequest request(BuildConfig::RELEASES_API_LINK);
     request.setAttribute(QNetworkRequest::User, emitIfUnavailable);
 
     networkManager.get(request);
@@ -40,7 +40,7 @@ void UpdateChecker::parseApiResonse(QNetworkReply *reply) {
     QJsonArray releases = doc.array();
     if(!releases.isEmpty()){
         QJsonObject obj = releases.first().toObject();
-        if(obj["tag_name"].toString() != VERSION_TAG){
+        if(obj["tag_name"].toString() != BuildConfig::VERSION_TAG){
             emit updateAvailable(obj["html_url"].toString());
         }else{
             bool shouldEmit = reply->request().attribute(QNetworkRequest::User).toBool();
