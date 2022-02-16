@@ -48,9 +48,13 @@ endif()
 
 file(READ ${CMAKE_CURRENT_LIST_DIR}/config.json CONFIG)
 
-string(JSON AGENTS_DEST_DIR GET ${CONFIG} "agentsDestDir")
-string(JSON LIBS_DEST_DIR GET ${CONFIG} "libsDestDir")
-string(JSON GITHUB_RELEASE_LINK GET ${CONFIG} "githubReleaseApiLink")
+macro(CONFIG_VAR KEY OUTPUT_VAR)
+    string(JSON ${OUTPUT_VAR} GET ${CONFIG} ${KEY})
+endmacro()
+
+config_var("agentsDestDir" AGENTS_DEST_DIR)
+config_var("libsDestDir" LIBS_DEST_DIR)
+config_var("githubReleaseApiLink" GITHUB_RELEASE_LINK)
 
 # ----------------------- Replace values in cpp file -----------------------------
 
