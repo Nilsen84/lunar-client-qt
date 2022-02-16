@@ -35,7 +35,7 @@ jobs:
     - name: Install OpenSSL
       shell: powershell
       run: |
-        Add-Content -Path "$env:VCPKG_INSTALLATION_ROOT\triplets\**\*" -Filter *.cmake -Value "`nset(VCPKG_BUILD_TYPE release)"
+        Get-ChildItem "$env:VCPKG_INSTALLATION_ROOT\triplets\" -Recurse -Include *.cmake | Add-Content -Value "`nset(VCPKG_BUILD_TYPE release)"
         vcpkg install openssl:x64-mingw-dynamic
 
     - name: Configure CMake
