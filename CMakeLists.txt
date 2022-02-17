@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.21)
 project(lunar-client-qt LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -126,33 +126,18 @@ else()
     set(JAR_DEST_DIR ${CMAKE_BINARY_DIR})
 endif()
 
-function(COPY_JARS S_DIR D_DIR OUTPUT_LIST)
+macro(COPY_JARS S_DIR T_DIR NEW_DIR)
     add_custom_command(
-            OUTPUT "${JAR_DEST_DIR}/${D_DIR}/"
-            COMMAND ${CMAKE_COMMAND} -E make_directory "${JAR_DEST_DIR}/${D_DIR}/"
+            OUTPUT "${JAR_DEST_DIR}/${T_DIR}"
+            COMMAND ${CMAKE_COMMAND}
+            -Dsrc_dir=${CMAKE_CURRENT_LIST_DIR}/java/${S_DIR}
+            -Ddst_dir=${JAR_DEST_DIR}/${T_DIR}
+            -P ${CMAKE_CURRENT_LIST_DIR}/cmake/copy_jars.cmake
+            COMMENT "Copying '${S_DIR}' to '${T_DIR}'"
             VERBATIM
     )
-
-    set(COPIED_FILES "")
-
-    file(GLOB JARS ${CMAKE_SOURCE_DIR}/java/${S_DIR}/*.jar)
-
-    foreach(JAR ${JARS})
-        get_filename_component(FILE_NAME ${JAR} NAME_WE)
-        add_custom_command(
-                OUTPUT "${JAR_DEST_DIR}/${D_DIR}/${FILE_NAME}"
-                COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                ${JAR} "${JAR_DEST_DIR}/${D_DIR}/${FILE_NAME}"
-                DEPENDS "${JAR_DEST_DIR}/${D_DIR}/"
-                DEPENDS ${JAR}
-                COMMENT "Copying ${FILE_NAME}"
-                VERBATIM
-        )
-        list(APPEND COPIED_FILES "${JAR_DEST_DIR}/${D_DIR}/${FILE_NAME}")
-    endforeach()
-
-    set(${OUTPUT_LIST} ${COPIED_FILES} PARENT_SCOPE)
-endfunction()
+    set(${NEW_DIR} "${JAR_DEST_DIR}/${T_DIR}")
+endmacro()
 
 copy_jars(agents ${AGENTS_DEST_DIR} COPIED_AGENTS)
 copy_jars(libs ${LIBS_DEST_DIR} COPIED_LIBRARIES)
