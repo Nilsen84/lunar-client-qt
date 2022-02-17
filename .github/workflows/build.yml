@@ -48,8 +48,7 @@ jobs:
       shell: powershell
       run: |
         mkdir 'Lunar Client Qt'
-        mv lunar-client-qt.exe 'Lunar Client Qt'
-        jq -r '.agentsDestDir,.libsDestDir' config.json | mv -Destination 'Lunar Client Qt'
+        mv -Path @('lunar-client-qt.exe';jq -r '.agentsDestDir,.libsDestDir' config.json) -Destination 'Lunar Client Qt'
 
     - name: Package Qt
       shell: bash
