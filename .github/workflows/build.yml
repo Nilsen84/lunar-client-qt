@@ -48,7 +48,7 @@ jobs:
       shell: bash
       run: |
         mkdir Lunar\ Client\ Qt
-        jq '.agents_dest_dir,.libs_dest_dir' config.json | xargs mv -t Lunar\ Client\ Qt/ lunar-client-qt.exe
+        jq '.agentsDestDir,.libsDestDir' config.json | xargs mv -t Lunar\ Client\ Qt/ lunar-client-qt.exe
         PATH="$IQTA_TOOLS/mingw810_64/bin":$PATH windeployqt Lunar\ Client\ Qt/ --compiler-runtime --no-angle --no-opengl-sw --no-virtualkeyboard --no-webkit2 --no-system-d3d-compiler --no-translations --no-quick-import
 
     - name: Package OpenSSL
@@ -125,7 +125,7 @@ jobs:
       - name: Compress
         run: |
           mkdir Lunar\ Client\ Qt
-          jq '.agents_dest_dir,.libs_dest_dir' config.json | xargs mv -t Lunar\ Client\ Qt/ lunar-client-qt
+          jq '.agentsDestDir,.libsDestDir' config.json | xargs mv -t Lunar\ Client\ Qt/ lunar-client-qt
           tar czvf linux.tar.gz Lunar\ Client\ Qt/
 
       - uses: actions/upload-artifact@v2
