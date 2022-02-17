@@ -43,12 +43,17 @@ jobs:
 
     - name: Build
       run: cmake --build . --config ${{env.BUILD_TYPE}}
-      
+
+    - name: Move built files to new directory
+      shell: powershell
+      run: |
+        mkdir 'Lunar Client Qt'
+        mv lunar-client-qt.exe 'Lunar Client Qt'
+        jq -r '.agentsDestDir,.libsDestDir' config.json | mv -Destination 'Lunar Client Qt'
+
     - name: Package Qt
       shell: bash
       run: |
-        mkdir Lunar\ Client\ Qt
-        jq '.agentsDestDir,.libsDestDir' config.json | xargs mv -t Lunar\ Client\ Qt/ lunar-client-qt.exe
         PATH="$IQTA_TOOLS/mingw810_64/bin":$PATH windeployqt Lunar\ Client\ Qt/ --compiler-runtime --no-angle --no-opengl-sw --no-virtualkeyboard --no-webkit2 --no-system-d3d-compiler --no-translations --no-quick-import
 
     - name: Package OpenSSL
