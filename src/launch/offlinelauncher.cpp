@@ -9,6 +9,7 @@
 #include <QDirIterator>
 #include <QStandardPaths>
 #include <QTemporaryFile>
+#include <QElapsedTimer>
 
 #include "utils.h"
 
@@ -34,6 +35,22 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
     process.setStandardOutputFile(QProcess::nullDevice());
     process.setStandardErrorFile(QProcess::nullDevice());
 
+    QStringList classPath = {
+            "vpatcher-prod.jar",
+            "lunar-prod-optifine.jar",
+            "lunar-libs.jar",
+            "lunar-assets-prod-1-optifine.jar",
+            "lunar-assets-prod-2-optifine.jar",
+            "lunar-assets-prod-3-optifine.jar",
+            "OptiFine.jar"
+    };
+
+    QFileInfoList libsList = QDir(Utils::getLibsDirectory()).entryInfoList(QDir::Files);
+
+    foreach(const QFileInfo& info, libsList) {
+        classPath << info.absoluteFilePath();
+    }
+
     QStringList args{
          "--add-modules", "jdk.naming.dns",
          "--add-exports", "jdk.naming.dns/com.sun.jndi.dns=java.naming",
@@ -43,17 +60,7 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
          QString("-Xms%1m").arg(config.initialMemory),
          QString("-Xmx%1m").arg(config.maximumMemory),
          "-Djava.library.path=natives",
-         "-cp", QStringList({
-                    "vpatcher-prod.jar",
-                    "lunar-prod-optifine.jar",
-                    "lunar-libs.jar",
-                    "lunar-assets-prod-1-optifine.jar",
-                    "lunar-assets-prod-2-optifine.jar",
-                    "lunar-assets-prod-3-optifine.jar",
-                    "OptiFine.jar",
-
-                    Utils::getLibsDirectory() + QDir::separator() + '*'
-        }).join(QDir::listSeparator())
+         "-cp", classPath.join(QDir::listSeparator())
     };
 
     foreach(const Agent& agent, config.agents)
