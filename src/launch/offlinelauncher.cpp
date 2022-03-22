@@ -85,10 +85,10 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
             "com.moonsworth.lunar.patcher.LunarMain",
             "--version", config.gameVersion,
             "--accessToken", "0",
-            "--assetIndex", config.gameVersion == QStringLiteral("1.7") ? "1.7.10" : config.gameVersion,
+            "--assetIndex", Utils::getAssetsIndex(config.gameVersion),
             "--userProperties", "{}",
             "--gameDir", config.useCustomMinecraftDir ? config.customMinecraftDir : minecraftDir,
-            "--launcherVersion", "2.9.4",
+            "--launcherVersion", "2.10.0",
             "--width", QString::number(config.windowWidth),
             "--height", QString::number(config.windowHeight)
     };

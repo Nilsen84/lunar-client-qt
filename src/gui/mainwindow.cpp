@@ -53,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
     pageList->setFont(font);
 
     versionSelect = new QComboBox();
-    versionSelect->addItems({"1.7", "1.8", "1.12", "1.16", "1.17", "1.18"});
+    versionSelect->addItems({"1.7", "1.8", "1.12", "1.16", "1.17", "1.18.1", "1.18.2"});
 
     launchUnlockedCosmeticsButton = new QPushButton;
     launchUnlockedCosmeticsButton->setMinimumHeight(45);

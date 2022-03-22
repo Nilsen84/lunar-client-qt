@@ -24,3 +24,13 @@ QString Utils::getAgentFlags(const QString &name) {
 QString Utils::getAgentFlags(const QString &name, const QString &option) {
     return getAgentFlags(name) + "=" + option;
 }
+
+QString Utils::getAssetsIndex(const QString &version) {
+    if(version == "1.7")
+        return "1.7.10";
+
+    if(version.startsWith("1.18"))
+        return "1.18";
+
+    return version;
+}
