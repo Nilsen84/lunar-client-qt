@@ -70,7 +70,7 @@ jobs:
         path: ./windows.zip
   build_mac:
     name: "MacOS Build"
-    runs-on: macos-latest
+    runs-on: macos-10.15
     
     steps:
       - uses: actions/checkout@v2
@@ -84,6 +84,7 @@ jobs:
           host: 'mac'
           target: 'desktop'
           arch: 'clang_64'
+          setup-python: 'false'
         
       - name: Configure CMake
         run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
