@@ -117,13 +117,13 @@ jobs:
     steps: 
       - uses: actions/checkout@v2
 
-      - name: Fetch tags
-        run: git fetch --prune --unshallow --tags
-      
       - name: Install Packages
         run: |
           pacman -Syu --noconfirm --needed qt5-base qt5-svg cmake base-devel git jq
-          
+
+      - name: Fetch tags
+        run: git fetch --prune --unshallow --tags
+
       - name: Configure CMake
         run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
         
