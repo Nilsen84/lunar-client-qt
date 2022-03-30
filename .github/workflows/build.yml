@@ -20,8 +20,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
+      run: |
+        git fetch --prune --unshallow --tags
       
     - name: Install Qt & MinGW
       uses: jurplel/install-qt-action@v2.14.0
@@ -74,8 +74,8 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+        run: |
+          git fetch --prune --unshallow --tags
       
       - name: Install Qt
         uses: jurplel/install-qt-action@v2.14.0
@@ -114,8 +114,8 @@ jobs:
     
     steps: 
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+        run: |
+          git fetch --prune --unshallow --tags
       
       - name: Install Packages
         run: |
