@@ -38,9 +38,9 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
 
     keepMemorySame = new QCheckBox(QStringLiteral("Keep initial and maximum memory allocations the same"));
 
-	unsigned long long systemMemory = getSystemMemory();
-	size_t mibMemory = (size_t)(systemMemory / 1024 / 1024);
-	size_t pageStep = (size_t)(mibMemory / 16);
+    unsigned long long systemMemory = getSystemMemory();
+    size_t mibMemory = (size_t)(systemMemory / 1024 / 1024);
+    size_t pageStep = (size_t)(mibMemory / 16);
 
     QLabel* initialMemoryLabel = new QLabel();
     initialMemory = new QSlider(Qt::Horizontal);

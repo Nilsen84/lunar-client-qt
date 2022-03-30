@@ -194,7 +194,7 @@ void MainWindow::updateAvailable(const QString &url) {
     QMessageBox messageBox;
     messageBox.setWindowTitle("Update available!");
     messageBox.setText(QString(
-            "A new update is availabe!<br>"
+            "A new update is available!<br>"
             "To update lcqt follow the link below:<br>"
             "<a href='%1'>%1</a>"
     ).arg(url));
