@@ -35,6 +35,8 @@ if(Git_FOUND)
     if(tag MATCHES "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)")
         set(LCQT_VERSION ${CMAKE_MATCH_1}.${CMAKE_MATCH_2}.${CMAKE_MATCH_3})
         set(LCQT_VERSION_TAG v${LCQT_VERSION})
+
+        message(STATUS "Found version tag: ${LCQT_VERSION_TAG}")
     else()
         message(WARNING "Couldn't find latest version tag, disabling update checker.")
         set(INCLUDE_UPDATER Off)
