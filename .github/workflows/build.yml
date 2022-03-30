@@ -22,7 +22,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Fetch tags
-      run : git fetch --prune --unshallow --tags
+      run : git fetch --prune --unshallow --tags -f
       
     - name: Install Qt & MinGW
       uses: jurplel/install-qt-action@v2.14.0
@@ -77,7 +77,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Fetch tags
-        run: git fetch --prune --unshallow --tags
+        run: git fetch --prune --unshallow --tags -f
       
       - name: Install Qt
         uses: jurplel/install-qt-action@v2.14.0
@@ -122,7 +122,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Fetch tags
-        run: git fetch --prune --unshallow --tags
+        run: git fetch --prune --unshallow --tags -f
 
       - name: Configure CMake
         run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
