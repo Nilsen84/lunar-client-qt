@@ -11,7 +11,8 @@ One of the primary features of this launcher is the ability to easily attach Jav
 this allows you to modify the game on launch, which lets you write modifications that won't break when Lunar Client recieves an update. 
   
 Here's a repository containing some useful Java agents that you might want to use: https://github.com/Nilsen84/lunar-client-agents  
-If you're familiar with java bytecode, feel free to write your own!
+  
+If you're familiar with Java bytecode, feel free to write your own!
 
 ## Build instructions
 Make sure you have Qt 5.15+ and CMake 3.16+ installed. 
@@ -26,5 +27,4 @@ make
 **NOTE**  
 If you're on MacOS, you wanna start off by installing Qt using [Brew](https://brew.sh/): ```brew install qt@5```  
 You also want to replace the `cmake ..` command with `cmake -DCMAKE_PREFIX_PATH=/usr/local/opt/qt5/ ..`  
-Besides that follow the same instructions above.
-
+Besides that, follow the same instructions above.
