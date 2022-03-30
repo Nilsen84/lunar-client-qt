@@ -152,5 +152,5 @@ void AgentsPage::onSelect(const QItemSelection &selected, const QItemSelection &
 }
 
 QString AgentsPage::description() {
-    return "List of agents you want to use. Don't add any forge/fabric mods or else your game won't start.";
+    return "List of agents you want to use. Don't add any Forge/Fabric mods or else your game won't start.";
 }
