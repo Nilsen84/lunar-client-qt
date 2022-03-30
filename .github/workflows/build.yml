@@ -113,13 +113,13 @@ jobs:
     
     runs-on: ubuntu-latest
     container: archlinux:latest
-    
-    steps: 
-      - uses: actions/checkout@v2
 
+    steps:
       - name: Install Packages
         run: |
           pacman -Syu --noconfirm --needed qt5-base qt5-svg cmake base-devel git jq
+
+      - uses: actions/checkout@v2
 
       - name: Fetch tags
         run: git fetch --prune --unshallow --tags
