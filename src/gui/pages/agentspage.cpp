@@ -40,6 +40,9 @@ AgentsPage::AgentsPage(Config& config, QWidget *parent) : ConfigurationPage(conf
     agents->setModel((model = new AgentsModel(config.agents, this)));
     agents->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     agents->setAlternatingRowColors(true);
+    agents->setAcceptDrops(true);
+    agents->setDropIndicatorShown(true);
+    agents->setDragDropMode(QAbstractItemView::DropOnly);
 
 
     add = new QPushButton(QStringLiteral("Add"));
@@ -61,25 +64,10 @@ AgentsPage::AgentsPage(Config& config, QWidget *parent) : ConfigurationPage(conf
                 {},
                 QStringLiteral("Java Agent (*.jar)")
                 );
-        //bool added = false;
-        foreach(const QString& str, files){
-/*            if(!str.isEmpty()){
-                foreach(const Agent& agent, this->config.agents){
-                    if(agent.path == str){
-                        goto skip;
-                    }
-                }*/
 
-                model->addAgent(str, {});
-
-/*                added = true;
-            }
-
-            skip:;*/
-
+        foreach(const QString& str, files) {
+            model->addAgent(str, {});
         }
-   //     if(added)
-        agents->selectRow(model->rowCount(QModelIndex())-1);
     });
 
     connect(remove, &QPushButton::clicked, [this](){

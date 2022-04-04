@@ -37,8 +37,17 @@ public:
     bool moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent,
                   int destinationChild) override;
 
+    Qt::DropActions supportedDropActions() const override;
+
+    bool canDropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column,
+                         const QModelIndex &parent) const override;
+
+    bool
+    dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
 
     void addAgent(const QString& path, const QString& option);
+
+    bool containsPath(const QString& path) const;
 private:
     QList<Agent>& agents;
 };

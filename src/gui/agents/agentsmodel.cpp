@@ -2,9 +2,10 @@
 // Created by nils on 2/6/22.
 //
 
-#include <QFileInfo>
-
 #include "agentsmodel.h"
+
+#include <QFileInfo>
+#include <QMimeData>
 
 AgentsModel::AgentsModel(QList<Agent> &agents, QObject *parent) : agents(agents), QAbstractTableModel(parent) {
 
@@ -63,8 +64,10 @@ QVariant AgentsModel::headerData(int section, Qt::Orientation orientation, int r
 Qt::ItemFlags AgentsModel::flags(const QModelIndex &index) const {
     auto flags = QAbstractTableModel::flags(index);
     if (index.column() == Column::OPTION) {
-        flags ^= Qt::ItemIsEditable;
+        flags |= Qt::ItemIsEditable;
     }
+    flags |= Qt::ItemIsDropEnabled;
+
     return flags;
 }
 
@@ -111,7 +114,49 @@ AgentsModel::moveRows(const QModelIndex &sourceParent, int sourceRow, int count,
 }
 
 void AgentsModel::addAgent(const QString &path, const QString &option) {
+    if(containsPath(path)) return;
+
     beginInsertRows(QModelIndex(), agents.size(), agents.size());
     agents.append({path, option});
     endInsertRows();
+}
+
+Qt::DropActions AgentsModel::supportedDropActions() const {
+    return Qt::CopyAction;
+}
+
+bool AgentsModel::canDropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column,
+                                  const QModelIndex &parent) const {
+    return data->hasUrls();
+}
+
+bool AgentsModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column,
+                               const QModelIndex &parent) {
+    if(!data->hasUrls()){
+        return false;
+    }
+
+    foreach(const QUrl& url, data->urls()){
+        if(!url.isLocalFile()){
+            continue;
+        }
+
+        QString file = url.toLocalFile();
+
+        if(file.endsWith(".jar")){
+            addAgent(url.toLocalFile(), {});
+        }
+    }
+
+    return true;
+}
+
+bool AgentsModel::containsPath(const QString &path) const {
+    foreach(const Agent& agent, agents){
+        if(agent.path == path){
+            return true;
+        }
+    }
+
+    return false;
 }
