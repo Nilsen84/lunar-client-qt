@@ -35,15 +35,11 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
     process.setStandardOutputFile(QProcess::nullDevice());
     process.setStandardErrorFile(QProcess::nullDevice());
 
-    QStringList classPath = {
-            "vpatcher-prod.jar",
-            "lunar-prod-optifine.jar",
-            "lunar-libs.jar",
-            "lunar-assets-prod-1-optifine.jar",
-            "lunar-assets-prod-2-optifine.jar",
-            "lunar-assets-prod-3-optifine.jar",
-            "OptiFine.jar"
-    };
+    QString workingDir = lunarDir + "/offline/" + config.gameVersion;
+
+    process.setWorkingDirectory(workingDir);
+
+    QStringList classPath = QDir(workingDir).entryList(QDir::Files, QDir::Time);
 
     QFileInfoList libsList = QDir(Utils::getLibsDirectory()).entryInfoList(QDir::Files);
 
@@ -107,7 +103,6 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
     env.remove("windir");
 
     process.setProcessEnvironment(env);
-    process.setWorkingDirectory(lunarDir + "/offline/" + config.gameVersion);
 
     if(!process.startDetached()){
         emit error("Failed to start process: " + process.errorString());
