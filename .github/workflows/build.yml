@@ -121,6 +121,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Mark Repository as Safe
+        run: git config --global safe.directory "$GITHUB_WORKSPACE"
+
       - name: Configure CMake
         run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
         
