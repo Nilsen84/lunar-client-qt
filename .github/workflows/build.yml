@@ -144,16 +144,23 @@ jobs:
   create_release:
     name: "Create Release"
     needs: [build_windows, build_mac, build_arch]
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/')
 
     runs-on: ubuntu-latest
+
     steps:
     - name: Download Builds
-      uses: actions/download-artifact@v2.1.0
+      uses: actions/download-artifact@v3
+
+    - name: Variables
+      id: variables
+      run: |
+        echo "::set-output name=version::${GITHUB_REF_NAME#v}"
 
     - name: Create Release
       uses: softprops/action-gh-release@v0.1.14
       with:
+        name: ${{ steps.variables.outputs.version }}
         draft: true
         fail_on_unmatched_files: true
         files: |
