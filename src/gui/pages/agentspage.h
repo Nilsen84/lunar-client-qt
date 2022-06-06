@@ -10,7 +10,8 @@
 #include <QPushButton>
 
 #include "configurationpage.h"
-#include "../agents/agentsmodel.h"
+#include "gui/agents/agentsmodel.h"
+#include "gui/agents/agentsview.hpp"
 
 class AgentsPage : public ConfigurationPage {
 Q_OBJECT
@@ -30,7 +31,7 @@ private slots:
 
 private:
     AgentsModel* model;
-    QTableView* agents;
+    AgentsView* agents;
 
     QPushButton* add;
     QPushButton* remove;

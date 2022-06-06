@@ -54,6 +54,8 @@ void Config::save() {
         QJsonObject agentObj;
         agentObj["path"] = agent.path;
         agentObj["option"] = agent.option;
+        agentObj["enabled"] = agent.enabled;
+
         arr.append(agentObj);
     }
 
@@ -63,7 +65,7 @@ void Config::save() {
 }
 
 Config Config::load() {
-    QJsonObject jsonObj = loadJsonFromFile();
+    QJsonObject jsonObj = loadJsonFromConfig();
 
     QJsonArray arr = jsonObj["agents"].toArray();
 
@@ -72,9 +74,13 @@ Config Config::load() {
     foreach(const QJsonValue& val, arr){
         if(val.isObject()){
             QJsonObject obj = val.toObject();
+
             QString path = obj["path"].toString();
+            QString option = obj["option"].toString({});
+            bool enabled = obj["enabled"].toBool(true);
+
             if(QFile::exists(path)){
-                agents.append({path, obj["option"].toString({})});
+                agents.append({path, option, enabled});
             }
         }else{
             QString path = val.toString();
@@ -123,7 +129,7 @@ void Config::saveJsonToConfig(const QJsonObject &jsonObject) {
     configFile.close();
 }
 
-QJsonObject Config::loadJsonFromFile() {
+QJsonObject Config::loadJsonFromConfig() {
     QFile configFile(configFilePath);
     configFile.open(QIODevice::ReadOnly | QIODevice::Text);
 

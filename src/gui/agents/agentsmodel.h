@@ -18,7 +18,7 @@ enum Column {
 class AgentsModel : public QAbstractTableModel {
 Q_OBJECT
 public:
-    explicit AgentsModel(QList<Agent>& agents, QObject* parent = nullptr);
+    explicit AgentsModel(QList<Agent> &agents, QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const override;
 
@@ -38,9 +38,10 @@ public:
                   int destinationChild) override;
 
 
-    void addAgent(const QString& path, const QString& option);
+    void addAgent(const QString &path, const QString &option);
+
 private:
-    QList<Agent>& agents;
+    QList<Agent> &agents;
 };
 
 

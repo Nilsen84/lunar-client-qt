@@ -33,15 +33,24 @@ QVariant AgentsModel::data(const QModelIndex &index, int role) const {
                 return agent.name;
             case Qt::ToolTipRole:
                 return agent.path;
+            case Qt::CheckStateRole:
+                return agent.enabled;
         }
     }
     return {};
 }
 
 bool AgentsModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+    Agent& agent = agents[index.row()];
+
     if (index.column() == Column::OPTION) {
         if (role == Qt::EditRole) {
-            agents[index.row()].option = value.toString();
+            agent.option = value.toString();
+            return true;
+        }
+    }else if(index.column() == Column::NAME){
+        if(role == Qt::CheckStateRole){
+            agent.enabled = !agent.enabled;
             return true;
         }
     }
@@ -62,9 +71,13 @@ QVariant AgentsModel::headerData(int section, Qt::Orientation orientation, int r
 
 Qt::ItemFlags AgentsModel::flags(const QModelIndex &index) const {
     auto flags = QAbstractTableModel::flags(index);
-    if (index.column() == Column::OPTION) {
-        flags ^= Qt::ItemIsEditable;
+
+    if(index.column() == Column::OPTION){
+        flags |= Qt::ItemIsEditable;
+    }else if(index.column() == Column::NAME){
+        flags |= Qt::ItemIsUserCheckable;
     }
+
     return flags;
 }
 
@@ -79,19 +92,11 @@ bool AgentsModel::removeRows(int row, int count, const QModelIndex &parent) {
     return true;
 }
 
-bool
-AgentsModel::moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent,
-                      int destinationChild) {
-    if (sourceRow < 0
-        || sourceRow + count - 1 >= rowCount(sourceParent)
-        || destinationChild <= 0
-        || destinationChild > rowCount(destinationParent)
-        || sourceRow == destinationChild - 1
-        || count <= 0)
-        return false;
 
-    if (!beginMoveRows(QModelIndex(), sourceRow, sourceRow + count - 1, QModelIndex(), destinationChild))
-        return false;
+// Stole this from QStringListModel
+bool AgentsModel::moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent,
+                      int destinationChild) {
+    beginMoveRows(QModelIndex(), sourceRow, sourceRow + count - 1, QModelIndex(), destinationChild);
 
     /*
     QList::move assumes that the second argument is the index where the item will end up to

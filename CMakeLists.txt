@@ -91,7 +91,12 @@ set(SOURCE_FILES
         src/utils.cpp src/utils.h
         src/buildconfig.h
         src/gui/agents/agentsmodel.cpp
-        src/gui/agents/agentsmodel.h)
+        src/gui/agents/agentsmodel.h
+        src/gui/agents/agentsview.cpp
+        src/gui/agents/agentsview.hpp
+        src/gui/style/removeoutline.cpp
+        src/gui/style/removeoutline.hpp
+)
 
 set(UPDATER_SOURCES src/updater/updatechecker.cpp src/updater/updatechecker.h)
 

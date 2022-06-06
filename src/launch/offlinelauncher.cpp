@@ -60,7 +60,8 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
     };
 
     foreach(const Agent& agent, config.agents)
-        args << "-javaagent:" + agent.path + '=' + agent.option;
+        if(agent.enabled)
+            args << "-javaagent:" + agent.path + '=' + agent.option;
 
 
     if(config.useLevelHeadPrefix)
