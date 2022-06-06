@@ -14,16 +14,6 @@
 #include <QHeaderView>
 #include <QItemSelectionModel>
 
-class RemoveOutlineStyle : public QProxyStyle {
-public:
-    void drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter,
-                       const QWidget *widget) const override {
-        if (element != PE_FrameFocusRect) {
-            QProxyStyle::drawPrimitive(element, option, painter, widget);
-        }
-    }
-};
-
 AgentsPage::AgentsPage(Config &config, QWidget *parent) : ConfigurationPage(config, parent) {
     QVBoxLayout *mainLayout = new QVBoxLayout();
     mainLayout->setSpacing(20);

@@ -20,4 +20,8 @@ AgentsView::AgentsView(QWidget *parent) : QTableView(parent) {
     setStyle(style);
     horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     setAlternatingRowColors(true);
+
+    setAcceptDrops(true);
+    setDropIndicatorShown(true);
+    setDragDropMode(QAbstractItemView::DropOnly);
 }
