@@ -35,7 +35,7 @@ QVariant AgentsModel::data(const QModelIndex &index, int role) const {
             case Qt::ToolTipRole:
                 return agent.path;
             case Qt::CheckStateRole:
-                return agent.enabled;
+                return agent.enabled ? Qt::Checked : Qt::Unchecked;
         }
     }
     return {};
