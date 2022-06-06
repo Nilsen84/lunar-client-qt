@@ -25,3 +25,13 @@ AgentsView::AgentsView(QWidget *parent) : QTableView(parent) {
     setDropIndicatorShown(true);
     setDragDropMode(QAbstractItemView::DropOnly);
 }
+
+void AgentsView::keyPressEvent(QKeyEvent *event) {
+    QAbstractItemView::keyPressEvent(event);
+
+    if(!event->isAccepted() && event->key() == Qt::Key_Delete){
+        foreach(const QModelIndex &item, selectionModel()->selectedRows()) {
+            model()->removeRow(item.row());
+        }
+    }
+}

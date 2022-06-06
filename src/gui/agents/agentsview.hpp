@@ -10,6 +10,9 @@
 class AgentsView : public QTableView {
 public:
     explicit AgentsView(QWidget *parent = nullptr);
+
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
 };
 
 
