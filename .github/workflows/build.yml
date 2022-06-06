@@ -19,10 +19,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Fetch tags
-      run : git fetch --prune --unshallow --tags -f
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
       
     - name: Install Qt & MinGW
       uses: jurplel/install-qt-action@v2.14.0
@@ -74,10 +73,9 @@ jobs:
     runs-on: macos-10.15
     
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Fetch tags
-        run: git fetch --prune --unshallow --tags -f
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       
       - name: Install Qt
         uses: jurplel/install-qt-action@v2.14.0
@@ -119,7 +117,9 @@ jobs:
         run: |
           pacman -Syu --noconfirm --needed qt5-base qt5-svg cmake base-devel git jq
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Fetch tags
         run: git fetch --prune --unshallow --tags -f
