@@ -43,7 +43,7 @@ bool OfflineLauncher::launch(CosmeticsState cosmeticsState) {
 
     QFileInfoList libsList = QDir(FS::getLibsDirectory()).entryInfoList(QDir::Files);
 
-    foreach(const QFileInfo& info, libsList) {
+    for(const QFileInfo& info : libsList) {
         classPath << info.absoluteFilePath();
     }
 
@@ -59,7 +59,7 @@ bool OfflineLauncher::launch(CosmeticsState cosmeticsState) {
          "-cp", classPath.join(QDir::listSeparator())
     };
 
-    foreach(const Agent& agent, config.agents)
+    for(const Agent& agent : config.agents)
         if(agent.enabled)
             args << "-javaagent:" + agent.path + '=' + agent.option;
 

@@ -30,8 +30,8 @@ void AgentsView::keyPressEvent(QKeyEvent *event) {
     QAbstractItemView::keyPressEvent(event);
 
     if(!event->isAccepted() && event->key() == Qt::Key_Delete){
-        foreach(const QModelIndex &item, selectionModel()->selectedRows()) {
-            model()->removeRow(item.row());
+        for(const QModelIndex& idx : selectionModel()->selectedRows()){
+            model()->removeRow(idx.row());
         }
     }
 }

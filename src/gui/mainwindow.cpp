@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
             new AgentsPage(config)
     };
 
-    foreach(ConfigurationPage *page, pages) {
+    for(ConfigurationPage* page : pages){
         new QListWidgetItem(page->icon(), page->title(), pageList);
         pageStack->addWidget(page);
     }
@@ -171,14 +171,14 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 }
 
 void MainWindow::apply() {
-    foreach(ConfigurationPage *page, pages) {
+    for(ConfigurationPage *page : pages) {
         page->apply();
     }
     config.gameVersion = versionSelect->currentText();
 }
 
 void MainWindow::load() {
-    foreach(ConfigurationPage *page, pages) {
+    for(ConfigurationPage* page : pages){
         page->load();
     }
     versionSelect->setCurrentText(config.gameVersion);

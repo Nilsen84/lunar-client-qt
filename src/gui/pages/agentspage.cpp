@@ -40,7 +40,7 @@ AgentsPage::AgentsPage(Config &config, QWidget *parent) : ConfigurationPage(conf
                 QStringLiteral("Java Agent (*.jar)")
         );
 
-        foreach(const QString &str, files) {
+        for(const QString& str : files){
             model->addAgent(str, {});
         }
 
@@ -48,7 +48,7 @@ AgentsPage::AgentsPage(Config &config, QWidget *parent) : ConfigurationPage(conf
     });
 
     connect(remove, &QPushButton::clicked, [this]() {
-        foreach(const QModelIndex &item, agents->selectionModel()->selectedRows()) {
+        for(const QModelIndex &item : agents->selectionModel()->selectedRows()) {
             model->removeRow(item.row());
         }
     });
