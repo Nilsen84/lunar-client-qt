@@ -11,23 +11,19 @@
 #include <QTemporaryFile>
 #include <QElapsedTimer>
 
-#include "utils.h"
-
-const QString OfflineLauncher::lunarDir = QDir::homePath() + "/.lunarclient";
-const QString OfflineLauncher::minecraftDir =
-#if defined(Q_OS_WIN)
-        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/.minecraft";
-#elif defined(Q_OS_DARWIN)
-        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/minecraft";
-#else
-        QDir::homePath() + "/.minecraft";
-#endif
+#include "util/fs.h"
+#include "util/utils.h"
 
 OfflineLauncher::OfflineLauncher(const Config& config, QObject *parent) : Launcher(config, parent) {
 }
 
 
-void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
+bool OfflineLauncher::launch(CosmeticsState cosmeticsState) {
+    if(config.gameVersion.isEmpty()){
+        emit error("No version selected!\nDo you have lunar installed?");
+        return false;
+    }
+
     QProcess process;
     process.setProgram(config.useCustomJre ? config.customJrePath : findJavaExecutable(config.gameVersion));
 
@@ -35,13 +31,17 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
     process.setStandardOutputFile(QProcess::nullDevice());
     process.setStandardErrorFile(QProcess::nullDevice());
 
-    QString workingDir = lunarDir + "/offline/" + config.gameVersion;
+    QString workingDir = FS::combinePaths(
+        FS::getLunarDirectory(),
+        "offline",
+        config.gameVersion
+    );
 
     process.setWorkingDirectory(workingDir);
 
     QStringList classPath = QDir(workingDir).entryList(QDir::Files, QDir::Time);
 
-    QFileInfoList libsList = QDir(Utils::getLibsDirectory()).entryInfoList(QDir::Files);
+    QFileInfoList libsList = QDir(FS::getLibsDirectory()).entryInfoList(QDir::Files);
 
     foreach(const QFileInfo& info, libsList) {
         classPath << info.absoluteFilePath();
@@ -84,14 +84,14 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
             "--accessToken", "0",
             "--assetIndex", Utils::getAssetsIndex(config.gameVersion),
             "--userProperties", "{}",
-            "--gameDir", config.useCustomMinecraftDir ? config.customMinecraftDir : minecraftDir,
+            "--gameDir", config.useCustomMinecraftDir ? config.customMinecraftDir : FS::getMinecraftDirectory(),
             "--launcherVersion", "2.10.0",
             "--width", QString::number(config.windowWidth),
             "--height", QString::number(config.windowHeight)
     };
 
     if(cosmeticsState != CosmeticsState::OFF)
-        args << "--texturesDir" << lunarDir + "/textures";
+        args << "--texturesDir" << FS::combinePaths(FS::getLunarDirectory(), "textures");
 
     if(config.joinServerOnLaunch)
         args << "--server" << config.serverIp;
@@ -107,32 +107,22 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
 
     if(!process.startDetached()){
         emit error("Failed to start process: " + process.errorString());
+        return false;
     }
+
+    return true;
 }
 
 QString OfflineLauncher::findJavaExecutable(const QString& version) {
-    QDirIterator versionSpecificIt(lunarDir+"/jre/"+version, QDir::Dirs | QDir::NoDotAndDotDot);
+    QString jreDir = FS::combinePaths(FS::getLunarDirectory(), "jre");
 
-    while(versionSpecificIt.hasNext()){
-        QString potentialExecutable = versionSpecificIt.next() +
+    QDirIterator jreIt(FS::combinePaths(jreDir, version), QDir::Dirs | QDir::NoDotAndDotDot);
+
+    while(jreIt.hasNext()){
+        QString potentialExecutable = jreIt.next() +
 #ifdef Q_OS_WIN
-        "/bin/java.exe";
+        "/bin/javaw.exe";
 #else
-        "/bin/java";
-#endif
-
-        if(QFileInfo(potentialExecutable).isExecutable())
-            return potentialExecutable;
-    }
-
-
-    QDirIterator generalIt(lunarDir+"/jre", QDir::Dirs | QDir::NoDotAndDotDot);
-
-    while(generalIt.hasNext()){
-        QString potentialExecutable = generalIt.next() +
-#ifdef Q_OS_WIN
-        "/bin/java.exe";
-        #else
         "/bin/java";
 #endif
 

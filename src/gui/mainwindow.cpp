@@ -20,6 +20,7 @@
 #include "launch/launcher.h"
 #include "buildconfig.h"
 #include "widgets/widgetutils.h"
+#include "util/utils.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::load()), offlineLauncher(config) {
     setWindowTitle(QStringLiteral("Lunar Client Qt - Version: ") + BuildConfig::VERSION);
@@ -38,10 +39,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
             new AgentsPage(config)
     };
 
-            foreach(ConfigurationPage *page, pages) {
-            new QListWidgetItem(page->icon(), page->title(), pageList);
-            pageStack->addWidget(page);
-        }
+    foreach(ConfigurationPage *page, pages) {
+        new QListWidgetItem(page->icon(), page->title(), pageList);
+        pageStack->addWidget(page);
+    }
 
     connect(pageList, &QListWidget::currentRowChanged, pageStack, &QStackedWidget::setCurrentIndex);
 
@@ -53,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
     pageList->setFont(font);
 
     versionSelect = new QComboBox();
-    versionSelect->addItems({"1.7", "1.8", "1.12", "1.16", "1.17", "1.18.1", "1.18.2"});
+    versionSelect->addItems(Utils::getOrderedAvailableVersions());
 
     launchUnlockedCosmeticsButton = new QPushButton;
     launchUnlockedCosmeticsButton->setMinimumHeight(45);
@@ -156,7 +157,9 @@ void MainWindow::launchUnlockedCosmetics() {
 
 void MainWindow::launch(Launcher &launcher, Launcher::CosmeticsState cosmeticsState) {
     apply();
-    launcher.launch(cosmeticsState);
+    if(!launcher.launch(cosmeticsState))
+        return;
+
     if (config.closeOnLaunch)
         close();
 }
@@ -168,16 +171,16 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 }
 
 void MainWindow::apply() {
-            foreach(ConfigurationPage *page, pages) {
-            page->apply();
-        }
+    foreach(ConfigurationPage *page, pages) {
+        page->apply();
+    }
     config.gameVersion = versionSelect->currentText();
 }
 
 void MainWindow::load() {
-            foreach(ConfigurationPage *page, pages) {
-            page->load();
-        }
+    foreach(ConfigurationPage *page, pages) {
+        page->load();
+    }
     versionSelect->setCurrentText(config.gameVersion);
 }
 

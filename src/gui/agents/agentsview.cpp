@@ -2,12 +2,12 @@
 // Created by nils on 6/6/22.
 //
 
-#include "agentsview.hpp"
+#include "agentsview.h"
 
 #include <QHeaderView>
 #include <QMouseEvent>
 
-#include "gui/style/removeoutline.hpp"
+#include "gui/style/removeoutline.h"
 
 AgentsView::AgentsView(QWidget *parent) : QTableView(parent) {
     setSelectionBehavior(QTableView::SelectRows);
