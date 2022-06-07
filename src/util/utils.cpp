@@ -32,7 +32,7 @@ QString Utils::getAssetsIndex(const QString &version) {
 QStringList Utils::getOrderedAvailableVersions() {
     QString lunarDir = FS::getLunarDirectory();
 
-    QDir jreDir(lunarDir + "/jre");
+    QDir jreDir(FS::combinePaths(lunarDir, "jre"));
 
     QStringList list = jreDir.entryList({"1.*"}, QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
 

@@ -119,12 +119,16 @@ QString OfflineLauncher::findJavaExecutable(const QString& version) {
     QDirIterator jreIt(FS::combinePaths(jreDir, version), QDir::Dirs | QDir::NoDotAndDotDot);
 
     while(jreIt.hasNext()){
-        QString potentialExecutable = jreIt.next() +
+        QString potentialExecutable = FS::combinePaths(
+                jreIt.next(),
+                "bin",
 #ifdef Q_OS_WIN
-        "/bin/javaw.exe";
+                "javaw.exe"
 #else
-        "/bin/java";
+                "java"
 #endif
+
+        );
 
         if(QFileInfo(potentialExecutable).isExecutable())
             return potentialExecutable;
