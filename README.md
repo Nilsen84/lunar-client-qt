@@ -1,3 +1,9 @@
+![Github all releases](https://img.shields.io/github/downloads/Nilsen84/lunar-client-qt/total)
+![GPLv3](https://img.shields.io/github/license/Nilsen84/lunar-client-qt)
+![Stars](https://img.shields.io/github/stars/Nilsen84/lunar-client-qt)
+![Forks](https://img.shields.io/github/forks/Nilsen84/lunar-client-qt)
+![CI](https://img.shields.io/github/workflow/status/Nilsen84/lunar-client-qt/Build%20and%20Release)
+
 # Lunar Client Qt
 Lunar Client Qt is a lightweight, cross-platform and open sourced launcher for Lunar Client written in C++ using the Qt framework.  
   
