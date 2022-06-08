@@ -9,7 +9,7 @@ Lunar Client Qt is a lightweight, cross-platform and open sourced launcher for L
   
 ![Lunar Client Qt](https://i.imgur.com/owcLWNV.png)
 
-## Discord
+## Contact
 Add me on Discord (nils#5281) if you have any questions or thoughts about the project. For any suggestions/issues open an issue here on the github page.
 
 ## Agents
