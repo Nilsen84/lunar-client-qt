@@ -34,12 +34,15 @@ QString FS::getLunarDirectory() {
 }
 
 QString FS::getMinecraftDirectory() {
-    return
+    return combinePaths(
+            QDir::homePath(),
+
 #if defined(Q_OS_WIN)
-        combinePaths(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation), ".minecraft");
+            "AppData/Roaming/.minecraft"
 #elif defined(Q_OS_DARWIN)
-        combinePaths(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation), "minecraft");
+            "Library/Application Support/minecraft"
 #else
-        combinePaths(QDir::homePath(), ".minecraft");
+            ".minecraft"
 #endif
+    );
 }
