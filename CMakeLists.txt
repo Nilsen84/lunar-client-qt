@@ -88,14 +88,16 @@ set(SOURCE_FILES
         src/gui/widgets/filechooser.h
         src/gui/widgets/widgetutils.cpp
         src/gui/widgets/widgetutils.h
-        src/utils.cpp src/utils.h
         src/buildconfig.h
         src/gui/agents/agentsmodel.cpp
         src/gui/agents/agentsmodel.h
         src/gui/agents/agentsview.cpp
-        src/gui/agents/agentsview.hpp
+        src/gui/agents/agentsview.h
         src/gui/style/removeoutline.cpp
-        src/gui/style/removeoutline.hpp
+        src/gui/style/removeoutline.h
+        src/util/fs.cpp src/util/fs.h
+        src/util/utils.cpp
+        src/util/utils.h
 )
 
 set(UPDATER_SOURCES src/updater/updatechecker.cpp src/updater/updatechecker.h)

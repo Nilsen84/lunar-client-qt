@@ -19,10 +19,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
-    - name: Fetch tags
-      run : git fetch --prune --unshallow --tags -f
+    - name: Fetch Tags
+      run: git fetch --prune --tags -f
       
     - name: Install Qt & MinGW
       uses: jurplel/install-qt-action@v2.14.0
@@ -74,10 +74,10 @@ jobs:
     runs-on: macos-10.15
     
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Fetch tags
-        run: git fetch --prune --unshallow --tags -f
+      - name: Fetch Tags
+        run: git fetch --prune --tags -f
       
       - name: Install Qt
         uses: jurplel/install-qt-action@v2.14.0
@@ -119,10 +119,13 @@ jobs:
         run: |
           pacman -Syu --noconfirm --needed qt5-base qt5-svg cmake base-devel git jq
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Fetch tags
-        run: git fetch --prune --unshallow --tags -f
+      - name: Mark Repository as Safe
+        run: git config --global safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Fetch Tags
+        run: git fetch --prune --tags -f
 
       - name: Configure CMake
         run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
