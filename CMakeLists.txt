@@ -98,6 +98,8 @@ set(SOURCE_FILES
         src/util/fs.cpp src/util/fs.h
         src/util/utils.cpp
         src/util/utils.h
+        src/util/sysinfo.cpp
+        src/util/sysinfo.h
 )
 
 set(UPDATER_SOURCES src/updater/updatechecker.cpp src/updater/updatechecker.h)
