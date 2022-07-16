@@ -11,7 +11,7 @@
 #include "fs.h"
 
 QString Utils::getAgentFlags(const QString &name) {
-    return "-javaagent:" + FS::combinePaths(FS::getAgentsDirectory(), name);
+    return "-javaagent:" + FS::combinePaths(FS::agentsDirectory(), name);
 }
 
 QString Utils::getAgentFlags(const QString &name, const QString &option) {
@@ -30,12 +30,11 @@ QString Utils::getAssetsIndex(const QString &version) {
 
 
 QStringList Utils::getOrderedAvailableVersions() {
-    QString lunarDir = FS::getLunarDirectory();
+    QString lunarDir = FS::lunarDirectory();
 
     QDir jreDir(FS::combinePaths(lunarDir, "jre"));
 
     QStringList list = jreDir.entryList({"1.*"}, QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
-
     {
         QDir offlineDir(FS::combinePaths(lunarDir, "offline"));
 

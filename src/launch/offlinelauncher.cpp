@@ -32,7 +32,7 @@ bool OfflineLauncher::launch(CosmeticsState cosmeticsState) {
     process.setStandardErrorFile(QProcess::nullDevice());
 
     QString workingDir = FS::combinePaths(
-        FS::getLunarDirectory(),
+            FS::lunarDirectory(),
         "offline",
         config.gameVersion
     );
@@ -41,7 +41,7 @@ bool OfflineLauncher::launch(CosmeticsState cosmeticsState) {
 
     QStringList classPath = QDir(workingDir).entryList(QDir::Files, QDir::Time);
 
-    QFileInfoList libsList = QDir(FS::getLibsDirectory()).entryInfoList(QDir::Files);
+    QFileInfoList libsList = QDir(FS::libsDirectory()).entryInfoList(QDir::Files);
 
     for(const QFileInfo& info : libsList) {
         classPath << info.absoluteFilePath();
@@ -84,14 +84,14 @@ bool OfflineLauncher::launch(CosmeticsState cosmeticsState) {
             "--accessToken", "0",
             "--assetIndex", Utils::getAssetsIndex(config.gameVersion),
             "--userProperties", "{}",
-            "--gameDir", config.useCustomMinecraftDir ? config.customMinecraftDir : FS::getMinecraftDirectory(),
+            "--gameDir", config.useCustomMinecraftDir ? config.customMinecraftDir : FS::minecraftDirectory(),
             "--launcherVersion", "2.10.0",
             "--width", QString::number(config.windowWidth),
             "--height", QString::number(config.windowHeight)
     };
 
     if(cosmeticsState != CosmeticsState::OFF)
-        args << "--texturesDir" << FS::combinePaths(FS::getLunarDirectory(), "textures");
+        args << "--texturesDir" << FS::combinePaths(FS::lunarDirectory(), "textures");
 
     if(config.joinServerOnLaunch)
         args << "--server" << config.serverIp;
@@ -114,7 +114,7 @@ bool OfflineLauncher::launch(CosmeticsState cosmeticsState) {
 }
 
 QString OfflineLauncher::findJavaExecutable(const QString& version) {
-    QString jreDir = FS::combinePaths(FS::getLunarDirectory(), "jre");
+    QString jreDir = FS::combinePaths(FS::lunarDirectory(), "jre");
 
     QDirIterator jreIt(FS::combinePaths(jreDir, version), QDir::Dirs | QDir::NoDotAndDotDot);
 

@@ -19,19 +19,19 @@ QString FS::combinePaths(const QString &a, const QString &b, const QString &c) {
     return combinePaths(combinePaths(a, b), c);
 }
 
-QString FS::getLibsDirectory() {
+QString FS::libsDirectory() {
     return combinePaths(QApplication::applicationDirPath(), BuildConfig::LIBS_DIR);
 }
 
-QString FS::getAgentsDirectory() {
+QString FS::agentsDirectory() {
     return combinePaths(QApplication::applicationDirPath(), BuildConfig::AGENTS_DIR);
 }
 
-QString FS::getLunarDirectory() {
+QString FS::lunarDirectory() {
     return combinePaths(QDir::homePath(), ".lunarclient");
 }
 
-QString FS::getMinecraftDirectory() {
+QString FS::minecraftDirectory() {
     return combinePaths(
             QDir::homePath(),
 
