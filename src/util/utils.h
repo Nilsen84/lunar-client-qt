@@ -13,7 +13,12 @@ namespace Utils {
     QString getAgentFlags(const QString& name, const QString& option);
     QString getAssetsIndex(const QString& version);
 
+    void sortVersions(QStringList& versions);
+    QStringList getAvailableVersions();
     QStringList getOrderedAvailableVersions();
+
+    QString underscoreVersion(const QString& version);
+    QString dotVersion(const QString& underscoreVersion);
 };
 
 

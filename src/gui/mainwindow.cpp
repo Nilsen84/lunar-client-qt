@@ -23,7 +23,7 @@
 #include "util/utils.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::load()), offlineLauncher(config) {
-    setWindowTitle(QStringLiteral("Lunar Client Qt - Version: ") + BuildConfig::VERSION);
+    setWindowTitle("Lunar Client Qt - Version: " + BuildConfig::VERSION);
     QGridLayout *mainLayout = new QGridLayout();
 
     pageList = new QListWidget();
@@ -133,13 +133,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), config(Config::lo
 
 void MainWindow::resetLaunchButtons() {
     launchUnlockedCosmeticsButton->setEnabled(true);
-    launchUnlockedCosmeticsButton->setText(QStringLiteral("Launch With All\nCosmetics"));
+    launchUnlockedCosmeticsButton->setText("Launch With All\nCosmetics");
 
     launchButton->setEnabled(true);
-    launchButton->setText(QStringLiteral("Launch"));
+    launchButton->setText("Launch");
 
     launchNoCosmeticsButton->setEnabled(true);
-    launchNoCosmeticsButton->setText(QStringLiteral("Launch Without\nCosmetics"));
+    launchNoCosmeticsButton->setText("Launch Without\nCosmetics");
 }
 
 void MainWindow::launchNoCosmetics() {

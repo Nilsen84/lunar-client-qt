@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.21)
 project(lunar-client-qt LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 set(CMAKE_AUTOMOC ON)
@@ -55,15 +55,12 @@ macro(CONFIG_VAR KEY OUTPUT_VAR)
 endmacro()
 
 config_var("agentsDestDir" AGENTS_DEST_DIR)
-config_var("libsDestDir" LIBS_DEST_DIR)
 config_var("githubReleaseApiLink" GITHUB_RELEASE_LINK)
 
 # ----------------------- Replace values in cpp file -----------------------------
 
 configure_file(${CMAKE_SOURCE_DIR}/buildconfig.cpp.in ${CMAKE_BINARY_DIR}/buildconfig.cpp @ONLY)
 set(VERSION_FILE ${CMAKE_BINARY_DIR}/buildconfig.cpp)
-
-set_source_files_properties(${VERSION_FILE} PROPERTIES COMPILE_DEFINITIONS "QSL=QStringLiteral")
 
 # ----------------------- Sources ------------------------
 
@@ -129,7 +126,7 @@ if(INCLUDE_UPDATER)
     target_compile_definitions(lunar-client-qt PRIVATE INCLUDE_UPDATER)
 endif()
 
-# ------------------------- Copy java agents and libraries -----------------------
+# ------------------------- Copy java agents -----------------------
 
 if(UNIX AND APPLE)
     set(JAR_DEST_DIR ${CMAKE_BINARY_DIR}/lunar-client-qt.app/Contents/MacOS)
@@ -137,9 +134,10 @@ else()
     set(JAR_DEST_DIR ${CMAKE_BINARY_DIR})
 endif()
 
-macro(COPY_JARS S_DIR T_DIR NEW_DIR)
+macro(COPY_JARS S_DIR T_DIR)
     add_custom_command(
-            OUTPUT "${JAR_DEST_DIR}/${T_DIR}"
+            TARGET lunar-client-qt
+            POST_BUILD
             COMMAND ${CMAKE_COMMAND}
             -Dsrc_dir=${CMAKE_CURRENT_LIST_DIR}/java/${S_DIR}
             -Ddst_dir=${JAR_DEST_DIR}/${T_DIR}
@@ -147,20 +145,18 @@ macro(COPY_JARS S_DIR T_DIR NEW_DIR)
             COMMENT "Copying '${S_DIR}' to '${T_DIR}'"
             VERBATIM
     )
-    set(${NEW_DIR} "${JAR_DEST_DIR}/${T_DIR}")
 endmacro()
 
-copy_jars(agents ${AGENTS_DEST_DIR} COPIED_AGENTS)
-copy_jars(libs ${LIBS_DEST_DIR} COPIED_LIBRARIES)
-
-add_custom_target(CopyJars ALL DEPENDS ${COPIED_AGENTS} ${COPIED_LIBRARIES})
-add_dependencies(lunar-client-qt CopyJars)
+copy_jars(agents ${AGENTS_DEST_DIR})
 
 # ----------------------- Link against libraries ------------------------------
 
+add_subdirectory(3rdparty)
+
 list(TRANSFORM QT_COMPONENTS PREPEND ${QT_VER}:: OUTPUT_VARIABLE QT_LIBS)
 
-target_link_libraries(lunar-client-qt ${QT_LIBS})
+target_link_libraries(lunar-client-qt ${QT_LIBS} QuaZip::QuaZip)
+
 
 # ---------------------- Set include directory ---------------------------
 

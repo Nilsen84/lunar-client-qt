@@ -36,15 +36,6 @@ void Config::save() {
     saveObj["joinServerOnLaunch"] = joinServerOnLaunch;
     saveObj["serverIp"] = serverIp;
 
-    saveObj["useLevelHeadPrefix"] = useLevelHeadPrefix;
-    saveObj["levelHeadPrefix"] = levelHeadPrefix;
-
-    saveObj["useAutoggMessage"] = useAutoggMessage;
-    saveObj["autoggMessage"] = autoggMessage;
-
-    saveObj["useNickLevel"] = useNickLevel;
-    saveObj["nickLevel"] = nickLevel;
-
     saveObj["windowWidth"] = windowWidth;
     saveObj["windowHeight"] = windowHeight;
 
@@ -101,12 +92,6 @@ Config Config::load() {
         jsonObj["customMinecraftDir"].toString(),
         jsonObj["joinServerOnLaunch"].toBool(false),
         jsonObj["serverIp"].toString(),
-        jsonObj["useLevelHeadPrefix"].toBool(false),
-        jsonObj["levelHeadPrefix"].toString(),
-        jsonObj["useAutoggMessage"].toBool(false),
-        jsonObj["autoggMessage"].toString(),
-        jsonObj["useNickLevel"].toBool(true),
-        jsonObj["nickLevel"].toInt(-1),
         jsonObj["windowWidth"].toInt(640),
         jsonObj["windowHeight"].toInt(480),
         agents

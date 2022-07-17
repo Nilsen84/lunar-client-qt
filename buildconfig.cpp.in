@@ -6,10 +6,9 @@
 
 namespace BuildConfig {
 
-    const QString VERSION = QSL("@LCQT_VERSION@");
-    const QString VERSION_TAG = QSL("@LCQT_VERSION_TAG@");
-    const QString AGENTS_DIR = QSL("@AGENTS_DEST_DIR@");
-    const QString LIBS_DIR = QSL("@LIBS_DEST_DIR@");
-    const QString RELEASES_API_LINK = QSL("@GITHUB_RELEASE_LINK@");
+    const QString VERSION = "@LCQT_VERSION@";
+    const QString VERSION_TAG = "@LCQT_VERSION_TAG@";
+    const QString AGENTS_DIR = "@AGENTS_DEST_DIR@";
+    const QString RELEASES_API_LINK = "@GITHUB_RELEASE_LINK@";
 
 }

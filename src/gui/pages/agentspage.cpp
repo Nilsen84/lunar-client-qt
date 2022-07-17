@@ -21,10 +21,10 @@ AgentsPage::AgentsPage(Config &config, QWidget *parent) : ConfigurationPage(conf
     agents = new AgentsView(this);
     agents->setModel((model = new AgentsModel(config.agents, this)));
 
-    add = new QPushButton(QStringLiteral("Add"));
-    remove = new QPushButton(QStringLiteral("Remove"));
-    moveUp = new QPushButton(QStringLiteral("Move Up"));
-    moveDown = new QPushButton(QStringLiteral("Move Down"));
+    add = new QPushButton("Add");
+    remove = new QPushButton("Remove");
+    moveUp = new QPushButton("Move Up");
+    moveDown = new QPushButton("Move Down");
 
     connect(agents->selectionModel(), &QItemSelectionModel::selectionChanged, this, &AgentsPage::onSelect);
 
@@ -35,9 +35,9 @@ AgentsPage::AgentsPage(Config &config, QWidget *parent) : ConfigurationPage(conf
     connect(add, &QPushButton::clicked, [this]() {
         QStringList files = QFileDialog::getOpenFileNames(
                 nullptr,
-                QStringLiteral("Open Agent Jar"),
+                "Open Agent Jar",
                 {},
-                QStringLiteral("Java Agent (*.jar)")
+                "Java Agent (*.jar)"
         );
 
         for(const QString& str : files){
@@ -89,7 +89,7 @@ AgentsPage::AgentsPage(Config &config, QWidget *parent) : ConfigurationPage(conf
 
 
 QString AgentsPage::title() {
-    return QStringLiteral("Agents");
+    return "Agents";
 }
 
 QIcon AgentsPage::icon() {

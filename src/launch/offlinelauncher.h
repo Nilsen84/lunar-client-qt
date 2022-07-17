@@ -19,7 +19,15 @@ public:
 signals:
     void error(const QString& message);
 private:
-    static QString findJavaExecutable(const QString& version);
+    struct LaunchFiles {
+        QStringList classPath;
+        QStringList externalFiles;
+        QString natives;
+    };
+
+    LaunchFiles gatherLaunchFiles(const QString& workingDir);
+
+    QString findJavaExecutable();
 };
 
 
