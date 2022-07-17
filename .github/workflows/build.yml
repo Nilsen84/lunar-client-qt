@@ -52,7 +52,7 @@ jobs:
       shell: powershell
       run: |
         mkdir 'Lunar Client Qt'
-        mv -Path @('lunar-client-qt.exe';jq -r '.agentsDestDir,.libsDestDir' config.json) -Destination 'Lunar Client Qt'
+        mv -Path @('lunar-client-qt.exe';jq -r '.agentsDestDir' config.json) -Destination 'Lunar Client Qt'
 
     - name: Package Qt
       shell: bash
@@ -145,7 +145,7 @@ jobs:
       - name: Compress
         run: |
           mkdir Lunar\ Client\ Qt
-          jq '.agentsDestDir,.libsDestDir' config.json | xargs mv -t Lunar\ Client\ Qt/ lunar-client-qt
+          jq '.agentsDestDir' config.json | xargs mv -t Lunar\ Client\ Qt/ lunar-client-qt
           tar czvf linux.tar.gz Lunar\ Client\ Qt/
 
       - uses: actions/upload-artifact@v2
