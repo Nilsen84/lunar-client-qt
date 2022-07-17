@@ -162,7 +162,7 @@ QList<JavaExe> getAvailableJres(){
                     jreIt.next(),
                     "bin",
 #ifdef Q_OS_WIN
-                    "javaw.exe",
+                    "javaw.exe"
 #else
                     "java"
 #endif
