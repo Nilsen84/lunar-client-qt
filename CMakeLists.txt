@@ -137,7 +137,7 @@ endif()
 macro(COPY_JARS S_DIR T_DIR)
     add_custom_command(
             TARGET lunar-client-qt
-            POST_BUILD
+            PRE_BUILD
             COMMAND ${CMAKE_COMMAND}
             -Dsrc_dir=${CMAKE_CURRENT_LIST_DIR}/java/${S_DIR}
             -Ddst_dir=${JAR_DEST_DIR}/${T_DIR}
