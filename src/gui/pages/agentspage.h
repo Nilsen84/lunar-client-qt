@@ -11,7 +11,7 @@
 
 #include "configurationpage.h"
 #include "gui/agents/agentsmodel.h"
-#include "gui/agents/agentsview.hpp"
+#include "gui/agents/agentsview.h"
 
 class AgentsPage : public ConfigurationPage {
 Q_OBJECT

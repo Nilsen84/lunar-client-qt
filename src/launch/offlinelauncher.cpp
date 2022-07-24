@@ -10,90 +10,109 @@
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <QElapsedTimer>
+#include <QVersionNumber>
+#include <quazip.h>
+#include <JlCompress.h>
 
-#include "utils.h"
+#include "util/fs.h"
+#include "util/utils.h"
 
-const QString OfflineLauncher::lunarDir = QDir::homePath() + "/.lunarclient";
-const QString OfflineLauncher::minecraftDir =
-#if defined(Q_OS_WIN)
-        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/.minecraft";
-#elif defined(Q_OS_DARWIN)
-        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/minecraft";
-#else
-        QDir::homePath() + "/.minecraft";
-#endif
-
-OfflineLauncher::OfflineLauncher(const Config& config, QObject *parent) : Launcher(config, parent) {
+OfflineLauncher::OfflineLauncher(const Config &config, QObject *parent) : Launcher(config, parent) {
 }
 
+OfflineLauncher::LaunchFiles OfflineLauncher::gatherLaunchFiles(const QString& workingDir){
+    LaunchFiles launchFiles;
 
-void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
+    QDirIterator dirIt(workingDir, QDir::Files);
+
+    auto version = Utils::underscoreVersion(config.gameVersion);
+
+    while(dirIt.hasNext()){
+        auto path = dirIt.next();
+        auto name = dirIt.fileName();
+
+        if(!name.contains(version) && name.contains("v1_"))
+            continue;
+
+        if(name.startsWith("OptiFine")){
+            launchFiles.externalFiles << path;
+        }else if(name.endsWith(".zip") && name.contains("natives")){
+            launchFiles.natives = path;
+        }else {
+            launchFiles.classPath << path;
+        }
+    }
+
+    return launchFiles;
+}
+
+bool OfflineLauncher::launch(CosmeticsState cosmeticsState) {
+    if (config.gameVersion.isEmpty()) {
+        emit error("No version selected!\nDo you have lunar installed?");
+        return false;
+    }
+
     QProcess process;
-    process.setProgram(config.useCustomJre ? config.customJrePath : findJavaExecutable(config.gameVersion));
+    process.setProgram(config.useCustomJre ? config.customJrePath : findJavaExecutable());
 
-    process.setStandardInputFile(QProcess::nullDevice());
-    process.setStandardOutputFile(QProcess::nullDevice());
-    process.setStandardErrorFile(QProcess::nullDevice());
-
-    QString workingDir = lunarDir + "/offline/" + config.gameVersion;
+    QString workingDir = FS::combinePaths(
+        FS::lunarDirectory(),
+        "offline",
+        "multiver"
+    );
 
     process.setWorkingDirectory(workingDir);
 
-    QStringList classPath = QDir(workingDir).entryList(QDir::Files, QDir::Time);
+    QString natives = FS::combinePaths(workingDir, "natives");
+    FS::clearDirectory(natives);
 
-    QFileInfoList libsList = QDir(Utils::getLibsDirectory()).entryInfoList(QDir::Files);
+    auto [cp, externalFiles, nativesZip] = gatherLaunchFiles(workingDir);
 
-    foreach(const QFileInfo& info, libsList) {
-        classPath << info.absoluteFilePath();
-    }
+    QuaZip zip(nativesZip);
+    JlCompress::extractDir(zip, natives);
+
 
     QStringList args{
-         "--add-modules", "jdk.naming.dns",
-         "--add-exports", "jdk.naming.dns/com.sun.jndi.dns=java.naming",
-         "-Djna.boot.library.path=natives",
-         "-Dlog4j2.formatMsgNoLookups=true",
-         "--add-opens", "java.base/java.io=ALL-UNNAMED",
-         QString("-Xms%1m").arg(config.initialMemory),
-         QString("-Xmx%1m").arg(config.maximumMemory),
-         "-Djava.library.path=natives",
-         "-cp", classPath.join(QDir::listSeparator())
+            "--add-modules", "jdk.naming.dns",
+            "--add-exports", "jdk.naming.dns/com.sun.jndi.dns=java.naming",
+            "-Djna.boot.library.path=natives",
+            "-Dlog4j2.formatMsgNoLookups=true",
+            "--add-opens", "java.base/java.io=ALL-UNNAMED",
+            QString("-Xms%1m").arg(config.initialMemory),
+            QString("-Xmx%1m").arg(config.maximumMemory),
+            "-Djava.library.path=natives",
+            "-cp", cp.join(QDir::listSeparator())
     };
 
-    foreach(const Agent& agent, config.agents)
-        if(agent.enabled)
+    for (const Agent &agent: config.agents)
+        if (agent.enabled)
             args << "-javaagent:" + agent.path + '=' + agent.option;
 
-
-    if(config.useLevelHeadPrefix)
-        args << Utils::getAgentFlags("CustomLevelHead", config.levelHeadPrefix);
-
-    if(config.useAutoggMessage)
-        args << Utils::getAgentFlags("CustomAutoGG", config.autoggMessage);
-
-    if(config.useNickLevel)
-        args << Utils::getAgentFlags("NickLevel", QString::number(config.nickLevel));
-
-    if(cosmeticsState == CosmeticsState::UNLOCKED)
+    if (cosmeticsState == CosmeticsState::UNLOCKED)
         args << Utils::getAgentFlags("UnlockCosmetics");
 
     args << QProcess::splitCommand(config.jvmArgs);
 
     args << QStringList{
-            "com.moonsworth.lunar.patcher.LunarMain",
+            "com.moonsworth.lunar.genesis.Genesis",
             "--version", config.gameVersion,
             "--accessToken", "0",
             "--assetIndex", Utils::getAssetsIndex(config.gameVersion),
             "--userProperties", "{}",
-            "--gameDir", config.useCustomMinecraftDir ? config.customMinecraftDir : minecraftDir,
-            "--launcherVersion", "2.10.0",
+            "--gameDir", config.useCustomMinecraftDir ? config.customMinecraftDir : FS::minecraftDirectory(),
+            "--launcherVersion", "2.12.7",
             "--width", QString::number(config.windowWidth),
-            "--height", QString::number(config.windowHeight)
+            "--height", QString::number(config.windowHeight),
+            "--workingDirectory", ".",
+            "--classpathDir", ".",
+            "--ichorClassPath", cp.join(','),
+            "--ichorExternalFiles", externalFiles.join(',')
     };
 
-    if(cosmeticsState != CosmeticsState::OFF)
-        args << "--texturesDir" << lunarDir + "/textures";
+    if (cosmeticsState != CosmeticsState::OFF)
+        args << "--texturesDir" << FS::combinePaths(FS::lunarDirectory(), "textures");
 
-    if(config.joinServerOnLaunch)
+    if (config.joinServerOnLaunch)
         args << "--server" << config.serverIp;
 
     process.setArguments(args);
@@ -105,40 +124,72 @@ void OfflineLauncher::launch(CosmeticsState cosmeticsState) {
 
     process.setProcessEnvironment(env);
 
-    if(!process.startDetached()){
+    if (!process.startDetached()) {
         emit error("Failed to start process: " + process.errorString());
+        return false;
     }
+
+    return true;
 }
 
-QString OfflineLauncher::findJavaExecutable(const QString& version) {
-    QDirIterator versionSpecificIt(lunarDir+"/jre/"+version, QDir::Dirs | QDir::NoDotAndDotDot);
+struct JavaExe {
+    QVersionNumber version;
+    QString exe;
+};
 
-    while(versionSpecificIt.hasNext()){
-        QString potentialExecutable = versionSpecificIt.next() +
+QVersionNumber getJreVersion(const QString& jreDirectoryName){
+    auto split = jreDirectoryName.split('-');
+
+    for(const auto& str : split){
+        if(str.startsWith("jre") || str.startsWith("jdk")){
+            return QVersionNumber::fromString(str.mid(3));
+        }
+    }
+
+    return {0};
+}
+
+QList<JavaExe> getAvailableJres(){
+    QList<JavaExe> jres;
+
+    QDirIterator topIt(FS::combinePaths(FS::lunarDirectory(), "jre"), QDir::Dirs);
+    while(topIt.hasNext()){
+        auto next = topIt.next();
+
+        QDirIterator jreIt(next, QDir::Dirs);
+        while(jreIt.hasNext()){
+            QString potentialExe = FS::combinePaths(
+                    jreIt.next(),
+                    "bin",
 #ifdef Q_OS_WIN
-        "/bin/java.exe";
+                    "javaw.exe"
 #else
-        "/bin/java";
+                    "java"
 #endif
+            );
 
-        if(QFileInfo(potentialExecutable).isExecutable())
-            return potentialExecutable;
+            if(QFileInfo(potentialExe).isExecutable()){
+                jres.append({getJreVersion(jreIt.fileName()), potentialExe});
+            }
+        }
     }
 
+    return jres;
+}
 
-    QDirIterator generalIt(lunarDir+"/jre", QDir::Dirs | QDir::NoDotAndDotDot);
+QString OfflineLauncher::findJavaExecutable() {
+    auto jres = getAvailableJres();
+    if(jres.isEmpty()) return {};
 
-    while(generalIt.hasNext()){
-        QString potentialExecutable = generalIt.next() +
-#ifdef Q_OS_WIN
-        "/bin/java.exe";
-        #else
-        "/bin/java";
-#endif
+    std::sort(jres.begin(), jres.end(), [](const JavaExe& a, const JavaExe& b){
+        return a.version > b.version;
+    });
 
-        if(QFileInfo(potentialExecutable).isExecutable())
-            return potentialExecutable;
+    if(config.gameVersion == "1.7" || config.gameVersion == "1.8" || config.gameVersion == "1.12"){
+        for(const auto& jre : jres){
+            if(jre.version.majorVersion() == 16) return jre.exe;
+        }
     }
 
-    return {};
+    return jres.first().exe;
 }

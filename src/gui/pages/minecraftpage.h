@@ -32,15 +32,6 @@ private:
     QCheckBox* joinServerOnLaunch;
     QLineEdit* serverToJoin;
 
-    QCheckBox* useLevelHeadPrefix;
-    QLineEdit* levelHeadPrefix;
-
-    QCheckBox* useAutoggMessage;
-    QLineEdit* autoggMessage;
-
-    QCheckBox* useNickLevel;
-    QSpinBox* nickLevel;
-
     QSpinBox* windowWidth;
     QSpinBox* windowHeight;
 };

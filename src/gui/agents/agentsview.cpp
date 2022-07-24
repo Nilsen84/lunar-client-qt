@@ -2,12 +2,12 @@
 // Created by nils on 6/6/22.
 //
 
-#include "agentsview.hpp"
+#include "agentsview.h"
 
 #include <QHeaderView>
 #include <QMouseEvent>
 
-#include "gui/style/removeoutline.hpp"
+#include "gui/style/removeoutline.h"
 
 AgentsView::AgentsView(QWidget *parent) : QTableView(parent) {
     setSelectionBehavior(QTableView::SelectRows);
@@ -30,8 +30,8 @@ void AgentsView::keyPressEvent(QKeyEvent *event) {
     QAbstractItemView::keyPressEvent(event);
 
     if(!event->isAccepted() && event->key() == Qt::Key_Delete){
-        foreach(const QModelIndex &item, selectionModel()->selectedRows()) {
-            model()->removeRow(item.row());
+        for(const QModelIndex& idx : selectionModel()->selectedRows()){
+            model()->removeRow(idx.row());
         }
     }
 }

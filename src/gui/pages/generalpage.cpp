@@ -14,33 +14,16 @@
 
 #include "gui/widgets/filechooser.h"
 #include "gui/widgets/widgetutils.h"
-
-#ifndef _WIN32
-#include <unistd.h>
-unsigned long long getSystemMemory() {
-	long pages = sysconf(_SC_PHYS_PAGES);
-	long pageSize = sysconf(_SC_PAGE_SIZE);
-	return pages * pageSize;
-}
-#else
-#include <windows.h>
-unsigned long long getSystemMemory() {
-	MEMORYSTATUSEX status;
-	status.dwLength = sizeof(status);
-	GlobalMemoryStatusEx(&status);
-	return status.ullTotalPhys;
-}
-#endif
+#include "util/sysinfo.h"
 
 GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(config, parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
     mainLayout->setSpacing(40);
 
-    keepMemorySame = new QCheckBox(QStringLiteral("Keep initial and maximum memory allocations the same"));
+    keepMemorySame = new QCheckBox("Keep initial and maximum memory allocations the same");
 
-    unsigned long long systemMemory = getSystemMemory();
-    size_t mibMemory = (size_t)(systemMemory / 1024 / 1024);
-    size_t pageStep = (size_t)(mibMemory / 16);
+    int mibMemory = SysInfo::totalRam() / 1024 / 1024;
+    int pageStep = mibMemory / 16;
 
     QLabel* initialMemoryLabel = new QLabel();
     initialMemory = new QSlider(Qt::Horizontal);
@@ -71,7 +54,7 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
     memorySliderContainer->addWidget(maxMemory);
 
     //Custom jre checkbox lineedit and button
-    useCustomJre = new QCheckBox(QStringLiteral("Use Custom JRE"));
+    useCustomJre = new QCheckBox("Use Custom JRE");
     jrePath = new FileChooser(QFileDialog::ExistingFile);
 
     //Jvm arguments
@@ -80,14 +63,14 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
 
     jvmArgs = new QPlainTextEdit();
 
-    jvmArgsGroup->addWidget(new QLabel(QStringLiteral("JVM Arguments")), 0, Qt::AlignHCenter);
+    jvmArgsGroup->addWidget(new QLabel("JVM Arguments"), 0, Qt::AlignHCenter);
     jvmArgsGroup->addWidget(jvmArgs);
 
     //Checkboxes
-    QGroupBox* groupBox = new QGroupBox(QStringLiteral("After Launch"));
+    QGroupBox* groupBox = new QGroupBox("After Launch");
 
-    QRadioButton* stayOpen = new QRadioButton(QStringLiteral("Keep Launcher Open"));
-    closeOnLaunch = new QRadioButton(QStringLiteral("Close Launcher"));
+    QRadioButton* stayOpen = new QRadioButton("Keep Launcher Open");
+    closeOnLaunch = new QRadioButton("Close Launcher");
     stayOpen->setChecked(true);
 
     QVBoxLayout* radioLayout = new QVBoxLayout();
@@ -108,7 +91,7 @@ GeneralPage::GeneralPage(Config& config, QWidget *parent) : ConfigurationPage(co
 }
 
 QString GeneralPage::title() {
-    return QStringLiteral("General");
+    return "General";
 }
 
 QIcon GeneralPage::icon() {

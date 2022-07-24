@@ -47,15 +47,6 @@ public:
     bool joinServerOnLaunch;
     QString serverIp;
 
-    bool useLevelHeadPrefix;
-    QString levelHeadPrefix;
-
-    bool useAutoggMessage;
-    QString autoggMessage;
-
-    bool useNickLevel;
-    int nickLevel;
-
     int windowWidth;
     int windowHeight;
 

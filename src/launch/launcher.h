@@ -17,9 +17,9 @@ public:
         UNLOCKED
     };
 
-    explicit Launcher(const Config& config, QObject* parent);
+    Launcher(const Config& config, QObject* parent);
 
-    virtual void launch(CosmeticsState cosmeticsState) = 0;
+    virtual bool launch(CosmeticsState cosmeticsState) = 0;
 protected:
     const Config& config;
 };

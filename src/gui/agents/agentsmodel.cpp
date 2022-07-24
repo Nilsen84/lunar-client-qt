@@ -137,7 +137,7 @@ bool AgentsModel::canDropMimeData(const QMimeData *data, Qt::DropAction action, 
 
 bool AgentsModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column,
                                const QModelIndex &parent) {
-    foreach(const QUrl& url, data->urls()){
+    for(const QUrl& url : data->urls()){
         if(!url.isLocalFile()){
             continue;
         }
@@ -145,7 +145,7 @@ bool AgentsModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int
         QString file = url.toLocalFile();
 
         if(file.endsWith(".jar")){
-            addAgent(url.toLocalFile(), {});
+            addAgent(file, {});
         }
     }
 
@@ -153,7 +153,7 @@ bool AgentsModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int
 }
 
 bool AgentsModel::containsPath(const QString &path) const {
-    foreach(const Agent& agent, agents){
+    for(const Agent& agent : agents){
         if(agent.path == path){
             return true;
         }
