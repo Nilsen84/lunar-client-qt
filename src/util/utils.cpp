@@ -20,6 +20,10 @@ QString Utils::getAgentFlags(const QString &name, const QString &option) {
 }
 
 QString Utils::getAssetsIndex(const QString &version) {
+    if(version.startsWith("1.7")){
+        return "1.7.10";
+    }
+
     auto split = version.split('.');
 
     if (split.length() < 2) {
