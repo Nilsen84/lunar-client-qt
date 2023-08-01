@@ -2,8 +2,8 @@
 // Created by nils on 6/6/22.
 //
 
-#ifndef LUNAR_CLIENT_QT_AGENTSVIEW_HPP
-#define LUNAR_CLIENT_QT_AGENTSVIEW_HPP
+#ifndef LUNAR_CLIENT_QT_AGENTSVIEW_H
+#define LUNAR_CLIENT_QT_AGENTSVIEW_H
 
 #include <QTableView>
 
@@ -16,4 +16,4 @@ protected:
 };
 
 
-#endif //LUNAR_CLIENT_QT_AGENTSVIEW_HPP
+#endif //LUNAR_CLIENT_QT_AGENTSVIEW_H

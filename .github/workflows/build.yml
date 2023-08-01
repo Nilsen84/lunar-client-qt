@@ -18,51 +18,60 @@ jobs:
 
     runs-on: windows-latest
 
+    defaults:
+      run:
+        shell: msys2 {0}
+
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Fetch tags
-      run : git fetch --prune --unshallow --tags -f
-      
-    - name: Install Qt & MinGW
-      uses: jurplel/install-qt-action@v2.14.0
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
       with:
-        version: '5.15.2'
-        host: 'windows'
-        target: 'desktop'
-        arch: 'win64_mingw81'
-        tools: 'tools_mingw,8.1.0-1-202004170606,qt.tools.win64_mingw810'
+        version: 5.15.2
+        arch: win64_mingw81
+        archives: qtbase qtsvg qttools
+        setup-python: false
 
-    - name: Install OpenSSL
-      shell: powershell
-      run: |
-        Get-ChildItem "$env:VCPKG_INSTALLATION_ROOT\triplets\" -Recurse -Include *.cmake | Add-Content -Value "`nset(VCPKG_BUILD_TYPE release)"
-        vcpkg install openssl:x64-mingw-dynamic
+    - uses: msys2/setup-msys2@v2
+      with:
+        release: false
+        update: false
+        msystem: mingw64
+        path-type: inherit
+        install: >-
+          zip
+          mingw-w64-x86_64-gcc
+          mingw-w64-x86_64-make
+          mingw-w64-x86_64-openssl
+
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+        fetch-depth: 0
+
+    - name: Fetch Tags
+      run: git fetch --prune --tags -f
 
     - name: Configure CMake
       run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "MinGW Makefiles"
 
     - name: Build
-      run: cmake --build . --config ${{env.BUILD_TYPE}}
+      run: mingw32-make -j2
 
     - name: Move built files to new directory
       shell: powershell
       run: |
         mkdir 'Lunar Client Qt'
-        mv -Path @('lunar-client-qt.exe';jq -r '.agentsDestDir,.libsDestDir' config.json) -Destination 'Lunar Client Qt'
+        mv -Path @('lunar-client-qt.exe';jq -r '.agentsDestDir' config.json) -Destination 'Lunar Client Qt'
 
     - name: Package Qt
-      shell: bash
-      run: |
-        PATH="$IQTA_TOOLS/mingw810_64/bin":$PATH windeployqt Lunar\ Client\ Qt/ --compiler-runtime --no-angle --no-opengl-sw --no-virtualkeyboard --no-webkit2 --no-system-d3d-compiler --no-translations --no-quick-import
+      run: windeployqt 'Lunar Client Qt' --compiler-runtime --no-angle --no-opengl-sw --no-virtualkeyboard --no-webkit2 --no-system-d3d-compiler --no-translations --no-quick-import
 
     - name: Package OpenSSL
-      shell: powershell
-      run: Get-ChildItem -Path "$env:VCPKG_INSTALLATION_ROOT\packages\openssl_x64-mingw-dynamic\bin\*" -Include *.dll | Copy-Item -Destination "Lunar Client Qt"
+      working-directory: 'Lunar Client Qt'
+      run: cp -t . /mingw64/bin/{libssl*,libcrypto*}.dll
 
     - name: Compress
-      shell: powershell
-      run: Compress-Archive -Path 'Lunar Client Qt' -DestinationPath windows.zip
+      run: zip -9 -r windows.zip 'Lunar Client Qt'
 
     - name: Upload Artifiact
       uses: actions/upload-artifact@v2
@@ -74,25 +83,27 @@ jobs:
     runs-on: macos-10.15
     
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
 
-      - name: Fetch tags
-        run: git fetch --prune --unshallow --tags -f
+      - name: Fetch Tags
+        run: git fetch --prune --tags -f
       
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2.14.0
+        uses: jurplel/install-qt-action@v3
         with:
           version: '5.15.2'
-          host: 'mac'
-          target: 'desktop'
           arch: 'clang_64'
           setup-python: 'false'
+          archives: qtbase qtsvg qttools
         
       - name: Configure CMake
         run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build
-        run: make
+        run: make -j3
         
       - name: Package Dependencies
         run: |
@@ -119,22 +130,28 @@ jobs:
         run: |
           pacman -Syu --noconfirm --needed qt5-base qt5-svg cmake base-devel git jq
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
 
-      - name: Fetch tags
-        run: git fetch --prune --unshallow --tags -f
+      - name: Mark Repository as Safe
+        run: git config --global safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Fetch Tags
+        run: git fetch --prune --tags -f
 
       - name: Configure CMake
         run: cmake . -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
         
       - name: Build
-        run: make
+        run: make -j2
 
       - name: Compress
         run: |
-          mkdir Lunar\ Client\ Qt
-          jq '.agentsDestDir,.libsDestDir' config.json | xargs mv -t Lunar\ Client\ Qt/ lunar-client-qt
-          tar czvf linux.tar.gz Lunar\ Client\ Qt/
+          mkdir 'Lunar Client Qt'
+          jq '.agentsDestDir' config.json | xargs mv -t 'Lunar Client Qt' lunar-client-qt
+          tar czvf linux.tar.gz 'Lunar Client Qt'
 
       - uses: actions/upload-artifact@v2
         with:
